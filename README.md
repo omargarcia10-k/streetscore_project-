@@ -1,3 +1,42 @@
+CHAMA Project Proposal
+
+Project Direction
+CHAMA is a neighborhood reputation platform designed to help people discover trusted local operators based on real performance signals. Instead of only showing who has the most reviews or who pays for visibility, CHAMA focuses on who is performing well in a specific neighborhood right now. Our current project is focused on building a mock standings page that ranks operators by zip code, category, and reputation score. This gives users a simple way to compare service providers and gives operators a clearer picture of where they stand in their local market.
+
+Why CHAMA Matters
+Finding trustworthy local services can be frustrating. Customers often rely on scattered information from Google, Yelp, social media, and referrals. These sources are helpful, but they do not always show the full picture. CHAMA helps solve this by combining important trust signals into one clear reputation score.
+These signals include:
+-Rating
+-Review count
+-Work volume
+-Response time
+-On-time percentage
+-Verification status
+-Recent ranking movement
+This makes CHAMA more useful than a basic directory because it shows performance, not just presence.
+
+Why Our Platform is Different
+CHAMA is not just another listing site. Most platforms show users a list of businesses while CHAMA shows users who is ranking, improving, verified, and active in the neighborhood. Our platform focuses on neighborhood-based trust, performance-based ranking, clear REP score, movement over time, and verified operators.
+
+Tools We Are Using
+-Excel/Google Sheets as our mock database. This helps us understand how real databases are structured before moving into advanced tools.
+-Github to store project files, track changes, and collaborate as a team.
+-Notion as our project workspace to keep notes, store research, and product ideas.
+-HTML because the standing page mockup uses HTML to show how the frontend could look and function.
+-Canva for branding, presentation slides, and layout ideas.
+
+Standings Page
+-Operator Profile
+-Customer Reviews
+-Verified Badges
+-Neighborhood Leaderboards
+-Service Booking
+-Business Dashboards
+-Performance Tips for Operators
+The standings page is the foundation because it introduces CHAMA’s main idea that local operators should be ranked by trust, performance, and consistency, and not just advertising or popularity.
+
+# the next.js template is just used as a starting point to help create our own landing page
+-----------------------------------------------------------------------------------------------
 # Next.js Admin Template with TypeScript & Shadcn UI
 
 **Studio Admin** - Includes multiple dashboards, authentication layouts, customizable theme presets, and more.
@@ -137,3 +176,4 @@ Contributions are welcome. Feel free to open issues, feature requests, or start 
 
 
 **Happy Vibe Coding!**
+----------------------------------------------------------------------------------------------
