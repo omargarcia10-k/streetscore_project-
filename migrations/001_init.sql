@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS leagues (
 );
 
 CREATE TABLE IF NOT EXISTS neighborhoods (
-  neighborhood_id varchar(80) PRIMARY KEY,
+  neighborhood_id varchar(64) PRIMARY KEY,
   league_id varchar(32) NOT NULL REFERENCES leagues(league_id),
   zip_code varchar(10) NOT NULL,
   neighborhood_name varchar(80) NOT NULL
@@ -26,9 +26,9 @@ CREATE TABLE IF NOT EXISTS operators (
 CREATE TABLE IF NOT EXISTS standings_entries (
   entry_id VARCHAR(128) PRIMARY KEY,
   season_id VARCHAR(20) NOT NULL,
-  time_window VARCHAR(20) NOT NULL,
+  time_window VARCHAR(40) NOT NULL,
   league_id VARCHAR(32) NOT NULL REFERENCES leagues(league_id),
-  neighborhood_id VARCHAR(80) NOT NULL REFERENCES neighborhoods(neighborhood_id),
+  neighborhood_id VARCHAR(64) NOT NULL REFERENCES neighborhoods(neighborhood_id),
   zip_code VARCHAR(10) NOT NULL,
   operator_id VARCHAR(96) NOT NULL REFERENCES operators(operator_id),
   rank integer NOT NULL CHECK (rank >= 1),
