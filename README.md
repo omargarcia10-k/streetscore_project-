@@ -1,178 +1,202 @@
-CHAMA Project Proposal
+StreetScore is a neighborhood reputation platform that helps users discover trusted local service providers based on real performance signals rather than advertising spend or review count alone.
 
-Project Direction
-CHAMA is a neighborhood reputation platform designed to help people discover trusted local operators based on real performance signals. Instead of only showing who has the most reviews or who pays for visibility, CHAMA focuses on who is performing well in a specific neighborhood right now. Our current project is focused on building a mock standings page that ranks operators by zip code, category, and reputation score. This gives users a simple way to compare service providers and gives operators a clearer picture of where they stand in their local market.
+The platform ranks operators within specific neighborhoods and ZIP codes using a reputation scoring system that combines multiple trust indicators into a single REP Score. Instead of simply listing businesses, StreetScore highlights which operators are consistently performing well in their local markets.
 
-Why CHAMA Matters
-Finding trustworthy local services can be frustrating. Customers often rely on scattered information from Google, Yelp, social media, and referrals. These sources are helpful, but they do not always show the full picture. CHAMA helps solve this by combining important trust signals into one clear reputation score.
-These signals include:
--Rating
--Review count
--Work volume
--Response time
--On-time percentage
--Verification status
--Recent ranking movement
-This makes CHAMA more useful than a basic directory because it shows performance, not just presence.
+## Project Overview
 
-Why Our Platform is Different
-CHAMA is not just another listing site. Most platforms show users a list of businesses while CHAMA shows users who is ranking, improving, verified, and active in the neighborhood. Our platform focuses on neighborhood-based trust, performance-based ranking, clear REP score, movement over time, and verified operators.
+This repository contains the prototype standings application built with Next.js, TypeScript, and PostgreSQL. The application demonstrates how operators can be ranked and filtered by league, neighborhood, and reputation metrics using real database queries.
 
-Tools We Are Using
--Excel/Google Sheets as our mock database. This helps us understand how real databases are structured before moving into advanced tools.
--Github to store project files, track changes, and collaborate as a team.
--Notion as our project workspace to keep notes, store research, and product ideas.
--HTML because the standing page mockup uses HTML to show how the frontend could look and function.
--Canva for branding, presentation slides, and layout ideas.
+The goal of this project is to validate the core concept of neighborhood-based reputation rankings while providing a scalable foundation for future platform development.
 
-Standings Page
--Operator Profile
--Customer Reviews
--Verified Badges
--Neighborhood Leaderboards
--Service Booking
--Business Dashboards
--Performance Tips for Operators
-The standings page is the foundation because it introduces CHAMA’s main idea that local operators should be ranked by trust, performance, and consistency, and not just advertising or popularity.
+---
 
-# Next.js Admin Template with TypeScript & Shadcn UI
+## Problem
 
-**Studio Admin** - Includes multiple dashboards, authentication layouts, customizable theme presets, and more.
+Finding trustworthy local service providers is difficult.
 
-<img src="https://github.com/arhamkhnz/next-shadcn-admin-dashboard/blob/main/media/dashboard.png?version=5" alt="Dashboard Screenshot">
+Consumers often have to compare information across multiple platforms such as:
 
-Most admin templates I found, free or paid, felt cluttered, outdated, or too rigid. I built this as a cleaner alternative with features often missing in others, such as theme toggling and layout controls, while keeping the design modern, minimal, and flexible.
+- Google Reviews
+- Yelp
+- Facebook
+- Personal referrals
+- Reviews are unreliable
+- Paid visibility
 
-> **View demo:** [studio admin](https://next-shadcn-admin-dashboard.vercel.app)
+These sources provide useful information but rarely present a complete picture of a company's actual performance.
 
-> [!NOTE]
-> Looking for the Base UI version? Check out [next-shadcn-admin-dashboard-baseui](https://github.com/arhamkhnz/next-shadcn-admin-dashboard-baseui).
+StreetScore combines multiple trust signals into one easy-to-understand reputation score so users can make better decisions.
 
-> [!TIP]
-> I’m also working on Nuxt.js, Svelte, and React (Vite + TanStack Router) versions of this dashboard. They’ll be live soon.
+---
+
+## Reputation Signals
+
+The platform is designed to incorporate factors such as:
+
+- Average Rating
+- Review Count
+- Work Volume
+- Response Time
+- On-Time Percentage
+- Verification Status
+- Ranking Movement
+- Overall REP Score
+
+Rather than rewarding advertising spend or popularity alone, TrustBlock rewards consistent performance.
+
+---
 
 ## Features
 
-- Built with Next.js 16, TypeScript, Tailwind CSS v4, and Shadcn UI  
-- Responsive and mobile-friendly  
-- Customizable theme presets (light/dark modes with color schemes like Tangerine, Brutalist, and more)  
-- Flexible layouts (collapsible sidebar, variable content widths)  
-- Authentication flows and screens  
-- Prebuilt dashboards (Default, CRM, Finance, Analytics, Productivity) plus legacy variants  
-- Role-Based Access Control (RBAC) with config-driven UI and multi-tenant support *(planned)*  
+Current prototype includes:
 
-> [!NOTE]
-> The default dashboard uses the **shadcn neutral** theme.  
-> It also includes additional color presets inspired by [Tweakcn](https://tweakcn.com):  
->
-> - Tangerine  
-> - Neo Brutalism  
-> - Soft Pop  
->
-> You can create more presets by following the same structure as the existing ones.
+- Neighborhood standings
+- Operator rankings
+- Reputation scores
+- Leauge-based rankings
+- PostgreSQL-backed API routes
+- Responsive dashboard built with Next.js
+- Dynamic data retrieval from Neon PostgreSQL
 
-> Looking for the **Next.js 15** version?  
-> Check out the [`archive/next15`](https://github.com/arhamkhnz/next-shadcn-admin-dashboard/tree/archive/next15) branch.  
-> This branch contains the setup prior to upgrading to Next 16 and the React Compiler.
+Future features include:
 
-> Looking for the **Next.js 14 + Tailwind CSS v3** version?  
-> Check out the [`archive/next14-tailwindv3`](https://github.com/arhamkhnz/next-shadcn-admin-dashboard/tree/archive/next14-tailwindv3) branch.  
-> It has a different color theme and is not actively maintained, but I try to keep it updated with major changes.  
+- Customer reviews
+- Verified badges
+- Neighborhood leaderboards
+- Performance analytics
+- Operator improvement recommendations
+
+---
 
 ## Tech Stack
 
-- **Framework**: Next.js 16 (App Router), TypeScript, Tailwind CSS v4  
-- **UI Components**: Shadcn UI  
-- **Validation**: Zod  
-- **Forms & State Management**: React Hook Form, Zustand  
-- **Tables & Data Handling**: TanStack Table  
-- **Tooling & DX**: Biome, Husky  
+### Frontend
 
-## Screens
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
 
-### Available
-- Default Dashboard  
-- CRM Dashboard  
-- Finance Dashboard  
-- Analytics Dashboard  
-- Productivity Dashboard  
-- E-commerce Dashboard  
-- Academy Dashboard  
-- Logistics Dashboard  
-- Infrastructure Dashboard  
-- Chat Page  
-- Email Page  
-- Users Management  
-- Roles Management  
-- Kanban Board  
-- Tasks Page  
-- Invoice Page  
-- Calendar Page  
-- Authentication (4 screens)  
-- Legacy: Default v1, CRM v1, Finance v1, Analytics v1
+### Backend
 
-### Planned
-I’ve added all the planned screens. Feel free to open an issue for requesting something specific.
+- Next.js API Routes
+- PostgreSQL
+- Neon Cloud Database
 
-## Colocation File System Architecture
+### Deployment
 
-This project follows a **colocation-based architecture** each feature keeps its own pages, components, and logic inside its route folder.  
-Shared UI, hooks, and configuration live at the top level, making the codebase modular, scalable, and easier to maintain as the app grows.
+- Vercel
 
-For a full breakdown of the structure with examples, see the [Next Colocation Template](https://github.com/arhamkhnz/next-colocation-template).
+### Development Tools
 
-## Getting Started
+- Git
+- GitHub
+- Drizzle ORM (database management)
+- VS Code
 
-You can run this project locally, or deploy it instantly with Vercel.
+---
 
-### Deploy with Vercel
+## Project Structure
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Farhamkhnz%2Fnext-shadcn-admin-dashboard)
-
-_Deploy your own copy with one click._
-
-### Run locally
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/arhamkhnz/next-shadcn-admin-dashboard.git
-   ```
-   
-2. **Navigate into the project**
-   ```bash
-    cd next-shadcn-admin-dashboard
-   ```
-   
-3. **Install dependencies**
-   ```bash
-    npm install
-   ```
-
-4. **Start the development server**
-   ```bash
-   npm run dev
-   ```
-
-Your app will be running at [http://localhost:3000](http://localhost:3000)
-
-### Formatting and Linting
-
-Format, lint, and organize imports
-```bash
-npx @biomejs/biome check --write
 ```
-> For more information on available rules, fixes, and CLI options, refer to the [Biome documentation](https://biomejs.dev/).
+app/
+components/
+hooks/
+lib/
+public/
+types/
+```
+
+The application follows the Next.js App Router architecture with reusable React components, API routes, and shared database utilities.
 
 ---
 
-> [!IMPORTANT]  
-> This project is updated frequently. If you’re working from a fork or an older clone, pull the latest changes before syncing. Some updates may include breaking changes.
+## Database
+
+The application uses a hosted PostgreSQL database through Neon.
+
+Current data includes:
+
+- Operators - operator_id, operator_name, league_id, operator_type, is_verified, is_current_user
+- Leagues - league_id, league_name, volume_label
+- Neighborhoods - neighborhood_id, league_id, zip_code, neighborhood_name
+- Standing Entries -entry_id, season_id, time_window, league_id, neighborhood_id, zip_code, operator_id, rank, rep_score, rank_delta_30d, distance_miles
+
+The standings displayed on the dashboard are generated from PostgreSQL queries rather than static data.
 
 ---
 
-Contributions are welcome. Feel free to open issues, feature requests, or start a discussion.
+## Current Functionality
 
+Users can:
 
-**Happy Vibe Coding!**
-----------------------------------------------------------------------------------------------
-# autoledger
+- View operator standings
+- Filter standings by league
+- Compare reputation scores
+- View ranking positions
+- Browse neighborhood performance
+
+The frontend retrieves live data through server-side API routes connected to the Neon PostgreSQL database.
+
+---
+
+## Future Development
+
+Planned improvements include:
+
+- Reputation score calculations
+- Historical ranking trends
+- Interactive maps
+- Search functionality
+- Analytics dashboard
+
+---
+
+## Running the Project
+
+Clone the repository:
+
+```bash
+git clone <https://github.com/omargarcia10-k/autoledger_project.git>
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Configure environment variables:
+
+```
+DATABASE_URL=your_neon_database_url
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Visit:
+
+```
+<http://localhost:3000>
+```
+
+---
+
+## Vision
+
+StreetScore is built on the idea that trust should be earned through consistent performance—not purchased through advertising.
+
+By combining meaningful reputation signals into neighborhood-based rankings, StreetScore aims to make it easier for customers to find reliable operators while giving businesses a fair and transparent way to be recognized for quality work.
+
+---
+
+## Authors
+
+Developed as part of the CHAMA neighborhood reputation platform project.
+
+Project Manager/Marketing – Khadejah Beckles
+Data/Frontend/Research – Omar Garcia and Christopher Rampersaud

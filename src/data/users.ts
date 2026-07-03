@@ -1,17 +1,17 @@
 export const users = [
   {
     id: "1",
-    name: "Arham Khan",
-    username: "Aarhamkhnz",
-    email: "hello@arhamkhnz.com",
+    name: "StreetScore",
+    username: "streetscore user",
+    email: "hello@streetscore.com",
     avatar: "https://avatars.githubusercontent.com/u/43849669",
     role: "administrator",
   },
   {
     id: "2",
-    name: "Ammar Khan",
-    username: "ammarkhnz",
-    email: "hello@ammarkhnz.com",
+    name: "StreetScore2",
+    username: "streetscore user2",
+    email: "hello@streetscore2.com",
     avatar: "",
     role: "admin",
   },
