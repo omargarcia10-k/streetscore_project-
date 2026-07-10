@@ -15,12 +15,14 @@ type StandingRow = {
   time_window: string;
   rep_score: number;
   response_minutes: number | null;
+  on_time_percent: number | null;
   rating: number | null;
   review_count: number | null;
   rank_delta_30d: number | null;
   distance_miles: number | string | null;
   status: "active" | "inactive";
   is_verified: boolean;
+
 };
 
 function normalizeWindow(window: string): string {
@@ -63,6 +65,7 @@ export async function GET(request: Request) {
   time_window,
   rep_score,
   response_minutes,
+  on_time_percent,
   rating,
   review_count,
   rank_delta_30d,
@@ -97,6 +100,7 @@ LIMIT 10;
       window: row.time_window,
       score: row.rep_score,
       rating: row.rating,
+      onTimePercent: row.on_time_percent,
       responseMinutes: row.response_minutes,
       reviewCount: row.review_count,
       rankDelta30d: row.rank_delta_30d,
