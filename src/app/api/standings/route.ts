@@ -22,13 +22,18 @@ type StandingRow = {
   distance_miles: number | string | null;
   status: "active" | "inactive";
   is_verified: boolean;
+};
 
+type MetricsRow = {
+  total: string;
+  active: string;
+  verified: string;
 };
 
 function normalizeWindow(window: string): string {
-  const value = window.toLowerCase();
+  const normalizedWindow = window.trim().toLowerCase();
 
-  if (value === "30d") {
+  if (normalizedWindow === "30d") {
     return "Last 30 days";
   }
 
@@ -41,53 +46,81 @@ export async function GET(request: Request) {
   const league = searchParams.get("league")?.trim();
   const zip = searchParams.get("zip")?.trim();
   const window = searchParams.get("window")?.trim() ?? "30d";
-  const dbWindow = normalizeWindow(window);
+  const verified = searchParams.get("verified")?.trim() ?? "all";
 
-  const verified = (searchParams.get("verified") ?? "all").trim();
+  if (!league) {
+    return NextResponse.json({ error: "Missing required query param: league" }, { status: 400 });
+  }
 
   if (!zip) {
     return NextResponse.json({ error: "Missing required query param: zip" }, { status: 400 });
   }
 
+  const dbWindow = normalizeWindow(window);
+
   try {
-    const result = await query<StandingRow>(
+    //
+    // Leaderboard
+    //
+    const standingsResult = await query<StandingRow>(
       `
-    SELECT
-  entry_id,
-  rank,
-  operator_id,
-  operator_name,
-  league_id,
-  league_name,
-  neighborhood_id,
-  neighborhood_name,
-  zip_code,
-  time_window,
-  rep_score,
-  response_minutes,
-  on_time_percent,
-  rating,
-  review_count,
-  rank_delta_30d,
-  distance_miles,
-  status,
-  is_verified
-FROM standings_page_rows
-WHERE league_id = $1
-  AND zip_code = $2
-  AND time_window = $3
-  AND (
-    $4 = 'all'
-    OR (is_verified = true AND $4 = 'verified')
-    OR (is_verified = false AND $4 = 'unverified')
-  )
-ORDER BY rank ASC
-LIMIT 10;
+      SELECT
+        entry_id,
+        rank,
+        operator_id,
+        operator_name,
+        league_id,
+        league_name,
+        neighborhood_id,
+        neighborhood_name,
+        zip_code,
+        time_window,
+        rep_score,
+        response_minutes,
+        on_time_percent,
+        rating,
+        review_count,
+        rank_delta_30d,
+        distance_miles,
+        status,
+        is_verified
+      FROM standings_page_rows
+      WHERE league_id = $1
+        AND zip_code = $2
+        AND time_window = $3
+        AND (
+          $4 = 'all'
+          OR ($4 = 'verified' AND is_verified = true)
+          OR ($4 = 'unverified' AND is_verified = false)
+        )
+      ORDER BY rank
+      LIMIT 10;
       `,
       [league, zip, dbWindow, verified],
     );
 
-    const rows = result.rows.map((row) => ({
+    //
+    // Dashboard metrics
+    //
+    const metricsResult = await query<MetricsRow>(
+      `
+      SELECT
+        COUNT(*) AS total,
+        SUM(CASE WHEN status = 'active' THEN 1 ELSE 0 END) AS active,
+        SUM(CASE WHEN is_verified THEN 1 ELSE 0 END) AS verified
+      FROM operators
+      WHERE league_id = $1;
+      `,
+      [league],
+    );
+
+    const metrics = metricsResult.rows[0] ?? {
+      total: "0",
+      active: "0",
+      verified: "0",
+    };
+
+    const rows = standingsResult.rows.map((row) => ({
       entryId: row.entry_id,
       rank: row.rank,
       operatorId: row.operator_id,
@@ -104,19 +137,25 @@ LIMIT 10;
       responseMinutes: row.response_minutes,
       reviewCount: row.review_count,
       rankDelta30d: row.rank_delta_30d,
-      distanceMiles: row.distance_miles,
+      distanceMiles: Number(row.distance_miles),
       status: row.status,
-      is_verified: row.is_verified === true,
+      is_verified: row.is_verified,
     }));
 
     return NextResponse.json({
       league,
       zipCode: zip,
       window,
+      metrics: {
+        total: Number(metrics.total),
+        active: Number(metrics.active),
+        verified: Number(metrics.verified),
+      },
       rows,
     });
   } catch (error) {
-    console.error("Failed to query standings page rows:", error);
+    console.error("Failed to load standings:", error);
+
     return NextResponse.json({ error: "Failed to load standings" }, { status: 500 });
   }
 }

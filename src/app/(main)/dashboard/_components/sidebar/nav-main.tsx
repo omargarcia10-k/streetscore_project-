@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 
 import { ChevronRight } from "lucide-react";
 
-
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import {
   DropdownMenu,
@@ -95,6 +94,29 @@ export function NavMain({ items }: NavMainProps) {
   const isSubmenuOpen = (item: NavMainParentItem) => {
     return item.subItems.some((sub) => path.startsWith(sub.url));
   };
+
+  return (
+    <>
+      {items.map((group) => (
+        <SidebarGroup key={group.id}>
+          {group.label ? <SidebarGroupLabel>{group.label}</SidebarGroupLabel> : null}
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {group.items.map((item) => (
+                <NavItem
+                  key={item.id}
+                  item={item}
+                  isItemActive={isItemActive}
+                  isSubItemActive={isSubItemActive}
+                  isSubmenuOpen={isSubmenuOpen}
+                />
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      ))}
+    </>
+  );
 }
 
 function NavItem({ item, isItemActive, isSubItemActive, isSubmenuOpen }: NavItemProps) {

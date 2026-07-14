@@ -1,28 +1,28 @@
 import { Pool, type QueryResultRow } from "pg";
 
 // Determine which database connection to use
-const dbChoice = process.env.USE_DATABASE || "local";
-let connectionString: string | undefined;
+const dbChoiceRaw = process.env.USE_DATABASE?.toLowerCase();
+const dbChoice = dbChoiceRaw === "shared" || dbChoiceRaw === "branch" ? dbChoiceRaw : "local";
 
-switch (dbChoice) {
-  case "shared":
-    connectionString = process.env.NEON_SHARED_DATABASE_URL;
-    break;
-  case "branch":
-    connectionString = process.env.NEON_BRANCH_DATABASE_URL;
-    break;
-  case "local":
-  default:
-    connectionString = process.env.DATABASE_URL;
-    break;
-}
+const connectionByChoice = {
+  shared: process.env.NEON_SHARED_DATABASE_URL,
+  branch: process.env.NEON_BRANCH_DATABASE_URL,
+  local: process.env.DATABASE_URL,
+};
+
+const labelByChoice = {
+  shared: "Neon Cloud (Shared)",
+  branch: "Neon Cloud (Your Branch)",
+  local: "Local Database",
+};
+
+const connectionString = connectionByChoice[dbChoice];
 
 if (!connectionString) {
   throw new Error(`No database URL configured for USE_DATABASE=${dbChoice}`);
 }
 
-const dbLabel =
-  dbChoice === "shared" ? "Neon Cloud (Shared)" : dbChoice === "branch" ? "Neon Cloud (Your Branch)" : "Local Database";
+const dbLabel = labelByChoice[dbChoice];
 
 console.log("Connecting to:", dbLabel, "(", connectionString?.split("@")[1] || "unknown", ")");
 

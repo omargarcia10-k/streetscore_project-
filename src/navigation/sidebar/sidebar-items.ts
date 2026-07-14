@@ -1,25 +1,4 @@
-import {
-  Banknote,
-  Calendar,
-  ChartBar,
-  CheckSquare,
-  Fingerprint,
-  Forklift,
-  Gauge,
-  GraduationCap,
-  Kanban,
-  LayoutDashboard,
-  ListTodo,
-  Lock,
-  type LucideIcon,
-  Mail,
-  MessageSquare,
-  ReceiptText,
-  Server,
-  ShoppingBag,
-  SquareArrowUpRight,
-  Users,
-} from "lucide-react";
+import { LayoutDashboard, type LucideIcon } from "lucide-react";
 
 export type NavBadge = "new" | "soon";
 

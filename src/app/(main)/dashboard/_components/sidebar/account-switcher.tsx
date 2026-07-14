@@ -22,13 +22,8 @@ export function AccountSwitcher({
 
   return (
     <Avatar className="size-8 rounded-lg">
-      <AvatarImage
-        src={activeUser.avatar || undefined}
-        alt={activeUser.name}
-      />
-      <AvatarFallback>
-        {getInitials(activeUser.name)}
-      </AvatarFallback>
+      <AvatarImage src={activeUser.avatar || undefined} alt={activeUser.name} />
+      <AvatarFallback>{getInitials(activeUser.name)}</AvatarFallback>
     </Avatar>
   );
 }

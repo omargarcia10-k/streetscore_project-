@@ -29,3 +29,11 @@ SELECT
     rank
 FROM standings_page_rows
 WHERE is_current_user = TRUE;
+
+SELECT
+    COUNT(*) AS total,
+    SUM(CASE WHEN status = 'active' THEN 1 ELSE 0 END) AS active,
+    SUM(CASE WHEN is_verified THEN 1 ELSE 0 END) AS verified
+FROM operators
+WHERE league_id = $1;
+
