@@ -4,7 +4,7 @@ export const users = [
     name: "StreetScore",
     username: "streetscore user",
     email: " ",
-    avatar: "https://avatars.githubusercontent.com/u/43849669",
+    avatar: "",
     role: "administrator",
   },
   {
