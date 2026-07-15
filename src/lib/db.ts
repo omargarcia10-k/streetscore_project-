@@ -1,1 +1,1 @@
-export { query } from "../../lib/db";
+export { db, pool, query } from "../../lib/db";
