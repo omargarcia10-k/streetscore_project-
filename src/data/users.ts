@@ -4,7 +4,7 @@ export const users = [
     name: "StreetScore",
     username: "streetscore user",
     email: " ",
-    avatar: "",
+    avatar: "/images/streetscoreavatar.png",
     role: "administrator",
   },
   {
@@ -12,7 +12,7 @@ export const users = [
     name: "StreetScore2",
     username: "streetscore user2",
     email: " ",
-    avatar: "",
+    avatar: "/images/streetscoreavatar.png",
     role: "admin",
   },
 ];

@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 
+import Image from "next/image";
+
 import { CheckCircle2, MapPin, Users } from "lucide-react";
 
 import StandingsTable from "@/components/standings-table";
@@ -27,6 +29,9 @@ export default function Page() {
   });
 
   const loadDashboardData = useCallback(async () => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
     try {
       setLoading(true);
 
@@ -37,7 +42,10 @@ export default function Page() {
         verified: "all",
       });
 
-      const res = await fetch(`/api/standings?${params.toString()}`);
+      const res = await fetch(`/api/standings?${params.toString()}`, {
+        signal: controller.signal,
+        cache: "no-store",
+      });
 
       if (!res.ok) {
         throw new Error("Failed to load dashboard");
@@ -59,6 +67,7 @@ export default function Page() {
         verified: 0,
       });
     } finally {
+      clearTimeout(timeoutId);
       setLoading(false);
     }
   }, [league, window, zip]);
@@ -73,7 +82,16 @@ export default function Page() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="font-bold text-3xl">StreetScore</CardTitle>
+          <CardTitle>
+            <Image
+              src="/images/streetscore.png"
+              alt="StreetScore"
+              width={1254}
+              height={1254}
+              className="h-auto w-[168px] object-contain"
+              priority
+            />
+          </CardTitle>
 
           <CardDescription className="max-w-3xl text-base">
             Helping people discover trusted local businesses through transparent rankings based on customer ratings,

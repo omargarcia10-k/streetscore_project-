@@ -89,6 +89,9 @@ export default function StandingsTable() {
   const [compareOpen, setCompareOpen] = useState(false);
 
   const loadData = useCallback(async () => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
     try {
       setLoading(true);
 
@@ -99,7 +102,14 @@ export default function StandingsTable() {
         verified: verifiedFilter,
       });
 
-      const response = await fetch(`/api/standings?${params}`);
+      const response = await fetch(`/api/standings?${params}`, {
+        signal: controller.signal,
+        cache: "no-store",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to load standings");
+      }
 
       const data = await response.json();
 
@@ -108,6 +118,7 @@ export default function StandingsTable() {
       console.error(error);
       setRows([]);
     } finally {
+      clearTimeout(timeoutId);
       setLoading(false);
     }
   }, [league, zip, window, verifiedFilter]);
