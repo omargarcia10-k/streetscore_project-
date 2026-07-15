@@ -272,29 +272,28 @@ npm install
 
 ---
 
-## 5. Run Drizzle Migrations
+## 5. Initialize and Seed the Database
 
-Generate and apply the database schema:
+Run the local SQL bootstrap scripts:
+
+```bash
+npm run db:setup
+```
+
+This command runs:
+
+- `npm run db:init` (creates base tables and view)
+- `npm run db:seed` (loads sample data)
+
+---
+
+## 6. Optional: Generate Drizzle Migrations
+
+If you are changing the Drizzle schema, generate and apply migrations with:
 
 ```bash
 npm run db:generate
 npm run db:migrate
-```
-
-If your project already contains generated migrations, you may only need:
-
-```bash
-npm run db:migrate
-```
-
----
-
-## 6. Seed the Database
-
-Populate the database with sample data:
-
-```bash
-npm run db:seed
 ```
 
 ---
@@ -327,39 +326,6 @@ To use a Neon database instead of PostgreSQL:
 TO RUN LOCALLY MAKE SURE SWITCH (IN .ENV) IS SET TO 
 USE_DATABASE=local
 
-## Running the Project
-
-Clone the repository:
-
-```bash
-git clone <https://github.com/omargarcia10-k/autoledger_project.git>
-```
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Configure environment variables:
-
-```
-DATABASE_URL=your_neon_database_url
-```
-
-Start the development server:
-
-```bash
-npm run dev
-```
-
-Visit:
-
-```
-<http://localhost:3000>
-```
-
----
 
 ## Vision
 

@@ -15,6 +15,9 @@
     "db:push": "drizzle-kit push --config=drizzle.config.ts",
     "db:pull": "drizzle-kit pull --config=drizzle.config.ts",
     "db:studio": "drizzle-kit studio --config=drizzle.config.ts",
+    "db:init": "psql \"$DATABASE_URL\" -f migrations/001_init.sql && psql \"$DATABASE_URL\" -f migrations/004_create_standings_page_rows_view.sql",
+    "db:seed": "psql \"$DATABASE_URL\" -f migrations/002_seed.sql",
+    "db:setup": "npm run db:init && npm run db:seed",
     "prepare": "husky",
     "generate:presets": "ts-node -P tsconfig.scripts.json src/scripts/generate-theme-presets.ts"
   },
