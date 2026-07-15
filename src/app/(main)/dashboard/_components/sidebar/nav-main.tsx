@@ -146,7 +146,17 @@ function NavLinkItem({ item, isActive, showIconFallback }: NavLinkItemProps) {
 
   return (
     <SidebarMenuItem>
-      <SidebarMenuButton asChild aria-disabled={item.disabled} tooltip={item.title} isActive={isActive}>
+      <SidebarMenuButton
+        asChild
+        aria-disabled={item.disabled}
+        tooltip={item.title}
+        isActive={isActive}
+        className={cn(
+          "rounded-lg px-3 text-sidebar-foreground transition-colors",
+          isActive &&
+            "bg-[#16a34a] font-semibold text-white shadow-[0_1px_2px_rgba(22,163,74,0.35),inset_0_1px_0_rgba(255,255,255,0.18)] hover:bg-[#15803d] hover:text-white data-active:bg-[#16a34a] data-active:text-white [&_svg]:text-white",
+        )}
+      >
         <Link
           prefetch={false}
           href={item.url}
