@@ -1,270 +1,281 @@
-StreetScore is a neighborhood reputation platform that helps users discover trusted local service providers based on real performance signals rather than advertising spend or review count alone.
+# StreetScore
 
-The platform ranks operators within specific neighborhoods and ZIP codes using a reputation scoring system that combines multiple trust indicators into a single REP Score. Instead of simply listing businesses, StreetScore highlights which operators are consistently performing well in their local markets.
+StreetScore is a neighborhood reputation platform that helps users discover trusted local service providers based on performance signals rather than advertising spend or review count alone.
 
-## Project Overview
-
-This repository contains the prototype standings application built with Next.js, TypeScript, and PostgreSQL. The application demonstrates how operators can be ranked and filtered by league, neighborhood, and reputation metrics using real database queries.
-
-The goal of this project is to validate the core concept of neighborhood-based reputation rankings while providing a scalable foundation for future platform development.
+The platform ranks operators within specific neighborhoods and ZIP codes using a REP Score system that combines multiple trust indicators into a single ranking metric. Instead of simply listing businesses, StreetScore highlights operators that consistently perform well within their local markets.
 
 ---
 
-## Problem
+# Project Overview
+
+This repository contains the StreetScore standings prototype built with:
+
+* Next.js
+* TypeScript
+* React
+* PostgreSQL
+* Neon PostgreSQL
+* Tailwind CSS
+
+The application demonstrates how local service operators can be ranked and filtered by:
+
+* League
+* Neighborhood
+* ZIP code
+* Verification status
+* Reputation metrics
+
+The dashboard retrieves ranking data through PostgreSQL-backed API routes rather than static frontend data.
+
+---
+
+# Problem
 
 Finding trustworthy local service providers is difficult.
 
-Consumers often have to compare information across multiple platforms such as:
+Consumers often rely on multiple sources:
 
-- Google Reviews
-- Yelp
-- Facebook
-- Personal referrals
-- Reviews are unreliable
-- Paid visibility
+* Google Reviews
+* Yelp
+* Facebook
+* Personal referrals
 
-These sources provide useful information but rarely present a complete picture of a company's actual performance.
+These sources provide useful information but do not always represent consistent performance. Review volume and paid visibility do not necessarily indicate quality.
 
-StreetScore combines multiple trust signals into one easy-to-understand reputation score so users can make better decisions.
+StreetScore explores a model where multiple trust indicators are combined into a transparent reputation score.
 
 ---
 
-## Reputation Signals
+# Current Features
 
-The platform is designed to incorporate factors such as:
+The current prototype includes:
 
-- Average Rating
-- Review Count
-- Work Volume
-- Response Time
-- On-Time Percentage
-- Verification Status
-- Ranking Movement
-- Overall REP Score
-
-Rather than rewarding advertising spend or popularity alone, TrustBlock rewards consistent performance.
-
----
-
-## Features
-
-Current prototype includes:
-
-- Neighborhood standings
-- Operator rankings
-- Reputation scores
-- Leauge-based rankings
-- PostgreSQL-backed API routes
-- Responsive dashboard built with Next.js
-- Dynamic data retrieval from Neon PostgreSQL
-
-Future features include:
-
-- Customer reviews
-- Verified badges
-- Neighborhood leaderboards
-- Performance analytics
-- Operator improvement recommendations
+* Neighborhood standings
+* Operator rankings
+* REP Score display
+* League-based rankings
+* ZIP code filtering
+* Verification filtering
+* PostgreSQL-backed API routes
+* Responsive dashboard interface
+* Dynamic database-driven data retrieval
 
 ---
 
-## Tech Stack
+# Reputation Signals
 
-### Frontend
+StreetScore is designed to incorporate:
 
-- Next.js
-- React
-- TypeScript
-- Tailwind CSS
+* Average Rating
+* Review Count
+* Work Volume
+* Response Time
+* On-Time Percentage
+* Verification Status
+* Ranking Movement
+* REP Score
 
-### Backend
-
-- Next.js API Routes
-- PostgreSQL
-- Neon Cloud Database
-
-### Deployment
-
-- Vercel
-
-### Development Tools
-
-- Git
-- GitHub
-- Drizzle ORM (database management)
-- VS Code
+The current repository focuses on ranking visualization and filtering. Production scoring algorithms and data ingestion are future development areas.
 
 ---
 
-## Project Structure
+# Technology Stack
 
-```
+## Frontend
+
+* Next.js
+* React
+* TypeScript
+* Tailwind CSS
+
+## Backend
+
+* Next.js API Routes
+* PostgreSQL
+* Neon PostgreSQL
+
+## Database Tools
+
+* SQL migrations
+* Drizzle ORM utilities
+
+## Development Tools
+
+* Git
+* GitHub
+* VS Code
+
+## Deployment
+
+* Vercel
+
+---
+
+# Repository Structure
+
+```text
 app/
 components/
 hooks/
 lib/
+migrations/
 public/
 types/
 ```
 
-The application follows the Next.js App Router architecture with reusable React components, API routes, and shared database utilities.
+The project uses the Next.js App Router architecture with:
+
+* Reusable React components
+* API routes
+* Database utilities
+* SQL migration files
 
 ---
 
-## Database
+# Developer References
 
-The application uses a hosted PostgreSQL database through Neon.
+## API
 
-Current data includes:
-
-- Operators - operator_id, operator_name, league_id, operator_type, is_verified, is_current_user
-- Leagues - league_id, league_name, volume_label
-- Neighborhoods - neighborhood_id, league_id, zip_code, neighborhood_name
-- Standing Entries -entry_id, season_id, time_window, league_id, neighborhood_id, zip_code, operator_id, rank, rep_score, rank_delta_30d, distance_miles
-
-The standings displayed on the dashboard are generated from PostgreSQL queries rather than static data.
-
----
-
-## Current Functionality
-
-Users can:
-
-- View operator standings
-- Filter standings by league
-- Compare reputation scores
-- View ranking positions
-- Browse neighborhood performance
-
-The frontend retrieves live data through server-side API routes connected to the Neon PostgreSQL database.
-
----
-
-## Future Development
-
-Planned improvements include:
-
-- Reputation score calculations
-- Historical ranking trends
-- Interactive maps
-- Search functionality
-- Analytics dashboard
-
----
-## Local PostgreSQL Setup
-
-StreetScore supports both a local PostgreSQL database and a Neon cloud database.
-
-## How to clone project from github 
-
-Clone and Run the Project
-This project is maintained on the updates branch.
-
-1. Clone the Repository
-git clone https://github.com/omargarcia10-k/autoledger_project.git
-
-Navigate into the project directory:
-cd autoledger_project
-
-2. Switch to the updates Branch
-Fetch all remote branches:
-git fetch origin
-
-Check out the updates branch:
-git checkout updates
-
-git checkout -b updates origin/updates
-
-Verify you are on the correct branch:
-git branch
-The output should show:
-* updates
-
-### 1. Install PostgreSQL
-
-Download PostgreSQL from the official website:
-
-https://www.postgresql.org/download/
-
-During installation:
-
-* Install PostgreSQL Server.
-* Install pgAdmin (recommended).
-* Set a password for the `postgres` user and remember it.
-* Leave the default port (`5432`) unless you have a reason to change it.
-
----
-
-## 2. Create a Database
-
-### Using pgAdmin
-
-1. Open **pgAdmin**.
-2. Expand your PostgreSQL server.
-3. Right-click **Databases**.
-4. Select **Create → Database...**
-5. Name the database:
+Standings API:
 
 ```text
-streetscore
+src/app/api/standings/route.ts
 ```
 
-6. Click **Save**.
+Endpoint:
 
-Or using `psql`:
+```text
+GET /api/standings
+```
 
-```sql
-CREATE DATABASE streetscore;
+The dashboard retrieves leaderboard information through this API route.
+
+---
+
+## Database Files
+
+Database schema:
+
+```text
+migrations/001_init.sql
+```
+
+Seed data:
+
+```text
+migrations/002_seed.sql
+```
+
+Database view:
+
+```text
+migrations/004_create_standings_page_rows_view.sql
+```
+
+Example queries:
+
+```text
+migrations/queries.sql
 ```
 
 ---
 
-## 3. Configure Environment Variables
+# Data Quality
 
-Copy the example environment file:
+This repository contains prototype data used to validate the StreetScore dashboard workflow.
+
+## Verified
+
+The following have been tested:
+
+* Database schema
+* API queries
+* Dashboard rendering
+* Filtering functionality
+* Database connectivity
+* Application build process
+
+## Mock / Demo Data
+
+The following values are demonstration data:
+
+* Operator records
+* REP Scores
+* Ranking movement
+* Performance metrics
+
+## Assumptions
+
+* Reputation scoring models are prototypes for future development.
+* Production data ingestion is outside this repository scope.
+
+## Limitations
+
+* Data quality depends on the records loaded into PostgreSQL.
+* Some metrics may not represent production performance.
+* Historical ranking accuracy depends on available source data.
+
+---
+
+# Local Setup Guide
+
+Follow these steps to run StreetScore locally.
+
+---
+
+# 1. Clone the Repository
+
+Clone the repository:
 
 ```bash
-cp .env.example .env
+git clone https://github.com/omargarcia10-k/streetscore_project-.git
 ```
 
-Update the local connection string:
+Navigate into the project:
 
-```env
-DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@localhost:5432/streetscore
+```bash
+cd streetscore_project-
 ```
 
-Replace `YOUR_PASSWORD` with your PostgreSQL password.
-
-#ENV FILE SHOULD LOOK LIKE THIS (.env.example included in filed)
-# ==========================================
-# Primary Database Connection
-# replace username with your local Postgres username and databasename with your local database name.
-# ==========================================
-DATABASE_URL=postgresql://username@localhost:5432/databasename
-
-# ==========================================
-# Shared Neon Database (optional)
-# Replace with your own Neon connection string.
-# ==========================================
-NEON_SHARED_DATABASE_URL=postgresql://username:password@your-neon-host/neondb?sslmode=require&channel_binding=require
-
-# ==========================================
-# Database Selection
-# Options:
-#   local  - Local PostgreSQL database
-#   shared - Shared Neon database
-#   branch - Neon branch database
-# ==========================================
-USE_DATABASE=local
-
-# ==========================================
-# Neon Branch Database (optional)
-# Replace with your own Neon branch connection string.
-# ==========================================
-NEON_BRANCH_DATABASE_URL=postgresql://username:password@your-branch-host/neondb?sslmode=require&channel_binding=require
 ---
 
-## 4. Install Dependencies
+# 2. Switch to Updates Branch
+
+Fetch available branches:
+
+```bash
+git fetch origin
+```
+
+Switch branches:
+
+```bash
+git switch updates
+```
+
+If the branch does not exist locally:
+
+```bash
+git switch --track origin/updates
+```
+
+Verify:
+
+```bash
+git branch
+```
+
+Expected:
+
+```text
+* updates
+```
+
+---
+
+# 3. Install Dependencies
+
+Install project packages:
 
 ```bash
 npm install
@@ -272,36 +283,210 @@ npm install
 
 ---
 
-## 5. Initialize and Seed the Database
+# 4. Install PostgreSQL Locally
 
-Run the local SQL bootstrap scripts:
+StreetScore can run using:
 
-```bash
-npm run db:migrate
+* Local PostgreSQL database
+* Neon PostgreSQL database
+
+For local development, install PostgreSQL:
+
+https://www.postgresql.org/download/
+
+During installation:
+
+* Install PostgreSQL Server
+* Install pgAdmin (recommended)
+* Create a password for the PostgreSQL user
+* Keep the default port:
+
+```text
+5432
 ```
 
-This command applies every SQL file in the `migrations/` folder in filename order, including:
+Verify installation:
 
-- `001_init.sql` (creates base tables)
-- `002_seed.sql` (loads sample data)
-- `004_create_standings_page_rows_view.sql` (creates the view)
-
-`npm run db:setup` is kept as an alias to the same workflow.
+```bash
+psql --version
+```
 
 ---
 
-## 6. Optional: Generate Drizzle Migrations
+# 5. Create Local PostgreSQL Database
 
-If you are changing the Drizzle schema definition, you can still generate Drizzle artifacts with:
+## Option A: PostgreSQL Terminal
+
+Open PostgreSQL:
 
 ```bash
-npm run db:generate
-npm run db:migrate:drizzle
+psql postgres
+```
+
+Create database:
+
+```sql
+CREATE DATABASE streetscore;
+```
+
+Verify:
+
+```sql
+\l
+```
+
+Exit:
+
+```sql
+\q
 ```
 
 ---
 
-## 7. Start the Development Server
+## Option B: pgAdmin
+
+1. Open pgAdmin
+2. Connect to PostgreSQL server
+3. Right-click:
+
+```text
+Databases
+```
+
+4. Select:
+
+```text
+Create → Database
+```
+
+5. Name:
+
+```text
+streetscore
+```
+
+6. Save
+
+---
+
+# 6. Configure Environment Variables
+
+Create environment file:
+
+```bash
+cp .env.example .env
+```
+
+Update:
+
+```env
+DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@localhost:5432/streetscore
+
+USE_DATABASE=local
+```
+
+Replace:
+
+```text
+YOUR_PASSWORD
+```
+
+with your PostgreSQL password.
+
+Example:
+
+```env
+DATABASE_URL=postgresql://postgres:mypassword@localhost:5432/streetscore
+
+USE_DATABASE=local
+```
+
+Do not commit `.env` files or real database credentials.
+
+---
+
+# 7. Initialize Database
+
+For a fresh project setup run:
+
+```bash
+npm run db:setup
+```
+
+This creates the required database structure and data.
+
+The setup applies:
+
+## 001_init.sql
+
+Creates:
+
+* Database tables
+* Relationships
+* Constraints
+
+## 002_seed.sql
+
+Loads:
+
+* Sample operators
+* Leagues
+* Neighborhoods
+* Standings data
+
+## 004_create_standings_page_rows_view.sql
+
+Creates:
+
+```text
+standings_page_rows
+```
+
+This view is required by:
+
+```text
+src/app/api/standings/route.ts
+```
+
+---
+
+# 8. Verify Database
+
+Connect:
+
+```bash
+psql streetscore
+```
+
+View tables:
+
+```sql
+\dt
+```
+
+View database views:
+
+```sql
+\dv
+```
+
+Expected:
+
+```text
+standings_page_rows
+```
+
+Exit:
+
+```sql
+\q
+```
+
+---
+
+# 9. Run Application
+
+Start development server:
 
 ```bash
 npm run dev
@@ -309,38 +494,86 @@ npm run dev
 
 Open:
 
-```
+```text
 http://localhost:3000
 ```
 
-The application should now be running against your local PostgreSQL database.
+---
+
+# 10. Build Verification
+
+Run:
+
+```bash
+npm run build
+```
+
+A successful build confirms:
+
+* TypeScript compilation passes
+* Next.js production build succeeds
+* Application dependencies are configured correctly
 
 ---
 
-## Optional: Using Neon
+# Neon Database Setup (Optional)
 
-To use a Neon database instead of PostgreSQL:
+To use Neon instead of local PostgreSQL:
 
 1. Replace `DATABASE_URL` with your Neon connection string.
-2. Update `USE_DATABASE` to `shared` or `branch`.
-3. Run the migrations if required.
-4. Start the application with `npm run dev`.
+2. Update:
 
-TO RUN LOCALLY MAKE SURE SWITCH (IN .ENV) IS SET TO 
-USE_DATABASE=local
+```env
+USE_DATABASE=shared
+```
 
+or:
 
-## Vision
+```env
+USE_DATABASE=branch
+```
 
-StreetScore is built on the idea that trust should be earned through consistent performance—not purchased through advertising.
+3. Run:
 
-By combining meaningful reputation signals into neighborhood-based rankings, StreetScore aims to make it easier for customers to find reliable operators while giving businesses a fair and transparent way to be recognized for quality work.
+```bash
+npm run db:setup
+```
+
+4. Start:
+
+```bash
+npm run dev
+```
 
 ---
 
-## Authors
+# Future Development
+
+Planned improvements:
+
+* Production reputation scoring
+* Historical ranking trends
+* Interactive maps
+* Search functionality
+* Analytics dashboard
+* Customer review integration
+
+---
+
+# Project Vision
+
+StreetScore is built on the idea that trust should be earned through consistent performance rather than purchased through advertising.
+
+By combining meaningful reputation signals into neighborhood-based rankings, StreetScore aims to help customers find reliable operators while giving businesses a transparent way to demonstrate quality.
+
+---
+
+# Authors
 
 Developed as part of the CHAMA neighborhood reputation platform project.
 
-Project Manager/Marketing – Khadejah Beckles
-Data/Frontend/Research – Omar Garcia and Christopher Rampersaud
+Project Manager / Marketing:
+Khadejah Beckles
+
+Data / Frontend / Research:
+Omar Garcia and Christopher Rampersaud
