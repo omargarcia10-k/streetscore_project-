@@ -1,4 +1,4 @@
-import { LayoutDashboard, type LucideIcon } from "lucide-react";
+import { type LucideIcon, Trophy } from "lucide-react";
 
 export type NavBadge = "new" | "soon";
 
@@ -46,7 +46,7 @@ export const sidebarItems: NavGroup[] = [
         id: "standings",
         title: "Standings",
         url: "/dashboard/standings",
-        icon: LayoutDashboard,
+        icon: Trophy,
       },
     ],
   },
