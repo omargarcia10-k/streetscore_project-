@@ -277,23 +277,26 @@ npm install
 Run the local SQL bootstrap scripts:
 
 ```bash
-npm run db:setup
+npm run db:migrate
 ```
 
-This command runs:
+This command applies every SQL file in the `migrations/` folder in filename order, including:
 
-- `npm run db:init` (creates base tables and view)
-- `npm run db:seed` (loads sample data)
+- `001_init.sql` (creates base tables)
+- `002_seed.sql` (loads sample data)
+- `004_create_standings_page_rows_view.sql` (creates the view)
+
+`npm run db:setup` is kept as an alias to the same workflow.
 
 ---
 
 ## 6. Optional: Generate Drizzle Migrations
 
-If you are changing the Drizzle schema, generate and apply migrations with:
+If you are changing the Drizzle schema definition, you can still generate Drizzle artifacts with:
 
 ```bash
 npm run db:generate
-npm run db:migrate
+npm run db:migrate:drizzle
 ```
 
 ---
