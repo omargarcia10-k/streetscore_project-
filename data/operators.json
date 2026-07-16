@@ -1,0 +1,902 @@
+[
+  {
+    "operatorId": "nys-6242767",
+    "operatorName": "1068 UTICA AV AUTO",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7032780",
+    "operatorName": "15TH ST AUTO BODY",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7114734",
+    "operatorName": "1668 MECHANIC AND",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-6240257",
+    "operatorName": "1672 62 ND ST RJ",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7131128",
+    "operatorName": "1 STOP AUTO",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7127380",
+    "operatorName": "21 NATION AUTO",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7128830",
+    "operatorName": "21 NATIONS AUTO",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7131247",
+    "operatorName": "312 AUTO SHOP CORP",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7124688",
+    "operatorName": "31 AUTO COLLISION",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7129106",
+    "operatorName": "36 COLISION INC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7032336",
+    "operatorName": "36TH ST COLL INC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7133387",
+    "operatorName": "3A AUTO CENTER LLC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7127903",
+    "operatorName": "62 COLLISION INC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7118323",
+    "operatorName": "63 AUTO BODY LLC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7120423",
+    "operatorName": "718 AUTO CENTER INC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7077290",
+    "operatorName": "850 ATLANTIC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7124775",
+    "operatorName": "A9S AUTOMOTIVE INC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7125840",
+    "operatorName": "AAA COLLISION INC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7133452",
+    "operatorName": "AAA COLLISION INC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7132360",
+    "operatorName": "A & A QUICK FIX AUTO",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7133631",
+    "operatorName": "AAS TOWING &",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7128390",
+    "operatorName": "AAS TOWING &",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7055469",
+    "operatorName": "ABC COLLISION",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7131432",
+    "operatorName": "ABRAHAMS COLLISION",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7127573",
+    "operatorName": "ACCEL AUTO LLC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7119656",
+    "operatorName": "ACES AUTO BODYSHOP",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7115901",
+    "operatorName": "ACTION AUTO BODY INC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7039339",
+    "operatorName": "ADOLFOS BODY &",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7116486",
+    "operatorName": "ADVANCE A1 BODY SHOP",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7001139",
+    "operatorName": "ADVANCED AUTO BODY",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7125259",
+    "operatorName": "ADVANCE MOTORSPORT",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7115546",
+    "operatorName": "AK COLLISION INC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7135483",
+    "operatorName": "ALBERTO AUTO",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7108700",
+    "operatorName": "ALBERTO COLLISION",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7130622",
+    "operatorName": "ALBERTO COLLISION",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7119381",
+    "operatorName": "ALCON AUTO BODY",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7108322",
+    "operatorName": "ALEX COLLISION AND",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7110464",
+    "operatorName": "ALEXS AUTO BODY 1",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7032051",
+    "operatorName": "AL & LEO AUTO",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7025880",
+    "operatorName": "ALL STAR COLLISION",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7118052",
+    "operatorName": "ALLSTATE AUTO",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7100146",
+    "operatorName": "ALL TYPE COLLISION",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7064058",
+    "operatorName": "A&L SUNRISE AUTO",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7131254",
+    "operatorName": "AMQFA INC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7135270",
+    "operatorName": "APEX AUTOWORKS LLC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7102983",
+    "operatorName": "ARYS COMPLETE AUTO",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7120371",
+    "operatorName": "ATLANTIC AUTO SPA",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7133331",
+    "operatorName": "AUTOCRAFT AUTO BODY",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7117130",
+    "operatorName": "AUTO DENT COLLISION",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7131600",
+    "operatorName": "AUTO GROUP",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7122815",
+    "operatorName": "AUTO GROUP COLLISION",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7098320",
+    "operatorName": "AUTO GROUP COLLISION",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7068927",
+    "operatorName": "AUTOTECH COLLISION",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7104488",
+    "operatorName": "AZ TRANS PLUS INC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7127510",
+    "operatorName": "BAY 64 AUTO LLC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7134710",
+    "operatorName": "BAY RIDGE COLLISION",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7059028",
+    "operatorName": "BEN & NINO AUTO",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7134005",
+    "operatorName": "BEST 18 AUTO REPAIR",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7125703",
+    "operatorName": "BEST GLOBAL AUTO",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7125016",
+    "operatorName": "BEST NY AUTO REPAIR",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7095648",
+    "operatorName": "BEST QUALITY",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7065260",
+    "operatorName": "BEVERLY HILLS COLL &",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7028806",
+    "operatorName": "BIG APPLE",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7124818",
+    "operatorName": "BIG B AUTO REPAIR",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7124611",
+    "operatorName": "BIG BUBBLES INC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7121151",
+    "operatorName": "BK AUTO CENTER INC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7126695",
+    "operatorName": "BK AUTO REPAIR &",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7113228",
+    "operatorName": "BLESSED FAITH",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7127954",
+    "operatorName": "BMI AUTO BODY REPAIR",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7123496",
+    "operatorName": "BOBBYS AUTO CLLISION",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7127900",
+    "operatorName": "BRIGHTON COLLISION",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7094706",
+    "operatorName": "BROOKLYN AUTO",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7129694",
+    "operatorName": "BROOKLYN AUTO",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7134455",
+    "operatorName": "BROOKLYN AUTO INC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7118341",
+    "operatorName": "BROOKLYN MOTORS",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7130389",
+    "operatorName": "BUMPER TO BUMPER",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7118576",
+    "operatorName": "CALI NEW YORK INC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7131425",
+    "operatorName": "CARMART COLLISION &",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7108759",
+    "operatorName": "CARMONA AUTOBODY INC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7123974",
+    "operatorName": "CAROUSEL AUTO BODY",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7129454",
+    "operatorName": "CAROUSEL AUTO BODY &",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7132902",
+    "operatorName": "CAROUSEL COLLISION",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7117743",
+    "operatorName": "CAR TONE AUTO",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7128630",
+    "operatorName": "CCAC CORP",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-6240323",
+    "operatorName": "CEE JOE AUTO COLL",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7102668",
+    "operatorName": "CHASE AUTOMOTIVE INC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7129683",
+    "operatorName": "CHESTERS AUTO BODY",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7135438",
+    "operatorName": "CHUNGS AUTO BODY",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7134405",
+    "operatorName": "CI AUTO COLLISION",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7125692",
+    "operatorName": "CITI AUTO COLLISION",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7124889",
+    "operatorName": "CLASSIC 62ND AUTO",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7119443",
+    "operatorName": "CLINTON HILL AUTO",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7116281",
+    "operatorName": "C&M AUTO BODY SHOP",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7104702",
+    "operatorName": "COLORTECH AUTO",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-6240461",
+    "operatorName": "CULVER COLLISION INC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7113784",
+    "operatorName": "CURTIS AUTO BODY",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7123536",
+    "operatorName": "CYCLONE COLLISION",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-6240526",
+    "operatorName": "DANS AUTO COLLISION",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7122204",
+    "operatorName": "DELEAGUE LLC",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  },
+  {
+    "operatorId": "nys-7069146",
+    "operatorName": "DELTA COLLISION",
+    "leagueId": "auto",
+    "operatorType": "RSB",
+    "isVerified": true,
+    "isCurrentUser": false,
+    "status": "active"
+  }
+]
