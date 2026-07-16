@@ -19,6 +19,7 @@
     "db:init": "psql \"$DATABASE_URL\" -f migrations/001_init.sql && psql \"$DATABASE_URL\" -f migrations/004_create_standings_page_rows_view.sql",
     "db:seed": "psql \"$DATABASE_URL\" -f migrations/002_seed.sql",
     "db:setup": "npm run db:migrate",
+    "db:import": "node scripts/import-data.js",
     "prepare": "husky",
     "generate:presets": "ts-node -P tsconfig.scripts.json src/scripts/generate-theme-presets.ts"
   },
