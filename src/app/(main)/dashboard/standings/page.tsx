@@ -106,21 +106,26 @@ export default function Page() {
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <div>
                 <div className="font-medium">⭐ Customer Rating</div>
-                <p className="text-muted-foreground text-sm">35% of score</p>
+                <p className="text-muted-foreground text-sm">30% of score</p>
               </div>
 
               <div>
                 <div className="font-medium">⚡ Response Time</div>
-                <p className="text-muted-foreground text-sm">25% of score</p>
+                <p className="text-muted-foreground text-sm">15% of score</p>
               </div>
 
               <div>
                 <div className="font-medium">✓ Verification</div>
-                <p className="text-muted-foreground text-sm">20% of score</p>
+                <p className="text-muted-foreground text-sm">10% of score</p>
               </div>
 
               <div>
-                <div className="font-medium">📈 Recent Performance</div>
+                <div className="font-medium">📈 on time percent</div>
+                <p className="text-muted-foreground text-sm">25% of score</p>
+              </div>
+
+              <div>
+                <div className="font-medium">📈 review count</div>
                 <p className="text-muted-foreground text-sm">20% of score</p>
               </div>
             </div>
