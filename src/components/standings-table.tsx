@@ -15,8 +15,7 @@ type StandingRow = {
   name: string;
   score: number | string;
   rating?: number | string | null;
-  onTimePercent?: number | string | null;
-  responseMinutes?: number | string | null;
+  reviewCount?: number | string | null;
   rankDelta30d?: number | string | null;
   status: string;
   is_verified?: boolean;
@@ -77,7 +76,7 @@ function getVerifiedBadgeClass(isVerified?: boolean) {
 
 export default function StandingsTable() {
   const [league, setLeague] = useState("auto");
-  const [zip, setZip] = useState("11237");
+  const [neighborhood, setNeighborhood] = useState("Bushwick");
   const [window, setWindow] = useState("30d");
 
   const [verifiedFilter, setVerifiedFilter] = useState<"all" | "verified" | "unverified">("all");
@@ -97,7 +96,7 @@ export default function StandingsTable() {
 
       const params = new URLSearchParams({
         league,
-        zip,
+        neighborhood,
         window,
         verified: verifiedFilter,
       });
@@ -121,7 +120,7 @@ export default function StandingsTable() {
       clearTimeout(timeoutId);
       setLoading(false);
     }
-  }, [league, zip, window, verifiedFilter]);
+  }, [league, neighborhood, window, verifiedFilter]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -157,7 +156,12 @@ export default function StandingsTable() {
           onChange={(e) => setSearch(e.target.value)}
         />
 
-        <input className="rounded border p-2" placeholder="ZIP" value={zip} onChange={(e) => setZip(e.target.value)} />
+        <select className="rounded border p-2" value={neighborhood} onChange={(e) => setNeighborhood(e.target.value)}>
+          <option value="Park Slope">Park Slope</option>
+          <option value="Bushwick">Bushwick</option>
+          <option value="Bushwick North">Bushwick North</option>
+          <option value="Williamsburg">Williamsburg</option>
+        </select>
 
         <select className="rounded border p-2" value={league} onChange={(e) => setLeague(e.target.value)}>
           <option value="auto">Auto Shops</option>
@@ -191,8 +195,7 @@ export default function StandingsTable() {
             <TableHead>Name</TableHead>
             <TableHead>Score</TableHead>
             <TableHead>Rating</TableHead>
-            <TableHead>On Time</TableHead>
-            <TableHead>Response</TableHead>
+            <TableHead>Reviews</TableHead>
             <TableHead>Change</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Verified</TableHead>
@@ -221,12 +224,8 @@ export default function StandingsTable() {
 
                 <TableCell>{row.name}</TableCell>
                 <TableCell>{row.score}</TableCell>
-
                 <TableCell>{row.rating ? <RatingStars rating={row.rating} /> : "-"}</TableCell>
-
-                <TableCell>{row.onTimePercent ? `${row.onTimePercent}%` : "-"}</TableCell>
-
-                <TableCell>{row.responseMinutes ? `${row.responseMinutes} min` : "-"}</TableCell>
+                <TableCell>{row.reviewCount ?? "-"}</TableCell>
 
                 <TableCell>
                   <RankChange change={row.rankDelta30d} />

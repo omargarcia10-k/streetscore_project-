@@ -406,18 +406,22 @@ Do not commit `.env` files or real database credentials.
 ---
 
 # 7. Initialize Database
-
 For a fresh project setup run:
 
 ```bash
 npm run db:setup
 ```
-
-This creates the required database structure and data.
-
-The setup applies:
+(MOVE ON TO STEP 8, BELOW IS COMANDS TO SET UP INDIVIDUAL FILE)
+===================================================
 
 ## 001_init.sql
+
+```bash
+npm run db:migrate
+```
+This creates schema
+
+The setup applies:
 
 Creates:
 
@@ -427,14 +431,28 @@ Creates:
 
 ## 002_seed.sql
 
-Loads:
+```bash
+npm run db:seed
+```
 
-* Sample operators
+Loads and inserts data into leagues table:
+
 * Leagues
-* Neighborhoods
-* Standings data
+
+## imports omars data 
+
+```bash
+npm run db:import
+```
+
+
+this creates the stangings_page_row_view
 
 ## 004_create_standings_page_rows_view.sql
+
+```bash
+npm run db:view
+```
 
 Creates:
 
@@ -448,7 +466,13 @@ This view is required by:
 src/app/api/standings/route.ts
 ```
 
----
+## 003 generate rankings 
+
+```bash
+npm run db:rankings 
+```
+
+===================================================
 
 # 8. Verify Database
 

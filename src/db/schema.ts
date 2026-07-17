@@ -70,16 +70,12 @@ export const scoreInputs = pgTable(
       .references(() => standingsEntries.entryId),
     volumeCount: integer("volume_count").notNull().default(0),
     rating: numeric("rating", { precision: 2, scale: 1 }).notNull(),
-    reviewCount: numeric("review_count").notNull().default("0"),
-    responseMinutes: integer("response_minutes").notNull().default(0),
-    onTimePercent: integer("on_time_percent").notNull(),
+    reviewCount: numeric("review_count"),
     licenseVerified: boolean("license_verified").notNull().default(false),
   },
   (table) => [
     check("score_inputs_volume_count_check", sql`${table.volumeCount} >= 0`),
     check("score_inputs_rating_check", sql`${table.rating} >= 0 AND ${table.rating} <= 5`),
-    check("score_inputs_review_count_check", sql`${table.reviewCount} >= 0`),
-    check("score_inputs_response_minutes_check", sql`${table.responseMinutes} >= 0`),
-    check("score_inputs_on_time_percent_check", sql`${table.onTimePercent} >= 0 AND ${table.onTimePercent} <= 100`),
+    check("score_inputs_review_count_check", sql`${table.reviewCount} IS NULL OR ${table.reviewCount} >= 0`),
   ],
 );

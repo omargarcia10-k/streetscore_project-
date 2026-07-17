@@ -14,8 +14,6 @@ type StandingRow = {
   zip_code: string;
   time_window: string;
   rep_score: number;
-  response_minutes: number | null;
-  on_time_percent: number | null;
   rating: number | null;
   review_count: number | null;
   rank_delta_30d: number | null;
@@ -44,7 +42,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
 
   const league = searchParams.get("league")?.trim();
-  const zip = searchParams.get("zip")?.trim();
+  const neighborhood = searchParams.get("neighborhood")?.trim();
   const window = searchParams.get("window")?.trim() ?? "30d";
   const verified = searchParams.get("verified")?.trim() ?? "all";
 
@@ -52,8 +50,8 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Missing required query param: league" }, { status: 400 });
   }
 
-  if (!zip) {
-    return NextResponse.json({ error: "Missing required query param: zip" }, { status: 400 });
+  if (!neighborhood) {
+    return NextResponse.json({ error: "Missing required query param: neighborhood" }, { status: 400 });
   }
 
   const dbWindow = normalizeWindow(window);
@@ -76,8 +74,6 @@ export async function GET(request: Request) {
         zip_code,
         time_window,
         rep_score,
-        response_minutes,
-        on_time_percent,
         rating,
         review_count,
         rank_delta_30d,
@@ -86,7 +82,7 @@ export async function GET(request: Request) {
         is_verified
       FROM standings_page_rows
       WHERE league_id = $1
-        AND zip_code = $2
+        AND neighborhood_name = $2
         AND time_window = $3
         AND (
           $4 = 'all'
@@ -96,7 +92,7 @@ export async function GET(request: Request) {
       ORDER BY rank
       LIMIT 10;
       `,
-      [league, zip, dbWindow, verified],
+      [league, neighborhood, dbWindow, verified],
     );
 
     //
@@ -133,8 +129,6 @@ export async function GET(request: Request) {
       window: row.time_window,
       score: row.rep_score,
       rating: row.rating,
-      onTimePercent: row.on_time_percent,
-      responseMinutes: row.response_minutes,
       reviewCount: row.review_count,
       rankDelta30d: row.rank_delta_30d,
       distanceMiles: Number(row.distance_miles),
@@ -144,7 +138,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json({
       league,
-      zipCode: zip,
+      neighborhood,
       window,
       metrics: {
         total: Number(metrics.total),

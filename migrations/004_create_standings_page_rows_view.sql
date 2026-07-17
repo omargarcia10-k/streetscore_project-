@@ -26,8 +26,6 @@ SELECT
   si.rating,
   si.review_count,
   si.volume_count,
-  si.response_minutes,
-  si.on_time_percent,
 
   se.rank_delta_30d,
   se.distance_miles

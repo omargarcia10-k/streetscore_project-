@@ -11,8 +11,6 @@ type Operator = {
   rank: number;
   score: number;
   rating?: number | string | null;
-  responseMinutes?: number | string | null;
-  onTimePercent?: number | string | null;
   status: string;
   is_verified: boolean;
 };
@@ -48,14 +46,6 @@ function OperatorCard({ operator }: { operator: Operator }) {
     {
       label: "Rating",
       value: operator.rating ? `⭐ ${operator.rating}` : "-",
-    },
-    {
-      label: "Response",
-      value: operator.responseMinutes ? `${operator.responseMinutes} min` : "-",
-    },
-    {
-      label: "On Time",
-      value: operator.onTimePercent ? `${operator.onTimePercent}%` : "-",
     },
     {
       label: "Status",

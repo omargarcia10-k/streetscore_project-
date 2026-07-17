@@ -17,7 +17,7 @@ type DashboardMetrics = {
 
 export default function Page() {
   const [league] = useState("auto");
-  const [zip] = useState("11237");
+  const [neighborhood] = useState("Park Slope");
   const [window] = useState("30d");
 
   const [loading, setLoading] = useState(true);
@@ -37,7 +37,7 @@ export default function Page() {
 
       const params = new URLSearchParams({
         league,
-        zip,
+        neighborhood,
         window,
         verified: "all",
       });
@@ -70,7 +70,7 @@ export default function Page() {
       clearTimeout(timeoutId);
       setLoading(false);
     }
-  }, [league, window, zip]);
+  }, [league, neighborhood, window]);
 
   useEffect(() => {
     void loadDashboardData();
@@ -106,27 +106,17 @@ export default function Page() {
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <div>
                 <div className="font-medium">⭐ Customer Rating</div>
-                <p className="text-muted-foreground text-sm">30% of score</p>
-              </div>
-
-              <div>
-                <div className="font-medium">⚡ Response Time</div>
-                <p className="text-muted-foreground text-sm">15% of score</p>
+                <p className="text-muted-foreground text-sm">40% of score</p>
               </div>
 
               <div>
                 <div className="font-medium">✓ Verification</div>
-                <p className="text-muted-foreground text-sm">10% of score</p>
-              </div>
-
-              <div>
-                <div className="font-medium">📈 on time percent</div>
                 <p className="text-muted-foreground text-sm">25% of score</p>
               </div>
 
               <div>
-                <div className="font-medium">📈 review count</div>
-                <p className="text-muted-foreground text-sm">20% of score</p>
+                <div className="font-medium">📊 Review Count</div>
+                <p className="text-muted-foreground text-sm">35% of score</p>
               </div>
             </div>
           </div>
@@ -146,7 +136,7 @@ export default function Page() {
               <CardTitle>Local Standings</CardTitle>
             </div>
 
-            <CardDescription>Rankings by league, ZIP code, and performance score.</CardDescription>
+            <CardDescription>Rankings by league, neighborhood, and performance score.</CardDescription>
           </CardHeader>
 
           <CardContent>

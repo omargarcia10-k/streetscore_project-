@@ -3,12 +3,11 @@
 -- Generates REP Score and Rank for standings_entries
 --
 -- REP Score calculation:
---   Rating             30 points
---   Review Count       20 points
---   Response Time      15 points
---   On-Time Percentage 25 points
---   License Verified   10 points
---
+--   Rating             40 points
+--   Review Count       35 points
+--   License Verified   25 points
+
+
 -- Ranking:
 --   Operators are ranked within:
 --   league + neighborhood
@@ -44,34 +43,20 @@ FROM (
 
                 ROUND(
                     (
-                        -- Rating (30 points)
-                        (si.rating / 5.0 * 30)
+                        -- Rating (40 points)
+                        (si.rating / 5.0 * 40)
 
                         +
 
-                        -- Review count (20 points)
-                        (LEAST(si.review_count, 500) / 500.0 * 20)
+                        -- Review count (35 points)
+                        (LEAST(si.review_count, 500) / 500.0 * 35)
+
 
                         +
-
-                        -- Response time (15 points)
-                        -- Faster response receives more points
-                        (
-                            (1 - LEAST(si.response_minutes, 240) / 240.0)
-                            * 15
-                        )
-
-                        +
-
-                        -- On-time percentage (25 points)
-                        (si.on_time_percent / 100.0 * 25)
-
-                        +
-
-                        -- License verification (10 points)
+                        -- License verification (25 points)
                         CASE
                             WHEN si.license_verified = true
-                            THEN 10
+                            THEN 25
                             ELSE 0
                         END
                     )

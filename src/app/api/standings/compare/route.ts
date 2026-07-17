@@ -20,8 +20,6 @@ operator_name,
 rank,
 rep_score,
 rating,
-response_minutes,
-on_time_percent,
 status,
 is_verified
 
@@ -47,9 +45,7 @@ ORDER BY rank ASC
 
       rating: row.rating,
 
-      responseMinutes: row.response_minutes,
-
-      onTimePercent: row.on_time_percent,
+      reviewCount: row.review_count,
 
       status: row.status,
 

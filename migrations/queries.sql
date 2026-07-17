@@ -15,14 +15,6 @@ FROM standings_page_rows
 WHERE is_verified = TRUE
 ORDER BY rep_score DESC;
 
--- Query 3: Fastest response time
-SELECT
-    operator_name,
-    response_minutes
-FROM standings_page_rows
-ORDER BY response_minutes ASC
-LIMIT 10;
-
 -- Query 4: Current user rank
 SELECT
     operator_name,
