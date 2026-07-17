@@ -75,6 +75,7 @@ function getVerifiedBadgeClass(isVerified?: boolean) {
 }
 
 export default function StandingsTable() {
+  const [showAll, setShowAll] = useState(false);
   const [league, setLeague] = useState("auto");
   const [neighborhood, setNeighborhood] = useState("Brooklyn");
   const [window, setWindow] = useState("30d");
@@ -99,6 +100,7 @@ export default function StandingsTable() {
         neighborhood: neighborhood.toUpperCase(),
         window,
         verified: verifiedFilter,
+        limit: showAll ? "125" : "10",
       });
 
       const response = await fetch(`/api/standings?${params}`, {
@@ -120,7 +122,7 @@ export default function StandingsTable() {
       clearTimeout(timeoutId);
       setLoading(false);
     }
-  }, [league, neighborhood, window, verifiedFilter]);
+  }, [league, neighborhood, window, verifiedFilter, showAll]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -181,6 +183,10 @@ export default function StandingsTable() {
       </div>
 
       {selectedOperators.length === 2 && <Button onClick={() => setCompareOpen(true)}>Compare Operators</Button>}
+
+      <Button variant="outline" onClick={() => setShowAll((previous) => !previous)}>
+        {showAll ? "Show Top 10" : "View All Rankings"}
+      </Button>
 
       <Table>
         <TableHeader>

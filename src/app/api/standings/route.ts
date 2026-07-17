@@ -45,6 +45,7 @@ export async function GET(request: Request) {
   const neighborhood = searchParams.get("neighborhood")?.trim();
   const window = searchParams.get("window")?.trim() ?? "30d";
   const verified = searchParams.get("verified")?.trim() ?? "all";
+  const limit = Number(searchParams.get("limit") ?? "10");
 
   if (!league) {
     return NextResponse.json({ error: "Missing required query param: league" }, { status: 400 });
@@ -90,9 +91,9 @@ export async function GET(request: Request) {
           OR ($4 = 'unverified' AND is_verified = false)
         )
       ORDER BY rank
-      LIMIT 10;
+      LIMIT $5;
       `,
-      [league, neighborhood, dbWindow, verified],
+      [league, neighborhood, dbWindow, verified, limit],
     );
 
     //
