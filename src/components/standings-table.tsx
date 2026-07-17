@@ -76,7 +76,7 @@ function getVerifiedBadgeClass(isVerified?: boolean) {
 
 export default function StandingsTable() {
   const [league, setLeague] = useState("auto");
-  const [neighborhood, setNeighborhood] = useState("Bushwick");
+  const [neighborhood, setNeighborhood] = useState("Brooklyn");
   const [window, setWindow] = useState("30d");
 
   const [verifiedFilter, setVerifiedFilter] = useState<"all" | "verified" | "unverified">("all");
@@ -96,7 +96,7 @@ export default function StandingsTable() {
 
       const params = new URLSearchParams({
         league,
-        neighborhood,
+        neighborhood: neighborhood.toUpperCase(),
         window,
         verified: verifiedFilter,
       });
@@ -157,10 +157,7 @@ export default function StandingsTable() {
         />
 
         <select className="rounded border p-2" value={neighborhood} onChange={(e) => setNeighborhood(e.target.value)}>
-          <option value="Park Slope">Park Slope</option>
-          <option value="Bushwick">Bushwick</option>
-          <option value="Bushwick North">Bushwick North</option>
-          <option value="Williamsburg">Williamsburg</option>
+          <option value="Brooklyn">Brooklyn</option>
         </select>
 
         <select className="rounded border p-2" value={league} onChange={(e) => setLeague(e.target.value)}>
@@ -169,9 +166,7 @@ export default function StandingsTable() {
         </select>
 
         <select className="rounded border p-2" value={window} onChange={(e) => setWindow(e.target.value)}>
-          <option value="7d">7 Days</option>
           <option value="30d">30 Days</option>
-          <option value="90d">90 Days</option>
         </select>
 
         <select

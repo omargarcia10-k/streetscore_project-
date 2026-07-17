@@ -16,20 +16,17 @@
     "db:push": "drizzle-kit push --config=drizzle.config.ts",
     "db:pull": "drizzle-kit pull --config=drizzle.config.ts",
     "db:studio": "drizzle-kit studio --config=drizzle.config.ts",
-    "db:init": "psql \"$DATABASE_URL\" -f migrations/001_init.sql && psql \"$DATABASE_URL\" -f migrations/004_create_standings_page_rows_view.sql",
-    "db:seed": "psql \"$DATABASE_URL\" -f migrations/002_seed.sql",
-    "db:setup": "npm run db:init && npm run db:seed && npm run db:import && npm run db:view && npm run db:rankings",
+    "db:init": "node scripts/db-command.js migrations/001_init.sql",
+    "db:seed": "node scripts/db-command.js migrations/002_seed.sql",
+    "db:setup": "npm run db:init && npm run db:seed && npm run db:import && npm run db:rankings && npm run db:view",
     "db:import": "node scripts/import-data.js",
-    "db:view": "psql \"$DATABASE_URL\" -f migrations/004_create_standings_page_rows_view.sql",
-    "db:rankings": "psql \"$DATABASE_URL\" -f migrations/003_generate_rankings.sql",
-    "db:snapshots": "psql \"$DATABASE_URL\" -f migrations/005_update_rank_delta.sql",
-    "prepare": "husky",
+    "db:view": "node scripts/db-command.js migrations/004_create_standings_page_rows_view.sql",
+    "db:rankings": "node scripts/db-command.js migrations/003_generate_rankings.sql",
+    "db:snapshots": "node scripts/db-command.js migrations/005_update_rank_delta.sql",
     "generate:presets": "ts-node -P tsconfig.scripts.json src/scripts/generate-theme-presets.ts"
   },
   "lint-staged": {
-    "*.{js,ts,jsx,tsx}": [
-      "biome check --write --no-errors-on-unmatched"
-    ]
+    "*.{js,ts,jsx,tsx}": ["biome check --write --no-errors-on-unmatched"]
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",

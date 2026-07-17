@@ -17,7 +17,7 @@ type DashboardMetrics = {
 
 export default function Page() {
   const [league] = useState("auto");
-  const [neighborhood] = useState("Park Slope");
+  const [neighborhood] = useState("BROOKLYN");
   const [window] = useState("30d");
 
   const [loading, setLoading] = useState(true);
@@ -81,8 +81,9 @@ export default function Page() {
       {/* INTRO */}
 
       <Card>
-        <CardHeader>
-          <CardTitle>
+        <CardHeader className="flex flex-col gap-6 lg:flex-row lg:items-center">
+          {/* Logo */}
+          <CardTitle className="shrink-0">
             <Image
               src="/images/streetscore.png"
               alt="StreetScore"
@@ -93,17 +94,17 @@ export default function Page() {
             />
           </CardTitle>
 
-          <CardDescription className="max-w-3xl text-base">
+          {/* Description */}
+          <CardDescription className="min-w-0 flex-1 text-base">
             Helping people discover trusted local businesses through transparent rankings based on customer ratings,
             response time, verification, and recent performance.
           </CardDescription>
-        </CardHeader>
 
-        <CardContent>
-          <div className="mt-2">
+          {/* How StreetScore Works */}
+          <div className="min-w-0 lg:max-w-xl">
             <h3 className="mb-3 font-semibold text-sm">How StreetScore Works</h3>
 
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 sm:grid-cols-3">
               <div>
                 <div className="font-medium">⭐ Customer Rating</div>
                 <p className="text-muted-foreground text-sm">40% of score</p>
@@ -120,7 +121,7 @@ export default function Page() {
               </div>
             </div>
           </div>
-        </CardContent>
+        </CardHeader>
       </Card>
 
       {/* DASHBOARD */}

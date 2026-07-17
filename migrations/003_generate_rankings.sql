@@ -87,7 +87,7 @@ WITH ranked_entries AS (
 
             PARTITION BY
                 se.league_id,
-                se.neighborhood_id
+                n.neighborhood_name
 
             ORDER BY
 
@@ -104,9 +104,15 @@ WITH ranked_entries AS (
 
     FROM standings_entries se
 
+
     JOIN score_inputs si
 
         ON si.entry_id = se.entry_id
+
+
+    JOIN neighborhoods n
+
+        ON n.neighborhood_id = se.neighborhood_id
 
 )
 
@@ -121,7 +127,5 @@ FROM ranked_entries
 
 
 WHERE se.entry_id = ranked_entries.entry_id;
-
-
 
 COMMIT;

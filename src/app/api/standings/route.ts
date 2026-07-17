@@ -32,7 +32,7 @@ function normalizeWindow(window: string): string {
   const normalizedWindow = window.trim().toLowerCase();
 
   if (normalizedWindow === "30d") {
-    return "Last 30 days";
+    return "last 30 days";
   }
 
   return window;

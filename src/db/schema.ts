@@ -47,8 +47,8 @@ export const standingsEntries = pgTable(
       .references(() => operators.operatorId),
     rank: integer("rank").notNull(),
     repScore: integer("rep_score").notNull(),
-    rankDelta30d: integer("rank_delta_30d").notNull().default(0),
-    distanceMiles: numeric("distance_miles", { precision: 7, scale: 2 }).notNull().default("0"),
+    rankDelta30d: integer("rank_delta_30d"),
+    distanceMiles: numeric("distance_miles", { precision: 7, scale: 2 }),
   },
   (table) => [
     check("standings_entries_rank_check", sql`${table.rank} >= 1`),
