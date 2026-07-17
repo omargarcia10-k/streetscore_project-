@@ -42,7 +42,9 @@ CREATE TABLE IF NOT EXISTS score_inputs (
   volume_count integer NULL DEFAULT 0 CHECK (volume_count >= 0),
   rating DECIMAL(2,1) NOT NULL CHECK (rating >= 0 AND rating <= 5),
   review_count NUMERIC NULL DEFAULT 0 CHECK (review_count >= 0),
-  license_verified Boolean NOT NULL DEFAULT false
+  license_verified Boolean NOT NULL DEFAULT false,
+  response_minutes integer Null DEFAULT 0,
+  on_time_percent numeric NULL DEFAULT 0
 );
 
 
