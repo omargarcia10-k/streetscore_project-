@@ -1,0 +1,866 @@
+[
+  {
+    "entryId": "entry-nys-6242767",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.8,
+    "reviewCount": 6,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7032780",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.8,
+    "reviewCount": 52,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7114734",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 2.2,
+    "reviewCount": 133,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-6240257",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.6,
+    "reviewCount": 75,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7131128",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 5,
+    "reviewCount": 17,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7127380",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.9,
+    "reviewCount": 94,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7128830",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.9,
+    "reviewCount": 94,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7131247",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.8,
+    "reviewCount": 163,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7124688",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 5,
+    "reviewCount": 3,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7129106",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.1,
+    "reviewCount": 58,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7032336",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.1,
+    "reviewCount": 58,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7133387",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 5,
+    "reviewCount": 5,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7127903",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 5,
+    "reviewCount": 8,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7118323",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.7,
+    "reviewCount": 200,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7120423",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.5,
+    "reviewCount": 19,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7077290",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 0,
+    "reviewCount": 0,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7124775",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.4,
+    "reviewCount": 60,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7125840",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 5,
+    "reviewCount": 6,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7133452",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 5,
+    "reviewCount": 6,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7132360",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 5,
+    "reviewCount": 92,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7133631",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.7,
+    "reviewCount": 153,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7128390",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.7,
+    "reviewCount": 153,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7055469",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.5,
+    "reviewCount": 188,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7131432",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.3,
+    "reviewCount": 193,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7127573",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.6,
+    "reviewCount": 24,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7119656",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.9,
+    "reviewCount": 427,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7115901",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.3,
+    "reviewCount": 12,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7039339",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.5,
+    "reviewCount": 11,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7116486",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.7,
+    "reviewCount": 51,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7001139",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.7,
+    "reviewCount": 51,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7115546",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.8,
+    "reviewCount": 46,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7135483",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.9,
+    "reviewCount": 24,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7108700",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.9,
+    "reviewCount": 24,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7130622",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.9,
+    "reviewCount": 24,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7119381",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 5,
+    "reviewCount": 1,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7108322",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.3,
+    "reviewCount": 102,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7110464",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.3,
+    "reviewCount": 102,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7032051",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 3.3,
+    "reviewCount": 12,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7025880",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.6,
+    "reviewCount": 138,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7118052",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.8,
+    "reviewCount": 55,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7100146",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.9,
+    "reviewCount": 151,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7064058",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.9,
+    "reviewCount": 54,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7131254",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.9,
+    "reviewCount": 322,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7135270",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 5,
+    "reviewCount": 25,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7102983",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.5,
+    "reviewCount": 2,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7120371",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.1,
+    "reviewCount": 54,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7133331",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.2,
+    "reviewCount": 71,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7117130",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.6,
+    "reviewCount": 54,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7131600",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.3,
+    "reviewCount": 62,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7122815",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.9,
+    "reviewCount": 232,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7098320",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.9,
+    "reviewCount": 232,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7104488",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 5,
+    "reviewCount": 7,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7127510",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.9,
+    "reviewCount": 112,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7134710",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.9,
+    "reviewCount": 112,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7059028",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 2.2,
+    "reviewCount": 196,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7134005",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.6,
+    "reviewCount": 250,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7125703",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.3,
+    "reviewCount": 12,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7125016",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.9,
+    "reviewCount": 335,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7095648",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.9,
+    "reviewCount": 99,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7065260",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 3.9,
+    "reviewCount": 27,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7028806",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.8,
+    "reviewCount": 35,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7124818",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.9,
+    "reviewCount": 335,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7124611",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 3.4,
+    "reviewCount": 120,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7121151",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.5,
+    "reviewCount": 19,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7126695",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.5,
+    "reviewCount": 19,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7113228",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 3.8,
+    "reviewCount": 13,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7127954",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 5,
+    "reviewCount": 2,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7123496",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.7,
+    "reviewCount": 164,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7127900",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4,
+    "reviewCount": 146,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7094706",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.7,
+    "reviewCount": 252,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7129694",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.7,
+    "reviewCount": 252,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7134455",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.7,
+    "reviewCount": 252,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7118341",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.9,
+    "reviewCount": 547,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7130389",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 3.1,
+    "reviewCount": 9,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7118576",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 5,
+    "reviewCount": 17,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7131425",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 3.9,
+    "reviewCount": 1053,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7108759",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.7,
+    "reviewCount": 26,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7123974",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.7,
+    "reviewCount": 132,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7129454",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.7,
+    "reviewCount": 132,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7132902",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.7,
+    "reviewCount": 132,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7117743",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 3.5,
+    "reviewCount": 11,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-6240323",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.5,
+    "reviewCount": 15,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7102668",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.8,
+    "reviewCount": 87,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7129683",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 0,
+    "reviewCount": 0,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7135438",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.2,
+    "reviewCount": 40,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7134405",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 5,
+    "reviewCount": 50,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7125692",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 5,
+    "reviewCount": 396,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7124889",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 5,
+    "reviewCount": 8,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7119443",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.2,
+    "reviewCount": 221,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7104702",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 5,
+    "reviewCount": 8,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-6240461",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.5,
+    "reviewCount": 65,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7113784",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 5,
+    "reviewCount": 18,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7123536",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.8,
+    "reviewCount": 217,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-6240526",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.9,
+    "reviewCount": 187,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7122204",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 5,
+    "reviewCount": 29,
+    "licenseVerified": true
+  },
+  {
+    "entryId": "entry-nys-7069146",
+    "volumeCount": 0,
+    "responseMinutes": 0,
+    "onTimePercent": 0,
+    "rating": 4.3,
+    "reviewCount": 84,
+    "licenseVerified": true
+  }
+]

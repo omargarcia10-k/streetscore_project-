@@ -380,7 +380,7 @@ cp .env.example .env
 Update:
 
 ```env
-DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@localhost:5432/streetscore
+DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@localhost:5432/databasename
 
 USE_DATABASE=local
 ```
@@ -391,12 +391,12 @@ Replace:
 YOUR_PASSWORD
 ```
 
-with your PostgreSQL password.
+with your PostgreSQL password. becomes username.
 
 Example:
 
 ```env
-DATABASE_URL=postgresql://postgres:mypassword@localhost:5432/streetscore
+DATABASE_URL=postgresql://postgres:John@localhost:5432/streetscore
 
 USE_DATABASE=local
 ```
