@@ -6,10 +6,10 @@ export default function Page() {
     <div className="@container/main flex flex-col gap-4 md:gap-6">
       <Card>
         <CardHeader>
-          <CardTitle>All Shops Metrics</CardTitle>
+          <CardTitle>All Shops</CardTitle>
           <CardDescription>
-            Full standings_page_rows view data across all shops, including ranking, reputation, review, and metadata
-            fields.
+            This table shows all shops in the system, including their current standings, rank, and other relevant
+            information. Use the filters above to narrow down the results.
           </CardDescription>
         </CardHeader>
 

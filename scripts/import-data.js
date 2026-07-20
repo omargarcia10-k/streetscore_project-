@@ -12,8 +12,26 @@ if (!process.env.DATABASE_URL) {
   throw new Error("DATABASE_URL is missing from the .env file.");
 }
 
+const databaseMode = String(process.env.USE_DATABASE ?? "local");
+
+let connectionString;
+
+if (databaseMode === "shared") {
+  connectionString = process.env.NEON_SHARED_DATABASE_URL;
+} else if (databaseMode === "branch") {
+  connectionString = process.env.NEON_BRANCH_DATABASE_URL;
+} else {
+  connectionString = process.env.DATABASE_URL;
+}
+
+if (!connectionString) {
+  throw new Error(`No connection string configured for USE_DATABASE=${databaseMode}`);
+}
+
+console.log(`Using database: ${databaseMode}`);
+
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString,
 });
 
 function readJsonFile(filename) {
@@ -272,8 +290,7 @@ async function importData() {
 }
 
 importData().catch((error) => {
-  console.error("");
-  console.error("The normalized import failed.");
-  console.error(error.message);
+  console.error("\nThe normalized import failed.\n");
+  console.error(error);
   process.exitCode = 1;
 });

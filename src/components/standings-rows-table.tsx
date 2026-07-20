@@ -220,7 +220,7 @@ export default function StandingsRowsTable() {
 
       {selectedOperators.length === 2 && <Button onClick={() => setCompareOpen(true)}>Compare Operators</Button>}
 
-      <div className="text-muted-foreground text-sm">Showing {rows.length} shop rows from standings_page_rows</div>
+      <div className="text-muted-foreground text-sm">Showing {rows.length} shop</div>
 
       <div className="overflow-x-auto rounded-md border">
         <Table>
