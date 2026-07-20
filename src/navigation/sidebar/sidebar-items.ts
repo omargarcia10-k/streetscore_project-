@@ -1,4 +1,4 @@
-import { type LucideIcon, Trophy } from "lucide-react";
+import { Building2, type LucideIcon, Trophy } from "lucide-react";
 
 export type NavBadge = "new" | "soon";
 
@@ -47,6 +47,12 @@ export const sidebarItems: NavGroup[] = [
         title: "Standings",
         url: "/dashboard/standings",
         icon: Trophy,
+      },
+      {
+        id: "shops",
+        title: "All Shops",
+        url: "/dashboard/shops",
+        icon: Building2,
       },
     ],
   },

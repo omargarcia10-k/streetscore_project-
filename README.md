@@ -59,6 +59,7 @@ The current prototype includes:
 * PostgreSQL-backed API routes
 * Responsive dashboard interface
 * Dynamic database-driven data retrieval
+* Snapshot-based historical rank movement
 
 ---
 
@@ -214,6 +215,94 @@ The following values are demonstration data:
 * Data quality depends on the records loaded into PostgreSQL.
 * Some metrics may not represent production performance.
 * Historical ranking accuracy depends on available source data.
+
+---
+
+# Ranking Architecture
+
+StreetScore separates current standings from historical snapshots.
+
+* `standings_entries` stores only the latest calculated rankings.
+* `standings_history` stores immutable daily ranking snapshots.
+* `standings_page_rows.rank_delta_30d` is computed at query time from history instead of stored on the current standings table.
+
+This keeps current ranking updates simple while making historical analytics extensible. Future metrics such as 7-day, 30-day, 90-day, yearly movement, REP Score charts, best rank, worst rank, and timeline APIs can all build on the same snapshot table without changing the schema.
+
+## Snapshot Generation
+
+Use the SQL functions below to manage rankings and snapshots:
+
+* `refresh_current_standings()` recalculates REP Score and current rank inside PostgreSQL.
+* `snapshot_current_standings(snapshot_date)` copies the current standings into `standings_history` and skips duplicate rows for the same day.
+* `refresh_current_standings_and_snapshot(snapshot_date)` is the automation entry point for cron jobs, scheduled tasks, GitHub Actions, Vercel Cron, or manual admin commands.
+
+Manual command:
+
+```bash
+npm run db:refresh-standings
+```
+
+## Rank Movement Calculation
+
+Movement is calculated entirely in SQL with the formula:
+
+```text
+rank_delta_30d = previous_rank - current_rank
+```
+
+Interpretation:
+
+* Positive value: operator moved up in the rankings.
+* Negative value: operator moved down in the rankings.
+* Zero: no movement.
+* `NULL`: there is no snapshot from exactly 30 days earlier yet.
+
+The reusable SQL helper `standings_rank_delta_30d(as_of_date)` compares `standings_entries` to `standings_history` on matching `operator_id`, `league_id`, and `neighborhood_id` for an exact 30-day offset.
+
+## Scheduled Jobs
+
+Scheduled automation should execute `refresh_current_standings_and_snapshot()` once per day after source data is loaded.
+
+Expected flow:
+
+* Recalculate current standings.
+* Insert one snapshot row per operator for the current date.
+* Skip duplicates if the job is retried later the same day.
+
+Repository helpers:
+
+* `npm run db:verify-history` checks that the table, indexes, constraints, functions, and view exist and prints sample rows.
+* `npm run db:test-rank-delta` performs a rollback-safe 30-day movement simulation and verifies that `rank_delta_30d = previous_rank - current_rank`.
+
+### GitHub Actions Scheduler
+
+The repository includes [daily-standings-snapshot.yml](.github/workflows/daily-standings-snapshot.yml), which runs once per day and can also be launched manually.
+
+Configuration:
+
+* Add `DATABASE_URL`, `NEON_SHARED_DATABASE_URL`, and `NEON_BRANCH_DATABASE_URL` as GitHub Actions secrets as needed.
+* Set repository variable `STREETSCORE_SNAPSHOT_DATABASE` to `shared`, `branch`, or `local` for scheduled runs.
+* Manual dispatch lets you choose the database target per run.
+
+Other schedulers can execute the same command:
+
+```bash
+npm run db:refresh-standings
+```
+
+This works for cron, Vercel Cron, Render Cron, Railway Scheduler, and similar systems because the script is idempotent for the current day.
+
+This design is intentionally future-proof for historical APIs, shop profile ranking timelines, rolling movement windows, and trend analysis.
+
+## Troubleshooting `rank_delta_30d`
+
+If `rank_delta_30d` remains `NULL`, check the following:
+
+* Confirm a snapshot exists for today with `npm run db:verify-history`.
+* Confirm there is a snapshot from exactly 30 days earlier for the same `operator_id`, `league_id`, and `neighborhood_id`.
+* Confirm the operator exists in `standings_entries`; operators without a current standings row will not produce a historical snapshot.
+* Re-run `npm run db:refresh-standings` and verify that it exits successfully.
+* Verify `USE_DATABASE` points at the database you expect before running migration or snapshot commands.
 
 ---
 

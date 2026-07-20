@@ -1,0 +1,40 @@
+name: Daily Standings Snapshot
+
+on:
+  schedule:
+    - cron: "15 5 * * *"
+  workflow_dispatch:
+    inputs:
+      database:
+        description: "Target database selection"
+        required: true
+        default: "shared"
+        type: choice
+        options:
+          - local
+          - shared
+          - branch
+
+jobs:
+  refresh-standings:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      NEON_SHARED_DATABASE_URL: ${{ secrets.NEON_SHARED_DATABASE_URL }}
+      NEON_BRANCH_DATABASE_URL: ${{ secrets.NEON_BRANCH_DATABASE_URL }}
+      USE_DATABASE: ${{ github.event_name == 'workflow_dispatch' && inputs.database || vars.STREETSCORE_SNAPSHOT_DATABASE || 'shared' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Refresh standings and save daily snapshot
+        run: npm run db:refresh-standings

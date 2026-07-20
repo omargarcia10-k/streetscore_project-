@@ -139,8 +139,8 @@ async function importData() {
     /*
      * IMPORT STANDINGS ENTRIES
      *
-     * rank, rep_score, rank_delta_30d and distance_miles
-     * are temporary placeholders for the current schema.
+     * rank, rep_score and distance_miles
+     * are placeholders until refresh_current_standings() recalculates current rankings.
      */
     for (const entry of standingsEntries) {
       await client.query(
@@ -155,8 +155,7 @@ async function importData() {
             operator_id,
             distance_miles,
             rank,
-            rep_score,
-            rank_delta_30d
+            rep_score
           )
           VALUES (
             $1,
@@ -168,8 +167,7 @@ async function importData() {
             $7,
             $8,
             $9,
-            $10,
-            $11
+            $10
           )
 
           ON CONFLICT (entry_id)
@@ -182,8 +180,7 @@ async function importData() {
             operator_id = EXCLUDED.operator_id,
             distance_miles = EXCLUDED.distance_miles,
             rank = EXCLUDED.rank,
-            rep_score = EXCLUDED.rep_score,
-            rank_delta_30d = EXCLUDED.rank_delta_30d
+            rep_score = EXCLUDED.rep_score
         `,
         [
           entry.entryId,
@@ -196,7 +193,6 @@ async function importData() {
           entry.distanceMiles ?? 0,
           entry.rank ?? 0,
           entry.repScore ?? 0,
-          entry.rankDelta30d ?? 0,
         ],
       );
     }

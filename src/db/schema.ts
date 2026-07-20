@@ -1,5 +1,17 @@
 import { sql } from "drizzle-orm";
-import { boolean, check, integer, numeric, pgTable, text, unique, varchar } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  check,
+  date,
+  integer,
+  numeric,
+  pgTable,
+  primaryKey,
+  text,
+  timestamp,
+  unique,
+  varchar,
+} from "drizzle-orm/pg-core";
 
 export const leagues = pgTable("leagues", {
   leagueId: varchar("league_id", { length: 32 }).primaryKey(),
@@ -47,7 +59,6 @@ export const standingsEntries = pgTable(
       .references(() => operators.operatorId),
     rank: integer("rank").notNull(),
     repScore: integer("rep_score").notNull(),
-    rankDelta30d: integer("rank_delta_30d"),
     distanceMiles: numeric("distance_miles", { precision: 7, scale: 2 }),
   },
   (table) => [
@@ -59,6 +70,33 @@ export const standingsEntries = pgTable(
       table.neighborhoodId,
       table.operatorId,
     ),
+  ],
+);
+
+export const standingsHistory = pgTable(
+  "standings_history",
+  {
+    snapshotDate: date("snapshot_date", { mode: "string" }).notNull(),
+    leagueId: varchar("league_id", { length: 32 })
+      .notNull()
+      .references(() => leagues.leagueId),
+    neighborhoodId: varchar("neighborhood_id", { length: 64 })
+      .notNull()
+      .references(() => neighborhoods.neighborhoodId),
+    operatorId: varchar("operator_id", { length: 96 })
+      .notNull()
+      .references(() => operators.operatorId),
+    rank: integer("rank").notNull(),
+    repScore: integer("rep_score").notNull(),
+    createdAt: timestamp("created_at", { mode: "string" }).notNull().defaultNow(),
+  },
+  (table) => [
+    primaryKey({
+      name: "standings_history_pkey",
+      columns: [table.snapshotDate, table.leagueId, table.neighborhoodId, table.operatorId],
+    }),
+    check("standings_history_rank_check", sql`${table.rank} >= 1`),
+    check("standings_history_rep_score_check", sql`${table.repScore} >= 0 AND ${table.repScore} <= 100`),
   ],
 );
 

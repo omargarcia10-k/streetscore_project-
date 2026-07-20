@@ -110,7 +110,6 @@ function buildStandingsData() {
       distanceMiles: 0,
       rank: standingsEntries.length + 1,
       repScore: 0,
-      rankDelta30d: 0,
     });
 
     scoreInputs.push({

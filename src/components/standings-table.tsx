@@ -2,16 +2,14 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import { Star, TrendingDown, TrendingUp } from "lucide-react";
+import { CheckCircle2, Minus, Star, TrendingDown, TrendingUp } from "lucide-react";
 
-import CompareDialog from "@/components/compare-dialog";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 type StandingRow = {
   entryId: string;
   rank: number;
+  operatorId: string;
   name: string;
   score: number | string;
   rating?: number | string | null;
@@ -31,15 +29,30 @@ function RatingStars({ rating }: { rating: number | string }) {
 }
 
 function RankChange({ change }: { change?: number | string | null }) {
+  if (change == null) {
+    return <span className="text-muted-foreground">N/A</span>;
+  }
+
   const value = Number(change);
 
-  if (!value) return "-";
+  if (Number.isNaN(value)) {
+    return <span className="text-muted-foreground">N/A</span>;
+  }
+
+  if (value === 0) {
+    return (
+      <div className="flex items-center gap-1 text-muted-foreground">
+        <Minus size={15} />
+        <span>—</span>
+      </div>
+    );
+  }
 
   return (
     <div className={`flex items-center gap-1 ${value > 0 ? "text-green-600" : "text-red-600"}`}>
       {value > 0 ? <TrendingUp size={15} /> : <TrendingDown size={15} />}
 
-      {value > 0 ? `+${value}` : value}
+      {Math.abs(value)}
     </div>
   );
 }
@@ -52,30 +65,11 @@ function RankDisplay({ rank }: { rank: number }) {
   return `#${rank}`;
 }
 
-function getStatusBadgeClass(status: string) {
-  const active = status.toLowerCase().includes("active");
-
-  return active ? "!border-green-600 !bg-green-600 !text-white" : "!border-slate-300 !bg-slate-200 !text-slate-800";
-}
-
-function getStatusBadgeStyle(status: string) {
-  const active = status.toLowerCase().includes("active");
-
-  if (!active) return undefined;
-
-  return {
-    backgroundColor: "#16a34a",
-    borderColor: "#16a34a",
-    color: "#ffffff",
-  };
-}
-
-function getVerifiedBadgeClass(isVerified?: boolean) {
-  return isVerified ? "!border-blue-600 !bg-blue-600 !text-white" : "!border-slate-300 !bg-slate-200 !text-slate-800";
+function isActiveStatus(status: string) {
+  return status.toLowerCase().includes("active");
 }
 
 export default function StandingsTable() {
-  const [showAll, setShowAll] = useState(false);
   const [league, setLeague] = useState("auto");
   const [neighborhood, setNeighborhood] = useState("Brooklyn");
   const [window, setWindow] = useState("30d");
@@ -84,9 +78,7 @@ export default function StandingsTable() {
 
   const [search, setSearch] = useState("");
   const [rows, setRows] = useState<StandingRow[]>([]);
-  const [selectedOperators, setSelectedOperators] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  const [compareOpen, setCompareOpen] = useState(false);
 
   const loadData = useCallback(async () => {
     const controller = new AbortController();
@@ -100,7 +92,7 @@ export default function StandingsTable() {
         neighborhood: neighborhood.toUpperCase(),
         window,
         verified: verifiedFilter,
-        limit: showAll ? "125" : "10",
+        limit: "10",
       });
 
       const response = await fetch(`/api/standings?${params}`, {
@@ -122,7 +114,7 @@ export default function StandingsTable() {
       clearTimeout(timeoutId);
       setLoading(false);
     }
-  }, [league, neighborhood, window, verifiedFilter, showAll]);
+  }, [league, neighborhood, window, verifiedFilter]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -131,20 +123,6 @@ export default function StandingsTable() {
 
     return () => clearTimeout(timer);
   }, [loadData]);
-
-  function toggleOperator(id: string) {
-    setSelectedOperators((previous) => {
-      if (previous.includes(id)) {
-        return previous.filter((operatorId) => operatorId !== id);
-      }
-
-      if (previous.length < 2) {
-        return [...previous, id];
-      }
-
-      return previous;
-    });
-  }
 
   const filteredRows = rows.filter((row) => row.name.toLowerCase().includes(search.toLowerCase()));
 
@@ -182,48 +160,44 @@ export default function StandingsTable() {
         </select>
       </div>
 
-      {selectedOperators.length === 2 && <Button onClick={() => setCompareOpen(true)}>Compare Operators</Button>}
-
-      <Button variant="outline" onClick={() => setShowAll((previous) => !previous)}>
-        {showAll ? "Show Top 10" : "View All Rankings"}
-      </Button>
-
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead />
             <TableHead>Rank</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Score</TableHead>
             <TableHead>Rating</TableHead>
             <TableHead>Reviews</TableHead>
-            <TableHead>Change</TableHead>
+            <TableHead>Rank Change</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead>Verified</TableHead>
           </TableRow>
         </TableHeader>
 
         <TableBody>
           {loading ? (
             <TableRow>
-              <TableCell colSpan={10}>Loading...</TableCell>
+              <TableCell colSpan={7}>Loading...</TableCell>
             </TableRow>
           ) : (
             filteredRows.map((row) => (
               <TableRow key={row.entryId}>
                 <TableCell>
-                  <input
-                    type="checkbox"
-                    checked={selectedOperators.includes(row.entryId)}
-                    onChange={() => toggleOperator(row.entryId)}
-                  />
-                </TableCell>
-
-                <TableCell>
                   <RankDisplay rank={row.rank} />
                 </TableCell>
 
-                <TableCell>{row.name}</TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-2">
+                    <a
+                      href={`/api/operator-website?operatorId=${encodeURIComponent(row.operatorId)}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="underline-offset-4 hover:underline"
+                    >
+                      {row.name}
+                    </a>
+                    {row.is_verified ? <CheckCircle2 className="size-4 text-blue-600" aria-label="Verified" /> : null}
+                  </div>
+                </TableCell>
                 <TableCell>{row.score}</TableCell>
                 <TableCell>{row.rating ? <RatingStars rating={row.rating} /> : "-"}</TableCell>
                 <TableCell>{row.reviewCount ?? "-"}</TableCell>
@@ -233,27 +207,18 @@ export default function StandingsTable() {
                 </TableCell>
 
                 <TableCell>
-                  <Badge
-                    variant="outline"
-                    className={getStatusBadgeClass(row.status)}
-                    style={getStatusBadgeStyle(row.status)}
-                  >
-                    {row.status}
-                  </Badge>
-                </TableCell>
-
-                <TableCell>
-                  <Badge variant="outline" className={getVerifiedBadgeClass(row.is_verified)}>
-                    {row.is_verified ? "Verified" : "Unverified"}
-                  </Badge>
+                  <span
+                    className={`inline-block size-2.5 rounded-full ${isActiveStatus(row.status) ? "bg-green-500" : "bg-slate-300"}`}
+                    role="img"
+                    aria-label={isActiveStatus(row.status) ? "Active" : "Inactive"}
+                    title={row.status}
+                  />
                 </TableCell>
               </TableRow>
             ))
           )}
         </TableBody>
       </Table>
-
-      <CompareDialog open={compareOpen} onOpenChange={setCompareOpen} ids={selectedOperators} />
     </div>
   );
 }

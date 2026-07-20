@@ -19,11 +19,14 @@
     "db:studio": "drizzle-kit studio --config=drizzle.config.ts",
     "db:init": "node scripts/db-command.js migrations/001_init.sql",
     "db:seed": "node scripts/db-command.js migrations/002_seed.sql",
-    "db:setup": "npm run db:init && npm run db:seed && npm run db:import && npm run db:rankings && npm run db:view",
+    "db:setup": "npm run db:init && npm run db:seed && npm run db:import && npm run db:rankings && npm run db:view && npm run db:snapshots",
     "db:import": "node scripts/import-data.js",
     "db:view": "node scripts/db-command.js migrations/004_create_standings_page_rows_view.sql",
     "db:rankings": "node scripts/db-command.js migrations/003_generate_rankings.sql",
     "db:snapshots": "node scripts/db-command.js migrations/005_update_rank_delta.sql",
+    "db:refresh-standings": "node scripts/refresh-rankings-and-snapshot.js",
+    "db:verify-history": "node scripts/verify-standings-history.js",
+    "db:test-rank-delta": "node scripts/verify-rank-delta-simulation.js",
     "generate:presets": "ts-node -P tsconfig.scripts.json src/scripts/generate-theme-presets.ts"
   },
   "lint-staged": {

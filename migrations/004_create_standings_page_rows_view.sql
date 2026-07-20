@@ -27,11 +27,18 @@ SELECT
   si.review_count,
   si.volume_count,
 
-  se.rank_delta_30d,
+  movement.rank_delta_30d,
   se.distance_miles
 
 FROM standings_entries se
 JOIN operators o ON o.operator_id = se.operator_id
 LEFT JOIN leagues l ON l.league_id = se.league_id
 LEFT JOIN neighborhoods n ON n.neighborhood_id = se.neighborhood_id
-LEFT JOIN score_inputs si ON si.entry_id = se.entry_id;
+LEFT JOIN score_inputs si ON si.entry_id = se.entry_id
+LEFT JOIN standings_rank_delta_30d() movement
+  ON movement.league_id = se.league_id
+ AND movement.neighborhood_id = se.neighborhood_id
+ AND movement.operator_id = se.operator_id;
+
+COMMENT ON VIEW standings_page_rows IS
+  'Current standings rows joined with computed historical movement. rank_delta_30d is derived from exact-date snapshots, never stored on standings_entries.';
