@@ -325,10 +325,11 @@ Navigate into the project:
 ```bash
 cd streetscore_project-
 ```
+SKIP
+------------------------------------------------------
 
----
 
-# 2. Switch to Updates Branch
+# 1b. Switch to Updates Branch
 
 Fetch available branches:
 
@@ -360,9 +361,9 @@ Expected:
 * updates
 ```
 
----
+------------------------------------------------------
 
-# 3. Install Dependencies
+# 2. Install Dependencies
 
 Install project packages:
 
@@ -372,7 +373,7 @@ npm install
 
 ---
 
-# 4. Install PostgreSQL Locally
+# 3. Install PostgreSQL Locally
 
 StreetScore can run using:
 
@@ -402,7 +403,7 @@ psql --version
 
 ---
 
-# 5. Create Local PostgreSQL Database
+# 4. Create Local PostgreSQL Database
 
 ## Option A: PostgreSQL Terminal
 
@@ -458,7 +459,7 @@ streetscore
 
 ---
 
-# 6. Configure Environment Variables
+# 5. Configure Environment Variables
 
 Create environment file:
 
@@ -494,7 +495,7 @@ Do not commit `.env` files or real database credentials.
 
 ---
 
-# 7. Initialize Database
+# 6. Initialize Database
 For a fresh project setup run:
 
 ```bash
@@ -563,7 +564,7 @@ npm run db:rankings
 
 ===================================================
 
-# 8. Verify Database
+# 7. Verify Database
 
 Connect:
 
@@ -597,7 +598,7 @@ Exit:
 
 ---
 
-# 9. Run Application
+# 8. Run Application
 
 Start development server:
 
@@ -613,7 +614,7 @@ http://localhost:3000
 
 ---
 
-# 10. Build Verification
+# 9. Build Verification
 
 Run:
 
