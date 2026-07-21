@@ -37,14 +37,3 @@ jobs:
 
       - name: Generate Rankings
         run: npm run db:rankings
-
-      - name: Commit Updated JSON
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-
-          git add data/*.json
-
-          git diff --cached --quiet || git commit -m "Automatic data update"
-
-          git push
