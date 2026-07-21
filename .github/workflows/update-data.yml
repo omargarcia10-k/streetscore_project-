@@ -13,6 +13,7 @@ jobs:
 
     env:
       USE_DATABASE: shared
+      DATABASE_URL: ${{ secrets.NEON_SHARED_DATABASE_URL }}
       NEON_SHARED_DATABASE_URL: ${{ secrets.NEON_SHARED_DATABASE_URL }}
 
     steps:

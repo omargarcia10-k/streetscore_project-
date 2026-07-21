@@ -8,8 +8,8 @@ dotenv.config();
 
 const { Pool } = pg;
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL is missing from the .env file.");
+if (!process.env.DATABASE_URL && !process.env.NEON_SHARED_DATABASE_URL && !process.env.NEON_BRANCH_DATABASE_URL) {
+  throw new Error("No database connection string configured.");
 }
 
 const databaseMode = String(process.env.USE_DATABASE ?? "local");
