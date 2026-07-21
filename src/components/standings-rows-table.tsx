@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { CheckCircle2, Minus, TrendingDown, TrendingUp } from "lucide-react";
 
 import CompareDialog from "@/components/compare-dialog";
+import OperatorHoverCard from "@/components/operator-hover-card";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
@@ -263,14 +264,20 @@ export default function StandingsRowsTable() {
                   <TableCell>{row.rank}</TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
-                      <a
-                        href={`/api/operator-website?operatorId=${encodeURIComponent(row.operatorId)}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="underline-offset-4 hover:underline"
-                      >
-                        {row.operatorName}
-                      </a>
+                      <OperatorHoverCard
+                        operator={{
+                          operator_id: row.operatorId,
+                          operator_name: row.operatorName,
+                          neighborhood_name: row.neighborhoodName ?? "-",
+                          rep_score: row.repScore,
+                          rating: row.rating ?? 0,
+                          review_count: row.reviewCount ?? 0,
+                          is_verified: row.isVerified,
+                          operator_type: row.volumeLabel ?? undefined,
+                          website: `/api/operator-website?operatorId=${encodeURIComponent(row.operatorId)}`,
+                        }}
+                      />
+
                       {row.isVerified ? <CheckCircle2 className="size-4 text-blue-600" aria-label="Verified" /> : null}
                     </div>
                   </TableCell>

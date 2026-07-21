@@ -35,7 +35,7 @@ function StatCard({
       </CardHeader>
 
       <CardContent>
-        <div className="text-3xl font-bold">{value}</div>
+        <div className="font-bold text-3xl">{value}</div>
 
         <p className="text-muted-foreground text-xs">{description}</p>
       </CardContent>
@@ -137,7 +137,7 @@ export default function Page() {
                 ratings, reviews, verification, and business performance.
               </CardDescription>
 
-              <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
+              <div className="flex flex-wrap gap-3 text-muted-foreground text-sm">
                 <span>📍 Brooklyn</span>
 
                 <span>Updated Today</span>

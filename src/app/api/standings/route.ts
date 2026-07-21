@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { query } from "@/lib/db";
+import { pool } from "@/lib/db";
 
 type StandingRow = {
   entry_id: string;
@@ -61,7 +61,7 @@ export async function GET(request: Request) {
     //
     // Leaderboard
     //
-    const standingsResult = await query<StandingRow>(
+    const standingsResult = await pool.query<StandingRow>(
       `
       SELECT
         entry_id,
@@ -99,7 +99,7 @@ export async function GET(request: Request) {
     //
     // Dashboard metrics
     //
-    const metricsResult = await query<MetricsRow>(
+    const metricsResult = await pool.query<MetricsRow>(
       `
       SELECT
         COUNT(*) AS total,

@@ -7,19 +7,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-
     "lint": "biome lint",
     "format": "biome format --write",
     "check": "biome check",
     "check:fix": "biome check --write",
-
     "db:generate": "drizzle-kit generate --config=drizzle.config.ts",
     "db:migrate": "ts-node -P tsconfig.scripts.json src/scripts/apply-sql-migrations.ts",
     "db:migrate:drizzle": "drizzle-kit migrate --config=drizzle.config.ts",
     "db:push": "drizzle-kit push --config=drizzle.config.ts",
     "db:pull": "drizzle-kit pull --config=drizzle.config.ts",
     "db:studio": "drizzle-kit studio --config=drizzle.config.ts",
-
     "db:init": "node scripts/db-command.js migrations/001_init.sql",
     "db:seed": "node scripts/db-command.js migrations/002_seed.sql",
     "db:import": "node scripts/import-data.js",
@@ -27,15 +24,11 @@
     "db:view": "node scripts/db-command.js migrations/004_create_standings_page_rows_view.sql",
     "db:history-schema": "node scripts/db-command.js migrations/005_update_rank_delta.sql",
     "db:refresh-standings": "node scripts/refresh-rankings-and-snapshot.js",
-
     "db:verify-history": "node scripts/verify-standings-history.js",
     "db:test-rank-delta": "node scripts/verify-rank-delta-simulation.js",
-
     "fetch": "node scripts/fetch-repair-shops.js",
     "update-data": "npm run fetch && npm run db:import && npm run db:rankings",
-
     "db:setup": "npm run db:init && npm run db:seed && npm run db:import && npm run db:rankings && npm run db:history-schema && npm run db:refresh-standings && npm run db:view",
-
     "generate:presets": "ts-node -P tsconfig.scripts.json src/scripts/generate-theme-presets.ts"
   },
   "lint-staged": {
@@ -83,7 +76,7 @@
     "@biomejs/biome": "^2.5.1",
     "@tailwindcss/postcss": "^4.3.1",
     "@types/d3-geo": "^3.1.0",
-    "@types/node": "^22.20.0",
+    "@types/node": "^22.20.1",
     "@types/pg": "^8.20.0",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",

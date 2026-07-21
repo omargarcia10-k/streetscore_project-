@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { CheckCircle2, Minus, Search, Star, TrendingDown, TrendingUp } from "lucide-react";
 
+import OperatorHoverCard from "@/components/operator-hover-card";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -19,6 +20,7 @@ type StandingRow = {
   rankDelta30d?: number | string | null;
   status: string;
   is_verified?: boolean;
+  website?: string | null;
 };
 
 function RankBadge({ rank }: { rank: number }) {
@@ -268,14 +270,18 @@ export default function StandingsTable() {
 
                 <TableCell>
                   <div className="flex items-center gap-2">
-                    <a
-                      href={`/api/operator-website?operatorId=${encodeURIComponent(row.operatorId)}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="hover:underline"
-                    >
-                      {row.name}
-                    </a>
+                    <OperatorHoverCard
+                      operator={{
+                        operator_id: row.operatorId,
+                        operator_name: row.name,
+                        neighborhood_name: neighborhood,
+                        rep_score: Number(row.score),
+                        rating: Number(row.rating ?? 0),
+                        review_count: Number(row.reviewCount ?? 0),
+                        is_verified: Boolean(row.is_verified),
+                        website: row.website,
+                      }}
+                    />
 
                     {row.is_verified && <CheckCircle2 className="size-4 text-blue-600" />}
                   </div>
