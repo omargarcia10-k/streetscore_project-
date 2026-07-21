@@ -20,9 +20,12 @@ if (!connectionString) {
 
 export const pool = new Pool({
   connectionString,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  ssl:
+    databaseMode === "local"
+      ? false
+      : {
+          rejectUnauthorized: false,
+        },
 });
 
 export const query = (text: string, params?: unknown[]) => {
