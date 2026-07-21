@@ -31,6 +31,9 @@
     "db:verify-history": "node scripts/verify-standings-history.js",
     "db:test-rank-delta": "node scripts/verify-rank-delta-simulation.js",
 
+    "fetch": "node scripts/fetch-repair-shops.js",
+    "update-data": "npm run fetch && npm run db:import && npm run db:rankings",
+
     "db:setup": "npm run db:init && npm run db:seed && npm run db:import && npm run db:rankings && npm run db:history-schema && npm run db:refresh-standings && npm run db:view",
 
     "generate:presets": "ts-node -P tsconfig.scripts.json src/scripts/generate-theme-presets.ts"

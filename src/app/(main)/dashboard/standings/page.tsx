@@ -1,10 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { type ReactNode, useCallback, useEffect, useState } from "react";
 
 import Image from "next/image";
 
-import { CheckCircle2, MapPin, Users } from "lucide-react";
+import { CheckCircle2, MapPin, ShieldCheck, Store, Trophy } from "lucide-react";
 
 import StandingsTable from "@/components/standings-table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,10 +15,38 @@ type DashboardMetrics = {
   verified: number;
 };
 
+function StatCard({
+  title,
+  value,
+  description,
+  icon,
+}: {
+  title: string;
+  value: number | string;
+  description: string;
+  icon: ReactNode;
+}) {
+  return (
+    <Card className="transition hover:-translate-y-1 hover:shadow-lg">
+      <CardHeader className="flex flex-row items-center justify-between pb-2">
+        <CardTitle className="text-sm">{title}</CardTitle>
+
+        {icon}
+      </CardHeader>
+
+      <CardContent>
+        <div className="text-3xl font-bold">{value}</div>
+
+        <p className="text-muted-foreground text-xs">{description}</p>
+      </CardContent>
+    </Card>
+  );
+}
+
 export default function Page() {
-  const [league] = useState("auto");
-  const [neighborhood] = useState("BROOKLYN");
-  const [window] = useState("30d");
+  const league = "auto";
+  const neighborhood = "BROOKLYN";
+  const window = "30d";
 
   const [loading, setLoading] = useState(true);
 
@@ -30,7 +58,10 @@ export default function Page() {
 
   const loadDashboardData = useCallback(async () => {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+    const timeout = setTimeout(() => {
+      controller.abort();
+    }, 8000);
 
     try {
       setLoading(true);
@@ -42,24 +73,26 @@ export default function Page() {
         verified: "all",
       });
 
-      const res = await fetch(`/api/standings?${params.toString()}`, {
+      const response = await fetch(`/api/standings?${params.toString()}`, {
         signal: controller.signal,
         cache: "no-store",
       });
 
-      if (!res.ok) {
+      if (!response.ok) {
         throw new Error("Failed to load dashboard");
       }
 
-      const data = await res.json();
+      const data = await response.json();
 
       setMetrics({
         total: Number(data.metrics?.total ?? 0),
+
         active: Number(data.metrics?.active ?? 0),
+
         verified: Number(data.metrics?.verified ?? 0),
       });
     } catch (error) {
-      console.error(error);
+      console.error("Dashboard loading error:", error);
 
       setMetrics({
         total: 0,
@@ -67,129 +100,98 @@ export default function Page() {
         verified: 0,
       });
     } finally {
-      clearTimeout(timeoutId);
+      clearTimeout(timeout);
       setLoading(false);
     }
-  }, [league, neighborhood, window]);
+  }, []);
 
   useEffect(() => {
     void loadDashboardData();
   }, [loadDashboardData]);
 
   return (
-    <div className="@container/main flex flex-col gap-4 md:gap-6">
-      {/* INTRO */}
+    <div className="@container/main flex flex-col gap-6">
+      {/* HERO */}
 
-      <Card>
-        <CardHeader className="flex flex-col gap-6 lg:flex-row lg:items-center">
-          {/* Logo */}
-          <CardTitle className="shrink-0">
+      <Card className="overflow-hidden">
+        <CardHeader>
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center">
             <Image
               src="/images/streetscore.png"
               alt="StreetScore"
-              width={1254}
-              height={1254}
-              className="h-auto w-[168px] object-contain"
+              width={180}
+              height={180}
+              className="rounded-xl"
               priority
             />
-          </CardTitle>
 
-          {/* Description */}
-          <CardDescription className="min-w-0 flex-1 text-base">
-            Helping people discover trusted local businesses through transparent rankings based on customer ratings,
-            response time, verification, and recent performance.
-          </CardDescription>
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <Trophy className="size-6 text-yellow-500" />
 
-          {/* How StreetScore Works */}
-          <div className="min-w-0 lg:max-w-xl">
-            <h3 className="mb-3 font-semibold text-sm">How StreetScore Works</h3>
-
-            <div className="grid gap-4 sm:grid-cols-3">
-              <div>
-                <div className="font-medium">⭐ Customer Rating</div>
-                <p className="text-muted-foreground text-sm">40% of score</p>
+                <CardTitle className="text-3xl">Brooklyn Auto Rankings</CardTitle>
               </div>
 
-              <div>
-                <div className="font-medium">✓ Verification</div>
-                <p className="text-muted-foreground text-sm">25% of score</p>
-              </div>
+              <CardDescription className="max-w-3xl text-base">
+                Discover the highest-performing repair shops ranked by StreetScore REP. Rankings combine customer
+                ratings, reviews, verification, and business performance.
+              </CardDescription>
 
-              <div>
-                <div className="font-medium">📊 Review Count</div>
-                <p className="text-muted-foreground text-sm">35% of score</p>
+              <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
+                <span>📍 Brooklyn</span>
+
+                <span>Updated Today</span>
+
+                <span>Last 30 Days</span>
               </div>
             </div>
           </div>
         </CardHeader>
       </Card>
 
-      {/* DASHBOARD */}
+      {/* LEADERBOARD */}
 
-      <div className="grid grid-cols-1 gap-4 xl:grid-cols-4">
-        {/* TABLE */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-3">
+            <MapPin className="size-5" />
 
-        <Card className="xl:col-span-3">
-          <CardHeader>
-            <div className="flex items-center gap-3">
-              <MapPin className="size-5" />
+            <div>
+              <CardTitle>StreetScore Leaderboard</CardTitle>
 
-              <CardTitle>Local Standings</CardTitle>
+              <CardDescription>Ranked by REP Score and recent performance</CardDescription>
             </div>
+          </div>
+        </CardHeader>
 
-            <CardDescription>Rankings by league, neighborhood, and performance score.</CardDescription>
-          </CardHeader>
+        <CardContent>
+          <StandingsTable />
+        </CardContent>
+      </Card>
 
-          <CardContent>
-            <StandingsTable />
-          </CardContent>
-        </Card>
+      {/* STATS */}
 
-        {/* KPI SIDEBAR */}
+      <div className="grid gap-4 md:grid-cols-3">
+        <StatCard
+          title="Total Shops"
+          value={loading ? "-" : metrics.total}
+          description="Ranked operators"
+          icon={<Store className="text-muted-foreground" />}
+        />
 
-        <div className="flex flex-col gap-3">
-          <Card className="transition hover:shadow-md">
-            <CardHeader className="flex flex-row items-center justify-between px-4 py-3">
-              <CardTitle className="text-sm">Total Operators</CardTitle>
+        <StatCard
+          title="Active Shops"
+          value={loading ? "-" : metrics.active}
+          description="Currently operating"
+          icon={<CheckCircle2 className="text-green-500" />}
+        />
 
-              <Users className="h-5 w-5 text-muted-foreground" />
-            </CardHeader>
-
-            <CardContent className="pt-0">
-              <div className="font-bold text-2xl">{loading ? "-" : metrics.total}</div>
-
-              <p className="text-[11px] text-muted-foreground">All operators in this league</p>
-            </CardContent>
-          </Card>
-
-          <Card className="transition hover:shadow-md">
-            <CardHeader className="flex flex-row items-center justify-between px-4 py-3">
-              <CardTitle className="text-sm">Active</CardTitle>
-
-              <CheckCircle2 className="h-5 w-5 text-green-500" />
-            </CardHeader>
-
-            <CardContent className="pt-0">
-              <div className="font-bold text-2xl">{loading ? "-" : metrics.active}</div>
-
-              <p className="text-[11px] text-muted-foreground">Currently operating</p>
-            </CardContent>
-          </Card>
-
-          <Card className="transition hover:shadow-md">
-            <CardHeader className="flex flex-row items-center justify-between px-4 py-3">
-              <CardTitle className="text-sm">Verified</CardTitle>
-
-              <CheckCircle2 className="h-5 w-5 text-blue-500" />
-            </CardHeader>
-
-            <CardContent className="pt-0">
-              <div className="font-bold text-2xl">{loading ? "-" : metrics.verified}</div>
-
-              <p className="text-[11px] text-muted-foreground">Verified operators</p>
-            </CardContent>
-          </Card>
-        </div>
+        <StatCard
+          title="Verified Shops"
+          value={loading ? "-" : metrics.verified}
+          description="Trusted operators"
+          icon={<ShieldCheck className="text-blue-500" />}
+        />
       </div>
     </div>
   );
