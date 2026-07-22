@@ -2,11 +2,11 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import { CheckCircle2, Minus, Search, Star, TrendingDown, TrendingUp } from "lucide-react";
+import { Minus, Search, TrendingDown, TrendingUp } from "lucide-react";
 
+import CompareDialog from "@/components/compare-dialog";
 import OperatorHoverCard from "@/components/operator-hover-card";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 type StandingRow = {
@@ -29,45 +29,6 @@ function RankBadge({ rank }: { rank: number }) {
   if (rank === 3) return "🥉";
 
   return `#${rank}`;
-}
-
-function ScoreBar({ score }: { score: number | string }) {
-  const value = Number(score);
-
-  const label = value >= 90 ? "Elite" : value >= 80 ? "Excellent" : value >= 70 ? "Good" : "Fair";
-
-  return (
-    <div className="space-y-1">
-      <div className="flex justify-between text-sm">
-        <span className="font-semibold">{value}</span>
-
-        <span className="text-muted-foreground">{label}</span>
-      </div>
-
-      <div className="h-2 rounded-full bg-muted">
-        <div
-          className="h-2 rounded-full bg-primary"
-          style={{
-            width: `${Math.min(value, 100)}%`,
-          }}
-        />
-      </div>
-    </div>
-  );
-}
-
-function Rating({ value }: { value?: number | string | null }) {
-  if (!value) {
-    return "-";
-  }
-
-  return (
-    <div className="flex items-center gap-1">
-      <Star size={15} className="fill-yellow-400 text-yellow-400" />
-
-      {Number(value).toFixed(1)}
-    </div>
-  );
 }
 
 function RankMovement({ value }: { value?: number | string | null }) {
@@ -100,43 +61,6 @@ function StatusDot({ status }: { status: string }) {
   return <span className={`block size-3 rounded-full ${active ? "bg-green-500" : "bg-gray-300"}`} title={status} />;
 }
 
-function TopThree({ rows }: { rows: StandingRow[] }) {
-  return (
-    <div className="grid gap-4 md:grid-cols-3">
-      {rows.map((row) => (
-        <Card key={row.entryId} className="transition hover:-translate-y-1 hover:shadow-lg">
-          <CardHeader>
-            <CardTitle className="flex justify-between">
-              <span>
-                {RankBadge({
-                  rank: row.rank,
-                })}
-              </span>
-
-              <span className="text-2xl">{row.score}</span>
-            </CardTitle>
-          </CardHeader>
-
-          <CardContent className="space-y-3">
-            <div className="font-semibold">{row.name}</div>
-
-            <Rating value={row.rating} />
-
-            <ScoreBar score={row.score} />
-
-            {row.is_verified && (
-              <Badge>
-                <CheckCircle2 className="mr-1 size-3" />
-                Verified
-              </Badge>
-            )}
-          </CardContent>
-        </Card>
-      ))}
-    </div>
-  );
-}
-
 export default function StandingsTable() {
   const [rows, setRows] = useState<StandingRow[]>([]);
 
@@ -146,11 +70,27 @@ export default function StandingsTable() {
 
   const [league, setLeague] = useState("auto");
 
-  // Keep API name neighborhood
-  // UI represents borough
   const [neighborhood, setNeighborhood] = useState("BROOKLYN");
 
   const [verified, setVerified] = useState("all");
+
+  const [selectedOperators, setSelectedOperators] = useState<string[]>([]);
+
+  const [compareOpen, setCompareOpen] = useState(false);
+
+  function toggleOperator(operatorId: string) {
+    setSelectedOperators((previous) => {
+      if (previous.includes(operatorId)) {
+        return previous.filter((id) => id !== operatorId);
+      }
+
+      if (previous.length < 2) {
+        return [...previous, operatorId];
+      }
+
+      return previous;
+    });
+  }
 
   const loadData = useCallback(async () => {
     try {
@@ -192,8 +132,6 @@ export default function StandingsTable() {
 
   return (
     <div className="space-y-6">
-      <TopThree rows={filteredRows.slice(0, 3)} />
-
       <div className="flex flex-wrap gap-3">
         <div className="flex items-center gap-2 rounded-lg border px-3 py-2">
           <Search size={18} />
@@ -235,80 +173,89 @@ export default function StandingsTable() {
         </select>
       </div>
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Rank</TableHead>
+      <Button disabled={selectedOperators.length !== 2} onClick={() => setCompareOpen(true)}>
+        {selectedOperators.length === 2 ? "Compare Operators" : "Select two operators to compare"}
+      </Button>
 
-            <TableHead>Shop</TableHead>
-
-            <TableHead>REP Score</TableHead>
-
-            <TableHead>Rating</TableHead>
-
-            <TableHead>Reviews</TableHead>
-
-            <TableHead>Trend</TableHead>
-
-            <TableHead>Status</TableHead>
-          </TableRow>
-        </TableHeader>
-
-        <TableBody>
-          {loading ? (
+      <div className="overflow-x-auto rounded-md border">
+        <Table>
+          <TableHeader>
             <TableRow>
-              <TableCell colSpan={7}>Loading...</TableCell>
-            </TableRow>
-          ) : (
-            filteredRows.map((row) => (
-              <TableRow key={row.entryId} className={row.rank <= 10 ? "bg-muted/30" : ""}>
-                <TableCell className="font-bold">
-                  {RankBadge({
-                    rank: row.rank,
-                  })}
-                </TableCell>
+              <TableHead />
 
-                <TableCell>
-                  <div className="flex items-center gap-2">
+              <TableHead>Rank</TableHead>
+
+              <TableHead>Shop</TableHead>
+
+              <TableHead>Trend</TableHead>
+
+              <TableHead>Status</TableHead>
+            </TableRow>
+          </TableHeader>
+
+          <TableBody>
+            {loading ? (
+              <TableRow>
+                <TableCell colSpan={5}>Loading...</TableCell>
+              </TableRow>
+            ) : filteredRows.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={5}>No shops found.</TableCell>
+              </TableRow>
+            ) : (
+              filteredRows.map((row) => (
+                <TableRow key={row.entryId}>
+                  <TableCell>
+                    <input
+                      type="checkbox"
+                      checked={selectedOperators.includes(row.operatorId)}
+                      onChange={() => toggleOperator(row.operatorId)}
+                    />
+                  </TableCell>
+
+                  <TableCell className="font-bold">
+                    {RankBadge({
+                      rank: row.rank,
+                    })}
+                  </TableCell>
+
+                  <TableCell>
                     <OperatorHoverCard
                       operator={{
                         operator_id: row.operatorId,
+
                         operator_name: row.name,
+
                         neighborhood_name: neighborhood,
+
                         rep_score: Number(row.score),
+
                         rating: Number(row.rating ?? 0),
+
                         review_count: Number(row.reviewCount ?? 0),
+
                         is_verified: Boolean(row.is_verified),
+
                         website: row.website,
                       }}
                     />
+                  </TableCell>
 
-                    {row.is_verified && <CheckCircle2 className="size-4 text-blue-600" />}
-                  </div>
-                </TableCell>
+                  <TableCell>
+                    <RankMovement value={row.rankDelta30d} />
+                  </TableCell>
 
-                <TableCell className="min-w-[160px]">
-                  <ScoreBar score={row.score} />
-                </TableCell>
+                  <TableCell>
+                    <StatusDot status={row.status} />
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </div>
 
-                <TableCell>
-                  <Rating value={row.rating} />
-                </TableCell>
-
-                <TableCell>{row.reviewCount ?? "-"}</TableCell>
-
-                <TableCell>
-                  <RankMovement value={row.rankDelta30d} />
-                </TableCell>
-
-                <TableCell>
-                  <StatusDot status={row.status} />
-                </TableCell>
-              </TableRow>
-            ))
-          )}
-        </TableBody>
-      </Table>
+      <CompareDialog open={compareOpen} onOpenChange={setCompareOpen} ids={selectedOperators} />
     </div>
   );
 }

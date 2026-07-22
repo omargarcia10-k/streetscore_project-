@@ -11,6 +11,8 @@ type Operator = {
   rank: number;
   score: number;
   rating?: number | string | null;
+  reviewCount?: number;
+  neighborhood?: string;
   status: string;
   is_verified: boolean;
 };
@@ -40,12 +42,20 @@ function VerificationBadge({ verified }: { verified: boolean }) {
 function OperatorCard({ operator }: { operator: Operator }) {
   const metrics = [
     {
-      label: "Score",
+      label: "REP Score",
       value: operator.score,
     },
     {
       label: "Rating",
       value: operator.rating ? `⭐ ${operator.rating}` : "-",
+    },
+    {
+      label: "Reviews",
+      value: operator.reviewCount ?? "-",
+    },
+    {
+      label: "Neighborhood",
+      value: operator.neighborhood ?? "-",
     },
     {
       label: "Status",
@@ -66,7 +76,7 @@ function OperatorCard({ operator }: { operator: Operator }) {
           <Badge variant="outline">Rank #{operator.rank}</Badge>
         </div>
 
-        <div className="grid grid-cols-2 gap-8">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
           {metrics.map((metric) => (
             <Metric key={metric.label} label={metric.label} value={metric.value} />
           ))}

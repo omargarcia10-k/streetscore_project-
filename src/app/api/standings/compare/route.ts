@@ -7,29 +7,29 @@ export async function GET(request: Request) {
 
   const ids = searchParams.get("ids")?.split(",");
 
-  if (!ids) {
+  if (ids?.length !== 2) {
     return NextResponse.json([]);
   }
 
   const result = await query(
     `
-SELECT
+    SELECT
+      entry_id,
+      operator_name,
+      rank,
+      rep_score,
+      rating,
+      review_count,
+      status,
+      is_verified,
+      neighborhood_name
 
-entry_id,
-operator_name,
-rank,
-rep_score,
-rating,
-status,
-is_verified
+    FROM standings_page_rows
 
-FROM standings_page_rows
+    WHERE entry_id = ANY($1)
 
-WHERE entry_id = ANY($1)
-
-ORDER BY rank ASC
-
-`,
+    ORDER BY rank ASC
+    `,
     [ids],
   );
 
@@ -41,15 +41,17 @@ ORDER BY rank ASC
 
       rank: row.rank,
 
-      score: row.rep_score,
+      score: Number(row.rep_score ?? 0),
 
-      rating: row.rating,
+      rating: row.rating ? Number(row.rating) : null,
 
-      reviewCount: row.review_count,
+      reviewCount: Number(row.review_count ?? 0),
+
+      neighborhood: row.neighborhood_name ?? "-",
 
       status: row.status,
 
-      is_verified: row.is_verified,
+      is_verified: Boolean(row.is_verified),
     })),
   );
 }
