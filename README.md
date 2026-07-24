@@ -1,82 +1,81 @@
 # StreetScore
 
-StreetScore is a neighborhood reputation platform that helps users discover trusted local service providers based on performance signals rather than advertising spend or review count alone.
+StreetScore is a neighborhood reputation platform that ranks local service providers using performance-based reputation signals.
 
-The platform ranks operators within specific neighborhoods and ZIP codes using a REP Score system that combines multiple trust indicators into a single ranking metric. Instead of simply listing businesses, StreetScore highlights operators that consistently perform well within their local markets.
+Unlike traditional review platforms that rely heavily on advertising visibility, review volume, or paid placement, StreetScore combines multiple trust indicators into a single REP Score to highlight consistent performers within their local markets.
+
+The platform provides neighborhood-based rankings, operator comparisons, verification signals, filtering, and historical ranking movement through a PostgreSQL-backed dashboard.
 
 ---
 
 # Project Overview
 
-This repository contains the StreetScore standings prototype built with:
+StreetScore is a full-stack prototype built to explore how local businesses can be evaluated through transparent reputation signals rather than popularity alone.
 
-* Next.js
-* TypeScript
-* React
-* PostgreSQL
-* Neon PostgreSQL
-* Tailwind CSS
+The application allows users to:
 
-The application demonstrates how local service operators can be ranked and filtered by:
+* View operator rankings
+* Filter businesses by neighborhood and league
+* Compare operators
+* Identify verified businesses
+* Track REP Score rankings
+* Analyze historical ranking movement
 
-* League
-* Neighborhood
-* ZIP code
-* Verification status
-* Reputation metrics
-
-The dashboard retrieves ranking data through PostgreSQL-backed API routes rather than static frontend data.
+Ranking data is retrieved dynamically through PostgreSQL-backed API routes rather than static frontend data.
 
 ---
 
-# Problem
+# Features
 
-Finding trustworthy local service providers is difficult.
+Current prototype functionality:
 
-Consumers often rely on multiple sources:
-
-* Google Reviews
-* Yelp
-* Facebook
-* Personal referrals
-
-These sources provide useful information but do not always represent consistent performance. Review volume and paid visibility do not necessarily indicate quality.
-
-StreetScore explores a model where multiple trust indicators are combined into a transparent reputation score.
-
----
-
-# Current Features
-
-The current prototype includes:
-
-* Neighborhood standings
-* Operator rankings
+* Neighborhood-based standings
+* Operator leaderboard rankings
 * REP Score display
 * League-based rankings
+* Neighborhood filtering
 * ZIP code filtering
 * Verification filtering
-* PostgreSQL-backed API routes
+* Operator comparison tool
+* Verified business indicators
 * Responsive dashboard interface
-* Dynamic database-driven data retrieval
-* Snapshot-based historical rank movement
+* PostgreSQL-backed API routes
+* Historical rank movement tracking
+* Database-driven data retrieval
 
 ---
 
-# Reputation Signals
+# System Architecture
 
-StreetScore is designed to incorporate:
+StreetScore follows a full-stack architecture:
 
-* Average Rating
-* Review Count
-* Work Volume
-* Response Time
-* On-Time Percentage
-* Verification Status
-* Ranking Movement
-* REP Score
+```
+                 Source Data
+                     |
+                     ↓
+              PostgreSQL Database
+                     |
+        -----------------------------
+        |                           |
+ standings_entries          standings_history
+        |                           |
+        ↓                           ↓
+ SQL Ranking Functions     Historical Analytics
+              |
+              ↓
+        Next.js API Routes
+              |
+              ↓
+       React Dashboard UI
+```
 
-The current repository focuses on ranking visualization and filtering. Production scoring algorithms and data ingestion are future development areas.
+The application separates current rankings from historical analytics:
+
+* `standings_entries` stores current calculated rankings.
+* `standings_history` stores immutable ranking snapshots.
+* Historical movement is calculated from snapshot comparisons.
+
+This design allows future support for ranking trends, analytics, and timeline features without changing the core ranking structure.
 
 ---
 
@@ -84,7 +83,7 @@ The current repository focuses on ranking visualization and filtering. Productio
 
 ## Frontend
 
-* Next.js
+* Next.js 16
 * React
 * TypeScript
 * Tailwind CSS
@@ -99,12 +98,14 @@ The current repository focuses on ranking visualization and filtering. Productio
 
 * SQL migrations
 * Drizzle ORM utilities
+* PostgreSQL functions and views
 
 ## Development Tools
 
 * Git
 * GitHub
 * VS Code
+* Biome
 
 ## Deployment
 
@@ -112,16 +113,198 @@ The current repository focuses on ranking visualization and filtering. Productio
 
 ---
 
+# Reputation System
+
+StreetScore uses multiple signals to calculate operator reputation.
+
+Current reputation indicators include:
+
+* Average Rating
+* Review Count
+* Work Volume
+* Response Time
+* On-Time Percentage
+* License Verification
+* REP Score
+* Ranking Movement
+
+The current repository focuses on ranking visualization and database architecture.
+
+Production scoring models and external data ingestion are future development areas.
+
+---
+
+# Ranking Architecture
+
+StreetScore separates ranking calculations from historical analytics.
+
+## Current Standings
+
+`standings_entries`
+
+Stores the latest calculated ranking information:
+
+* Operator
+* League
+* Neighborhood
+* REP Score
+* Current Rank
+
+---
+
+## Historical Rankings
+
+`standings_history`
+
+Stores daily ranking snapshots.
+
+Historical snapshots allow the platform to calculate:
+
+* Rank changes
+* 7-day movement
+* 30-day movement
+* Long-term performance trends
+
+---
+
+## Ranking Refresh Workflow
+
+The ranking workflow:
+
+1. Source data is loaded into PostgreSQL.
+2. Current rankings are recalculated.
+3. Current standings are stored.
+4. A historical snapshot is created.
+5. Dashboard APIs retrieve ranking information.
+
+---
+
+# Rank Movement Calculation
+
+Rank movement is calculated using:
+
+```
+rank_delta_30d = previous_rank - current_rank
+```
+
+Interpretation:
+
+* Positive value → operator moved up
+* Negative value → operator moved down
+* Zero → no movement
+* NULL → no matching historical snapshot exists
+
+Movement calculations compare:
+
+* Operator ID
+* League ID
+* Neighborhood ID
+* Historical snapshot date
+
+---
+
+# Database Structure
+
+Important database files:
+
+## Schema
+
+```
+migrations/001_init.sql
+```
+
+Creates:
+
+* Database tables
+* Relationships
+* Constraints
+
+---
+
+## Seed Data
+
+```
+migrations/002_seed.sql
+```
+
+Loads:
+
+* League data
+
+---
+
+## Standings View
+
+```
+migrations/004_create_standings_page_rows_view.sql
+```
+
+Creates:
+
+```
+standings_page_rows
+```
+
+Used by:
+
+```
+src/app/api/standings/route.ts
+```
+
+---
+
+## Ranking Functions
+
+Ranking generation is handled through PostgreSQL functions.
+
+Important functions:
+
+* `refresh_current_standings()`
+* `snapshot_current_standings(snapshot_date)`
+* `refresh_current_standings_and_snapshot(snapshot_date)`
+
+---
+
+# API
+
+## Standings API
+
+Location:
+
+```
+src/app/api/standings/route.ts
+```
+
+Endpoint:
+
+```
+GET /api/standings
+```
+
+Provides:
+
+* Operator rankings
+* REP Scores
+* Filtering
+* Verification status
+* Neighborhood standings
+
+---
+
 # Repository Structure
 
-```text
-app/
-components/
-hooks/
-lib/
-migrations/
-public/
-types/
+```
+src/
+ ├── app/
+ │    ├── api/
+ │    └── dashboard/
+ │
+ ├── components/
+ ├── hooks/
+ ├── lib/
+ ├── migrations/
+ ├── public/
+ └── types/
 ```
 
 The project uses the Next.js App Router architecture with:
@@ -130,60 +313,13 @@ The project uses the Next.js App Router architecture with:
 * API routes
 * Database utilities
 * SQL migration files
-
----
-
-# Developer References
-
-## API
-
-Standings API:
-
-```text
-src/app/api/standings/route.ts
-```
-
-Endpoint:
-
-```text
-GET /api/standings
-```
-
-The dashboard retrieves leaderboard information through this API route.
-
----
-
-## Database Files
-
-Database schema:
-
-```text
-migrations/001_init.sql
-```
-
-Seed data:
-
-```text
-migrations/002_seed.sql
-```
-
-Database view:
-
-```text
-migrations/004_create_standings_page_rows_view.sql
-```
-
-Example queries:
-
-```text
-migrations/queries.sql
-```
+* Shared UI components
 
 ---
 
 # Data Quality
 
-This repository contains prototype data used to validate the StreetScore dashboard workflow.
+This repository contains prototype data used to validate the StreetScore workflow.
 
 ## Verified
 
@@ -194,127 +330,30 @@ The following have been tested:
 * Dashboard rendering
 * Filtering functionality
 * Database connectivity
-* Application build process
+* Production build process
+* Historical snapshot generation
 
-## Mock / Demo Data
+## Demo Data
 
-The following values are demonstration data:
+The following values are prototype/demo data:
 
 * Operator records
 * REP Scores
 * Ranking movement
 * Performance metrics
 
-## Assumptions
-
-* Reputation scoring models are prototypes for future development.
-* Production data ingestion is outside this repository scope.
-
 ## Limitations
 
-* Data quality depends on the records loaded into PostgreSQL.
-* Some metrics may not represent production performance.
-* Historical ranking accuracy depends on available source data.
+* Reputation scores are prototypes for future development.
+* Data accuracy depends on imported records.
+* Historical ranking accuracy depends on available snapshots.
+* Production ingestion pipelines are outside this repository scope.
 
 ---
 
-# Ranking Architecture
+# Local Development Setup
 
-StreetScore separates current standings from historical snapshots.
-
-* `standings_entries` stores only the latest calculated rankings.
-* `standings_history` stores immutable daily ranking snapshots.
-* `standings_page_rows.rank_delta_30d` is computed at query time from history instead of stored on the current standings table.
-
-This keeps current ranking updates simple while making historical analytics extensible. Future metrics such as 7-day, 30-day, 90-day, yearly movement, REP Score charts, best rank, worst rank, and timeline APIs can all build on the same snapshot table without changing the schema.
-
-## Snapshot Generation
-
-Use the SQL functions below to manage rankings and snapshots:
-
-* `refresh_current_standings()` recalculates REP Score and current rank inside PostgreSQL.
-* `snapshot_current_standings(snapshot_date)` copies the current standings into `standings_history` and skips duplicate rows for the same day.
-* `refresh_current_standings_and_snapshot(snapshot_date)` is the automation entry point for cron jobs, scheduled tasks, GitHub Actions, Vercel Cron, or manual admin commands.
-
-Manual command:
-
-```bash
-npm run db:refresh-standings
-```
-
-## Rank Movement Calculation
-
-Movement is calculated entirely in SQL with the formula:
-
-```text
-rank_delta_30d = previous_rank - current_rank
-```
-
-Interpretation:
-
-* Positive value: operator moved up in the rankings.
-* Negative value: operator moved down in the rankings.
-* Zero: no movement.
-* `NULL`: there is no snapshot from exactly 30 days earlier yet.
-
-The reusable SQL helper `standings_rank_delta_30d(as_of_date)` compares `standings_entries` to `standings_history` on matching `operator_id`, `league_id`, and `neighborhood_id` for an exact 30-day offset.
-
-## Scheduled Jobs
-
-Scheduled automation should execute `refresh_current_standings_and_snapshot()` once per day after source data is loaded.
-
-Expected flow:
-
-* Recalculate current standings.
-* Insert one snapshot row per operator for the current date.
-* Skip duplicates if the job is retried later the same day.
-
-Repository helpers:
-
-* `npm run db:verify-history` checks that the table, indexes, constraints, functions, and view exist and prints sample rows.
-* `npm run db:test-rank-delta` performs a rollback-safe 30-day movement simulation and verifies that `rank_delta_30d = previous_rank - current_rank`.
-
-### GitHub Actions Scheduler
-
-The repository includes [daily-standings-snapshot.yml](.github/workflows/daily-standings-snapshot.yml), which runs once per day and can also be launched manually.
-
-Configuration:
-
-* Add `DATABASE_URL`, `NEON_SHARED_DATABASE_URL`, and `NEON_BRANCH_DATABASE_URL` as GitHub Actions secrets as needed.
-* Set repository variable `STREETSCORE_SNAPSHOT_DATABASE` to `shared`, `branch`, or `local` for scheduled runs.
-* Manual dispatch lets you choose the database target per run.
-
-Other schedulers can execute the same command:
-
-```bash
-npm run db:refresh-standings
-```
-
-This works for cron, Vercel Cron, Render Cron, Railway Scheduler, and similar systems because the script is idempotent for the current day.
-
-This design is intentionally future-proof for historical APIs, shop profile ranking timelines, rolling movement windows, and trend analysis.
-
-## Troubleshooting `rank_delta_30d`
-
-If `rank_delta_30d` remains `NULL`, check the following:
-
-* Confirm a snapshot exists for today with `npm run db:verify-history`.
-* Confirm there is a snapshot from exactly 30 days earlier for the same `operator_id`, `league_id`, and `neighborhood_id`.
-* Confirm the operator exists in `standings_entries`; operators without a current standings row will not produce a historical snapshot.
-* Re-run `npm run db:refresh-standings` and verify that it exits successfully.
-* Verify `USE_DATABASE` points at the database you expect before running migration or snapshot commands.
-
----
-
-# Local Setup Guide
-
-Follow these steps to run StreetScore locally.
-
----
-
-# 1. Clone the Repository
-
-Clone the repository:
+## 1. Clone Repository
 
 ```bash
 git clone https://github.com/omargarcia10-k/streetscore_project-.git
@@ -325,47 +364,32 @@ Navigate into the project:
 ```bash
 cd streetscore_project-
 ```
-SKIP
-------------------------------------------------------
 
+---
 
-# 1b. Switch to Updates Branch
+## 2. Switch Branch
 
-Fetch available branches:
+Fetch branches:
 
 ```bash
 git fetch origin
 ```
 
-Switch branches:
+Switch to updates:
 
 ```bash
 git switch updates
 ```
 
-If the branch does not exist locally:
+If needed:
 
 ```bash
 git switch --track origin/updates
 ```
 
-Verify:
+---
 
-```bash
-git branch
-```
-
-Expected:
-
-```text
-* updates
-```
-
-------------------------------------------------------
-
-# 2. Install Dependencies
-
-Install project packages:
+## 3. Install Dependencies
 
 ```bash
 npm install
@@ -373,232 +397,109 @@ npm install
 
 ---
 
-# 3. Install PostgreSQL Locally
+# Database Setup
 
-StreetScore can run using:
+StreetScore supports:
 
-* Local PostgreSQL database
-* Neon PostgreSQL database
+* Local PostgreSQL
+* Neon PostgreSQL
 
-For local development, install PostgreSQL:
-
-https://www.postgresql.org/download/
-
-During installation:
-
-* Install PostgreSQL Server
-* Install pgAdmin (recommended)
-* Create a password for the PostgreSQL user
-* Keep the default port:
-
-```text
-5432
-```
-
-Verify installation:
-
-```bash
-psql --version
-```
-
----
-
-# 4. Create Local PostgreSQL Database
-
-## Option A: PostgreSQL Terminal
-
-Open PostgreSQL:
-
-```bash
-psql postgres
-```
-
-Create database:
-
-```sql
-CREATE DATABASE streetscore;
-```
-
-Verify:
-
-```sql
-\l
-```
-
-Exit:
-
-```sql
-\q
-```
-
----
-
-## Option B: pgAdmin
-
-1. Open pgAdmin
-2. Connect to PostgreSQL server
-3. Right-click:
-
-```text
-Databases
-```
-
-4. Select:
-
-```text
-Create → Database
-```
-
-5. Name:
-
-```text
-streetscore
-```
-
-6. Save
-
----
-
-# 5. Configure Environment Variables
-
-Create environment file:
-
-```bash
-cp .env.example .env
-```
-
-Update:
-
-```env
-DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@localhost:5432/databasename
-
-USE_DATABASE=local
-```
-
-Replace:
-
-```text
-YOUR_PASSWORD
-```
-
-with your PostgreSQL password. becomes username.
-
-Example:
-
-```env
-DATABASE_URL=postgresql://postgres:John@localhost:5432/streetscore
-
-USE_DATABASE=local
-```
-
-Do not commit `.env` files or real database credentials.
-
----
-
-# 6. Initialize Database
-For a fresh project setup run:
+For a complete setup:
 
 ```bash
 npm run db:setup
 ```
-(MOVE ON TO STEP 8, BELOW IS COMANDS TO SET UP INDIVIDUAL FILE)
-===================================================
 
-## 001_init.sql
+This runs the required database initialization workflow.
+
+---
+
+# Individual Database Commands
+
+Run migrations:
 
 ```bash
 npm run db:migrate
 ```
-This creates schema
 
-The setup applies:
-
-Creates:
-
-* Database tables
-* Relationships
-* Constraints
-
-## 002_seed.sql
+Seed database:
 
 ```bash
 npm run db:seed
 ```
 
-Loads and inserts data into leagues table:
-
-* Leagues
-
-## imports omars data 
+Import operator data:
 
 ```bash
 npm run db:import
 ```
 
-
-this creates the stangings_page_row_view
-
-## 004_create_standings_page_rows_view.sql
+Create standings view:
 
 ```bash
 npm run db:view
 ```
 
-Creates:
-
-```text
-standings_page_rows
-```
-
-This view is required by:
-
-```text
-src/app/api/standings/route.ts
-```
-
-## 003 generate rankings 
+Generate rankings:
 
 ```bash
-npm run db:rankings 
+npm run db:rankings
 ```
 
-===================================================
-
-# 7. Verify Database
-
-Connect:
+Refresh standings and snapshots:
 
 ```bash
-psql streetscore
+npm run db:refresh-standings
 ```
 
-View tables:
+Verify historical ranking data:
 
-```sql
-\dt
+```bash
+npm run db:verify-history
 ```
 
-View database views:
+Test rank movement calculations:
 
-```sql
-\dv
-```
-
-Expected:
-
-```text
-standings_page_rows
-```
-
-Exit:
-
-```sql
-\q
+```bash
+npm run db:test-rank-delta
 ```
 
 ---
 
-# 8. Run Application
+# Environment Variables
+
+Create your environment file:
+
+```bash
+cp .env.example .env
+```
+
+Example:
+
+```env
+DATABASE_URL=postgresql://user@localhost:5432/streetscore
+
+NEON_SHARED_DATABASE_URL=your_neon_shared_connection_string
+
+NEON_BRANCH_DATABASE_URL=your_neon_branch_connection_string
+
+USE_DATABASE=local
+```
+
+
+Supported database modes:
+
+```env
+USE_DATABASE=local
+USE_DATABASE=shared
+USE_DATABASE=branch
+```
+
+Do not commit `.env` files or database credentials.
+
+---
+
+# Running the Application
 
 Start development server:
 
@@ -608,13 +509,13 @@ npm run dev
 
 Open:
 
-```text
+```
 http://localhost:3000
 ```
 
 ---
 
-# 9. Build Verification
+# Build Verification
 
 Run:
 
@@ -626,38 +527,33 @@ A successful build confirms:
 
 * TypeScript compilation passes
 * Next.js production build succeeds
-* Application dependencies are configured correctly
+* Dependencies are configured correctly
 
 ---
 
-# Neon Database Setup (Optional)
+# Scheduled Ranking Updates
 
-To use Neon instead of local PostgreSQL:
+StreetScore supports automated daily ranking snapshots.
 
-1. Replace `DATABASE_URL` with your Neon connection string.
-2. Update:
+The repository includes:
 
-```env
-USE_DATABASE=shared
+```
+.github/workflows/daily-standings-snapshot.yml
 ```
 
-or:
+Scheduled jobs can:
 
-```env
-USE_DATABASE=branch
-```
+1. Refresh current standings.
+2. Create daily snapshots.
+3. Preserve historical ranking data.
 
-3. Run:
+The same workflow can be executed through:
 
-```bash
-npm run db:setup
-```
-
-4. Start:
-
-```bash
-npm run dev
-```
+* GitHub Actions
+* Vercel Cron
+* Render Cron
+* Railway Scheduler
+* Manual admin commands
 
 ---
 
@@ -666,28 +562,31 @@ npm run dev
 Planned improvements:
 
 * Production reputation scoring
-* Historical ranking trends
+* Real-time data ingestion
 * Interactive maps
 * Search functionality
-* Analytics dashboard
+* Analytics dashboards
 * Customer review integration
+* Operator profile pages
+* Advanced ranking trends
 
 ---
 
 # Project Vision
 
-StreetScore is built on the idea that trust should be earned through consistent performance rather than purchased through advertising.
+StreetScore is built around the idea that trust should be earned through consistent performance.
 
-By combining meaningful reputation signals into neighborhood-based rankings, StreetScore aims to help customers find reliable operators while giving businesses a transparent way to demonstrate quality.
+By combining meaningful reputation signals into neighborhood-based rankings, StreetScore aims to help customers discover reliable service providers while giving businesses a transparent way to demonstrate quality.
 
 ---
 
-# Authors
+# Contributors
 
-Developed as part of the CHAMA neighborhood reputation platform project.
+## Project Manager / Marketing
 
-Project Manager / Marketing:
-Khadejah Beckles
+* Khadejah Beckles
 
-Data / Frontend / Research:
-Omar Garcia and Christopher Rampersaud
+## Development / Data / Research
+
+* Omar Garcia
+* Christopher Rampersaud
