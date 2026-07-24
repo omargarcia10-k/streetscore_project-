@@ -84,6 +84,21 @@ export default function StandingsTable() {
 
   const [compareOpen, setCompareOpen] = useState(false);
 
+  const [highlightedOperator, setHighlightedOperator] = useState("");
+
+  function handleCardClick(operatorId: string) {
+    setHighlightedOperator(operatorId);
+
+    document.getElementById(`operator-${operatorId}`)?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+
+    setTimeout(() => {
+      setHighlightedOperator("");
+    }, 2500);
+  }
+
   function toggleOperator(operatorId: string) {
     setSelectedOperators((previous) => {
       if (previous.includes(operatorId)) {
@@ -176,7 +191,7 @@ export default function StandingsTable() {
         </div>
       </section>
 
-      <TopThree rows={topThreeRows} />
+      <TopThree rows={topThreeRows} onSelect={handleCardClick} />
 
       <div className="flex flex-wrap gap-3">
         <div className="flex items-center gap-2 rounded-lg border px-3 py-2">
@@ -248,7 +263,11 @@ export default function StandingsTable() {
               </TableRow>
             ) : (
               filteredRows.map((row) => (
-                <TableRow key={row.entryId}>
+                <TableRow
+                  key={row.entryId}
+                  id={`operator-${row.operatorId}`}
+                  className={highlightedOperator === row.operatorId ? "bg-yellow-100 transition-colors" : ""}
+                >
                   <TableCell>
                     <input
                       type="checkbox"

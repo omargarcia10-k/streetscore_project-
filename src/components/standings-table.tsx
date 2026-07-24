@@ -6,6 +6,7 @@ import { Minus, Search, TrendingDown, TrendingUp } from "lucide-react";
 
 import CompareDialog from "@/components/compare-dialog";
 import OperatorHoverCard from "@/components/operator-hover-card";
+import TopThree from "@/components/top-three-cards";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
@@ -78,6 +79,8 @@ export default function StandingsTable() {
 
   const [compareOpen, setCompareOpen] = useState(false);
 
+  const [highlightedOperator, setHighlightedOperator] = useState("");
+
   function toggleOperator(operatorId: string) {
     setSelectedOperators((previous) => {
       if (previous.includes(operatorId)) {
@@ -90,6 +93,19 @@ export default function StandingsTable() {
 
       return previous;
     });
+  }
+
+  function handleCardClick(operatorId: string) {
+    setHighlightedOperator(operatorId);
+
+    document.getElementById(`operator-${operatorId}`)?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+
+    setTimeout(() => {
+      setHighlightedOperator("");
+    }, 2500);
   }
 
   const loadData = useCallback(async () => {
@@ -129,7 +145,7 @@ export default function StandingsTable() {
   }, [loadData]);
 
   const filteredRows = rows.filter((row) => row.name.toLowerCase().includes(search.toLowerCase()));
-
+  const topThreeRows = filteredRows.slice(0, 3);
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap gap-3">
@@ -177,6 +193,8 @@ export default function StandingsTable() {
         {selectedOperators.length === 2 ? "Compare Operators" : "Select two operators to compare"}
       </Button>
 
+      <TopThree rows={topThreeRows} onSelect={handleCardClick} />
+
       <div className="overflow-x-auto rounded-md border">
         <Table>
           <TableHeader>
@@ -204,7 +222,11 @@ export default function StandingsTable() {
               </TableRow>
             ) : (
               filteredRows.map((row) => (
-                <TableRow key={row.entryId}>
+                <TableRow
+                  key={row.entryId}
+                  id={`operator-${row.operatorId}`}
+                  className={highlightedOperator === row.operatorId ? "bg-yellow-100 transition-colors" : ""}
+                >
                   <TableCell>
                     <input
                       type="checkbox"

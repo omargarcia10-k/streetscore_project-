@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { CheckCircle2, Minus, TrendingDown, TrendingUp } from "lucide-react";
+import { Minus, TrendingDown, TrendingUp } from "lucide-react";
 
 import CompareDialog from "@/components/compare-dialog";
 import OperatorHoverCard from "@/components/operator-hover-card";
@@ -277,8 +277,6 @@ export default function StandingsRowsTable() {
                           website: `/api/operator-website?operatorId=${encodeURIComponent(row.operatorId)}`,
                         }}
                       />
-
-                      {row.isVerified ? <CheckCircle2 className="size-4 text-blue-600" aria-label="Verified" /> : null}
                     </div>
                   </TableCell>
                   <TableCell>{numberOrDash(row.rating)}</TableCell>

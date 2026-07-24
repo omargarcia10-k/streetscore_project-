@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 
+import { BadgeCheck } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -28,14 +30,15 @@ function Metric({ label, value }: { label: string; value: string | number }) {
 }
 
 function VerificationBadge({ verified }: { verified: boolean }) {
+  if (!verified) {
+    return null;
+  }
+
   return (
-    <Badge
-      className={
-        verified ? "!bg-blue-600 !text-black hover:!bg-blue-600" : "!bg-gray-500 !text-black hover:!bg-gray-500"
-      }
-    >
-      {verified ? "Verified" : "Unverified"}
-    </Badge>
+    <div className="flex items-center gap-1 text-green-600">
+      <BadgeCheck size={16} />
+      Verified Business
+    </div>
   );
 }
 
