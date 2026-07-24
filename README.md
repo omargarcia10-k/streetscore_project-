@@ -121,9 +121,6 @@ Current reputation indicators include:
 
 * Average Rating
 * Review Count
-* Work Volume
-* Response Time
-* On-Time Percentage
 * License Verification
 * REP Score
 * Ranking Movement
@@ -333,9 +330,9 @@ The following have been tested:
 * Production build process
 * Historical snapshot generation
 
-## Demo Data
+## Real Data
 
-The following values are prototype/demo data:
+The following values are real data:
 
 * Operator records
 * REP Scores
