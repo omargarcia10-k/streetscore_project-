@@ -1,0 +1,178 @@
+"use client";
+
+import { useCallback, useEffect, useState } from "react";
+
+import { Sparkles } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+
+type ExplanationResponse = {
+  operatorName: string;
+  score: number;
+  rank: number;
+  explanation: string;
+  model: string;
+};
+
+type Props = {
+  operatorId: string;
+  entryId?: string;
+  leagueId?: string;
+  neighborhoodId?: string;
+  timeWindow?: string;
+  disabled?: boolean;
+};
+
+export default function RepScoreExplanationDialog({
+  operatorId,
+  entryId,
+  leagueId,
+  neighborhoodId,
+  timeWindow,
+  disabled = false,
+}: Props) {
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [explanation, setExplanation] = useState<ExplanationResponse | null>(null);
+
+  const loadExplanation = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const params = new URLSearchParams();
+
+      if (entryId) {
+        params.set("entryId", entryId);
+      } else {
+        params.set("operatorId", operatorId);
+      }
+
+      if (leagueId) {
+        params.set("leagueId", leagueId);
+      }
+
+      if (neighborhoodId) {
+        params.set("neighborhoodId", neighborhoodId);
+      }
+
+      if (timeWindow) {
+        params.set("timeWindow", timeWindow);
+      }
+
+      const response = await fetch(`/api/rep-score/explain?${params.toString()}`, {
+        cache: "no-store",
+      });
+
+      const data = (await response.json()) as ExplanationResponse | { error?: string };
+
+      if (!response.ok) {
+        throw new Error("error" in data && data.error ? data.error : "Failed to load score explanation");
+      }
+
+      setExplanation(data as ExplanationResponse);
+    } catch (loadError) {
+      setExplanation(null);
+      setError(loadError instanceof Error ? loadError.message : "Failed to load score explanation");
+    } finally {
+      setLoading(false);
+    }
+  }, [entryId, leagueId, neighborhoodId, operatorId, timeWindow]);
+
+  useEffect(() => {
+    if (!open || loading || explanation || error) {
+      return;
+    }
+
+    void loadExplanation();
+  }, [error, explanation, loadExplanation, loading, open]);
+
+  return (
+    <>
+      <Button type="button" variant="outline" disabled={disabled} onClick={() => setOpen(true)}>
+        <Sparkles />
+        Explain Score
+      </Button>
+
+      <Dialog
+        open={open}
+        onOpenChange={(nextOpen) => {
+          setOpen(nextOpen);
+
+          if (!nextOpen) {
+            setError("");
+          }
+        }}
+      >
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>REP Score Explanation</DialogTitle>
+
+            <DialogDescription>
+              AI explanation based on the current score breakdown, ranking data, and available metadata.
+            </DialogDescription>
+          </DialogHeader>
+
+          {loading ? (
+            <Card>
+              <CardContent className="py-6">
+                <p className="text-muted-foreground">Generating explanation...</p>
+              </CardContent>
+            </Card>
+          ) : null}
+
+          {!loading && error ? (
+            <Card>
+              <CardContent className="space-y-4 py-6">
+                <p className="text-destructive">{error}</p>
+
+                <Button type="button" variant="outline" onClick={() => void loadExplanation()}>
+                  Try Again
+                </Button>
+              </CardContent>
+            </Card>
+          ) : null}
+
+          {!loading && !error && explanation ? (
+            <div className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle>{explanation.operatorName}</CardTitle>
+                </CardHeader>
+
+                <CardContent className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <p className="text-muted-foreground text-sm">REP Score</p>
+                    <p className="font-semibold text-2xl">{explanation.score}</p>
+                  </div>
+
+                  <div>
+                    <p className="text-muted-foreground text-sm">Rank</p>
+                    <p className="font-semibold text-2xl">#{explanation.rank}</p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>AI Explanation</CardTitle>
+                </CardHeader>
+
+                <CardContent className="space-y-3">
+                  {explanation.explanation.split(/\n+/).map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+
+                  <p className="text-muted-foreground text-xs">Generated by {explanation.model}</p>
+                </CardContent>
+              </Card>
+            </div>
+          ) : null}
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+}

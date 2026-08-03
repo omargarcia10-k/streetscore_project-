@@ -1,0 +1,28 @@
+source:
+  type: postgres
+  config:
+    host_port: localhost:5432
+    database: chama_standings_test
+    username: chris
+    password: ""
+
+    # DataHub environment name
+    env: DEV
+
+    # Include database objects
+    include_tables: true
+    include_views: true
+
+    # View lineage support
+    include_view_lineage: true
+    include_view_column_lineage: true
+
+    # Only scan your application schema
+    schema_pattern:
+      allow:
+        - public
+
+sink:
+  type: datahub-rest
+  config:
+    server: http://localhost:8080

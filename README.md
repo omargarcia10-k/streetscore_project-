@@ -496,6 +496,39 @@ Do not commit `.env` files or database credentials.
 
 ---
 
+# REP Score AI Explanation Providers
+
+StreetScore supports two REP Score explanation provider modes:
+
+* `LOCAL` provider (deterministic fallback, no external API required)
+* `OPENAI` provider (used when `OPENAI_API_KEY` is set)
+
+Default behavior:
+
+* Development defaults to the local deterministic provider.
+* If `OPENAI_API_KEY` exists, the OpenAI provider is used.
+
+Optional OpenAI configuration:
+
+```env
+OPENAI_API_KEY=your_openai_key
+OPENAI_MODEL=gpt-4o-mini
+OPENAI_BASE_URL=https://api.openai.com/v1
+```
+
+Verification commands:
+
+```bash
+npm run verify:ai-provider-selection
+npm run verify:rep-score-local-ai
+npm run db:verify-history
+```
+
+The first command verifies local default + OpenAI override provider selection.
+The second command verifies deterministic local REP Score explanation output.
+
+---
+
 # Running the Application
 
 Start development server:

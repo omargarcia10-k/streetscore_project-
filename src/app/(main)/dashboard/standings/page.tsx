@@ -8,6 +8,7 @@ import { Minus, Search, TrendingDown, TrendingUp } from "lucide-react";
 
 import CompareDialog from "@/components/compare-dialog";
 import OperatorHoverCard from "@/components/operator-hover-card";
+import RepScoreExplanationDialog from "@/components/rep-score-explanation-dialog";
 import TopThree from "@/components/top-three-cards";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -17,8 +18,12 @@ type StandingRow = {
   rank: number;
   operatorId: string;
   name: string;
+  leagueId?: string;
+  neighborhoodId?: string | null;
 
   neighborhoodName?: string | null;
+
+  window?: string;
 
   score: number | string;
   rating?: number | string | null;
@@ -246,6 +251,8 @@ export default function StandingsTable() {
 
               <TableHead>Shop</TableHead>
 
+              <TableHead>REP Score</TableHead>
+
               <TableHead>Trend</TableHead>
 
               <TableHead>Status</TableHead>
@@ -255,11 +262,11 @@ export default function StandingsTable() {
           <TableBody>
             {loading ? (
               <TableRow>
-                <TableCell colSpan={5}>Loading...</TableCell>
+                <TableCell colSpan={6}>Loading...</TableCell>
               </TableRow>
             ) : filteredRows.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5}>No shops found.</TableCell>
+                <TableCell colSpan={6}>No shops found.</TableCell>
               </TableRow>
             ) : (
               filteredRows.map((row) => (
@@ -295,6 +302,20 @@ export default function StandingsTable() {
                         website: row.website,
                       }}
                     />
+                  </TableCell>
+
+                  <TableCell>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-semibold">{Number(row.score).toFixed(2)}</span>
+
+                      <RepScoreExplanationDialog
+                        operatorId={row.operatorId}
+                        entryId={row.entryId}
+                        leagueId={row.leagueId}
+                        neighborhoodId={row.neighborhoodId ?? undefined}
+                        timeWindow={row.window}
+                      />
+                    </div>
                   </TableCell>
 
                   <TableCell>

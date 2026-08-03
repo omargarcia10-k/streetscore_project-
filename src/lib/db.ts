@@ -28,6 +28,6 @@ export const pool = new Pool({
         },
 });
 
-export const query = (text: string, params?: unknown[]) => {
-  return pool.query(text, params);
+export const query = <TRow extends pg.QueryResultRow = pg.QueryResultRow>(text: string, params?: unknown[]) => {
+  return pool.query<TRow>(text, params);
 };

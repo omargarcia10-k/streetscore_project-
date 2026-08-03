@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 
 import { BadgeCheck, MapPin, ShieldCheck, Star, Users } from "lucide-react";
 
+import RepScoreExplanationDialog from "@/components/rep-score-explanation-dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type Operator = {
@@ -110,6 +111,10 @@ export default function OperatorPage() {
             <ShieldCheck size={18} />
 
             <span>REP Score: {operator.rep_score ?? "Pending"}</span>
+          </div>
+
+          <div>
+            <RepScoreExplanationDialog operatorId={operator.operator_id} disabled={operator.rep_score == null} />
           </div>
 
           <div>
