@@ -6,18 +6,11 @@ StreetScore already supports switching between `local`, `shared`, and `branch` d
 
 ## Services
 
-The compose stack is isolated from the StreetScore app and uses dedicated ports and a dedicated network.
+StreetScore expects a local DataHub deployment to be running and reachable via the GraphQL URL configured for the app (`DATAHUB_GRAPHQL_URL`).
 
-- `datahub-gms` on `localhost:18080`
-- `datahub-frontend` on `localhost:19002`
-- `datahub-kafka` on `localhost:29092`
-- `datahub-elasticsearch` on `localhost:19200`
-- `datahub-mysql` on `localhost:13306`
-- `datahub-actions`
-- `datahub-system-update`
-- `datahub-zookeeper`
+If you use DataHub quickstart defaults, frontend and GraphQL may run on different ports than this repository's examples. Use the actual running endpoint and set `DATAHUB_GRAPHQL_URL` accordingly.
 
-## Start DataHub
+## Prepare Ingestion Variables
 
 1. Copy `.env.example` to `.env`.
 2. Set `DATABASE_TARGET` to `local`, `shared`, or `branch`.
@@ -26,11 +19,12 @@ The compose stack is isolated from the StreetScore app and uses dedicated ports 
 
    `npm run datahub:prepare-env`
 
-5. Start the stack:
+## Start DataHub
 
-   `docker compose --env-file docker/datahub/.env --env-file docker/datahub/.generated-ingestion.env -f docker/datahub/docker-compose.yml up -d`
+Use your local DataHub quickstart or existing local DataHub stack. After startup:
 
-6. Open the UI at `http://localhost:19002`.
+1. Open the DataHub UI (port depends on your setup).
+2. Confirm GraphQL is reachable from StreetScore via `DATAHUB_GRAPHQL_URL`.
 
 ## Ingest StreetScore PostgreSQL Metadata
 

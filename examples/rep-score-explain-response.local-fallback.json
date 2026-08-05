@@ -1,0 +1,9 @@
+{
+  "entryId": "entry-nys-7118341",
+  "operatorId": "nys-7118341",
+  "operatorName": "BROOKLYN MOTORS",
+  "score": 96,
+  "rank": 1,
+  "explanation": "BROOKLYN MOTORS (nys-7118341) currently has a REP Score of 96 at rank 1. This result is for league auto, neighborhood BROOKLYN, over last 30 days, with status active.\n\nThe strongest contributors are Rating (49/50) and Review Strength (27.39/30). The weakest contributors are Data Completeness (5/5) and License Verification (15/15).\n\nAvailable metadata confirms score fields are read from standings and score input datasets. Relationship metadata indicates score inputs feed standings entries and historical snapshots provide movement context.\n\nImprovement opportunities are limited because the score is already high. The remaining headroom is mostly in review strength and rating quality, while license verification and data completeness are already fully contributing.\n\nRecent snapshot history is available and should be monitored to detect sustained trend changes over time.",
+  "model": "local-rep-score-deterministic-v1"
+}

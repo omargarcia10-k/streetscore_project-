@@ -6,18 +6,17 @@ source:
     username: chris
     password: ""
 
-    # DataHub environment name
+    # DataHub environment
     env: DEV
 
     # Include database objects
     include_tables: true
     include_views: true
 
-    # View lineage support
+    # Lineage
     include_view_lineage: true
     include_view_column_lineage: true
 
-    # Only scan your application schema
     schema_pattern:
       allow:
         - public

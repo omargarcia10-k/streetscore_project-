@@ -1,0 +1,25 @@
+{
+  "capturedAt": "2026-08-04",
+  "request": {
+    "endpoint": "/api/rep-score/explain",
+    "query": {
+      "entryId": "entry-nys-7118341",
+      "leagueId": "auto",
+      "neighborhoodId": "brooklyn-11223",
+      "timeWindow": "last 30 days"
+    }
+  },
+  "result": {
+    "status": 200,
+    "operatorName": "BROOKLYN MOTORS",
+    "score": 96,
+    "rank": 1,
+    "model": "local-rep-score-deterministic-v1",
+    "explanationLength": 755
+  },
+  "runtimeNotes": {
+    "datahubConnectivity": "unavailable during capture (ECONNREFUSED)",
+    "metadataPath": "DataHub provider attempted first, then local metadata fallback",
+    "aiPath": "OPENAI_API_KEY not set, local deterministic provider used"
+  }
+}
