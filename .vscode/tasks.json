@@ -1,0 +1,49 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "DataHub: Start",
+      "type": "shell",
+      "command": "datahub",
+      "args": ["docker", "quickstart"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Analytics Agent: Start",
+      "type": "shell",
+      "command": "${workspaceFolder}/.analytics-agent-venv/bin/analytics-agent",
+      "args": ["quickstart"],
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "DATABASE_URL": "sqlite+aiosqlite:////Users/chris/.datahub/analytics-agent/data/agent.db"
+        }
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "StreetScore: Start",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "dev"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "StreetScore: Full Stack Startup",
+      "dependsOn": [
+        "DataHub: Start",
+        "Analytics Agent: Start",
+        "StreetScore: Start"
+      ],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
+    }
+  ]
+}

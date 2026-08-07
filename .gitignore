@@ -1,15 +1,13 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
- dependencies
+# dependencies
 /node_modules
 /.pnp
 .pnp.js
 .yarn/install-state.gz
 
 # testing
-#/coverage
+/coverage
 
-# next.js
+# Next.js
 /.next/
 /out/
 
@@ -28,14 +26,23 @@ yarn-error.log*
 
 # local env files
 .env
-.env.local
+.env.*
+!.env.example
+
+# DataHub generated/local configuration
 docker/datahub/.generated-ingestion.env
+.datahub/
+.analytics-agent/
+.analytics-agent-venv/
 
+# local databases
+*.db
+*.sqlite
+*.sqlite3
 
-# vercel
+# Vercel
 .vercel
 
-# typescript
+# TypeScript
 *.tsbuildinfo
 next-env.d.ts
-.env*

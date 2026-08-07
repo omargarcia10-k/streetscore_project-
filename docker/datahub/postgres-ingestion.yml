@@ -1,13 +1,16 @@
 source:
   type: postgres
   config:
-    host_port: localhost:5432
-    database: chama_standings_test
-    username: chris
-    password: ""
+    host_port: ${POSTGRES_HOST}:${POSTGRES_PORT}
+    database: ${POSTGRES_DATABASE}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    options:
+      connect_args:
+        sslmode: ${POSTGRES_SSLMODE}
 
     # DataHub environment
-    env: DEV
+    env: ${DATAHUB_ENV}
 
     # Include database objects
     include_tables: true
@@ -24,4 +27,5 @@ source:
 sink:
   type: datahub-rest
   config:
-    server: http://localhost:8080
+    server: ${DATAHUB_GMS_URL}
+    token: ${DATAHUB_GMS_TOKEN}

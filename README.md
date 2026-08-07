@@ -30,6 +30,9 @@ The application allows users to:
 
 The explanation workflow is designed to connect the application's live scoring data with metadata about the underlying datasets.
 
+StreetScore also includes an **Ask StreetScore** workflow that integrates with the official **DataHub Analytics Agent**.
+It converts natural-language questions into SQL answers grounded in DataHub metadata and executed against the StreetScore PostgreSQL database.
+
 ---
 
 # Challenge Category
@@ -113,6 +116,62 @@ It does not currently focus on production data-code generation or production ML 
                  ▼
           StreetScore Dialog
 ```
+
+        ## Analytics Agent Architecture
+
+        ```text
+                  STREETScore
+                  │
+                  ▼
+                  ┌──────────────────┐
+                  │  Ask StreetScore │
+                  └────────┬─────────┘
+                 │
+                 ▼
+                  ┌──────────────────┐
+                  │ Analytics Agent  │
+                  └───────┬───┬──────┘
+                │   │
+             ┌────────────┘   └─────────────┐
+             ▼                              ▼
+              ┌─────────────────┐           ┌─────────────────┐
+              │     DataHub     │           │   PostgreSQL    │
+              │ Metadata/context│           │ Actual REP data │
+              └────────┬────────┘           └────────┬────────┘
+             │                             │
+             └──────────────┬──────────────┘
+                  ▼
+                Generated answer
+                  │
+                  ▼
+                StreetScore UI
+        ```
+
+        ### Component Roles
+
+        #### PostgreSQL
+
+        Stores StreetScore source-of-truth business, scoring, and standings data.
+
+        #### DataHub
+
+        Stores metadata and documentation context (datasets, schema, lineage, semantic descriptions).
+
+        #### Analytics Agent
+
+        Official open-source DataHub Analytics Agent service that:
+
+        - receives the natural-language question,
+        - uses DataHub context tools to choose relevant data assets,
+        - generates SQL,
+        - executes SQL on the configured engine,
+        - returns answer text and query results.
+
+        #### StreetScore
+
+        Provides the UI and server-side API bridge. Secrets remain server-side.
+
+        ---
 
 ---
 
@@ -222,7 +281,130 @@ The explanation workflow is located in:
 src/app/api/rep-score/explain/route.ts
 src/server/rep-score-explanation.ts
 src/server/rep-score-ai-explanation.ts
+src/app/api/analytics/route.ts
+src/lib/analytics-agent/client.ts
+src/components/ask-streetscore-card.tsx
 ```
+
+---
+
+# Analytics Agent Setup (Official)
+
+StreetScore does not reimplement Analytics Agent logic. It calls the official service API.
+
+## 1. Start PostgreSQL
+
+Ensure the StreetScore database is running and contains StreetScore tables/views.
+
+## 2. Start DataHub
+
+Use your existing local or remote DataHub instance.
+
+This repository does not include a DataHub compose stack file. Keep using your current DataHub startup method.
+
+## 3. Run DataHub ingestion for StreetScore metadata
+
+Generate target-specific ingestion env values:
+
+```bash
+npm run datahub:prepare-env
+```
+
+Then run ingestion (example with DataHub CLI):
+
+```bash
+set -a
+source docker/datahub/.env
+source docker/datahub/.generated-ingestion.env
+set +a
+datahub ingest -c docker/datahub/postgres-ingestion.yml
+```
+
+The ingestion recipe now reads host/database/user/password from env variables and writes to the configured DataHub GMS endpoint.
+
+## 4. Start official DataHub Analytics Agent
+
+Follow official docs for quickstart/manual setup.
+
+Recommended local quickstart:
+
+```bash
+pip install datahub-analytics-agent
+analytics-agent quickstart
+```
+
+By default, the service runs at `http://localhost:8100`.
+
+Configure the agent to use:
+
+- your existing DataHub connection,
+- a SQL engine for the StreetScore PostgreSQL database.
+
+## 5. Start StreetScore
+
+```bash
+npm run dev
+```
+
+Open:
+
+```text
+http://localhost:3000/dashboard/standings
+```
+
+Use **Ask StreetScore** for natural-language analytics.
+
+---
+
+# Environment Variables
+
+## StreetScore app
+
+```env
+DATABASE_URL=
+USE_DATABASE=local
+DATAHUB_GRAPHQL_URL=http://localhost:8080/api/graphql
+DATAHUB_TOKEN=
+DATAHUB_ENV=DEV
+```
+
+## StreetScore -> Analytics Agent bridge
+
+```env
+ANALYTICS_AGENT_URL=http://localhost:8100
+ANALYTICS_AGENT_ENGINE=
+ANALYTICS_DEBUG=false
+```
+
+## Analytics Agent service (configured in that service)
+
+Examples from official docs:
+
+```env
+DATAHUB_GMS_URL=
+DATAHUB_GMS_TOKEN=
+LLM_PROVIDER=
+LLM_MODEL=
+```
+
+For the SQL engine, configure a PostgreSQL-compatible connection in Analytics Agent settings or config.
+
+No StreetScore secrets are sent to the browser. Credentials and tokens remain server-side.
+
+---
+
+# LLM Provider Notes
+
+StreetScore does not require OpenAI specifically.
+
+The official Analytics Agent supports multiple providers (including OpenAI-compatible endpoints). You can avoid paid OpenAI by using:
+
+- Anthropic,
+- Google,
+- Bedrock,
+- OpenAI-compatible local/proxy endpoints (for example, local developer gateways).
+
+If the selected provider is unavailable, StreetScore returns a friendly API error from `/api/analytics` and keeps the rest of the app working.
 
 ---
 

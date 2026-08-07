@@ -8,6 +8,7 @@ import { Minus, Search, TrendingDown, TrendingUp } from "lucide-react";
 
 import CompareDialog from "@/components/compare-dialog";
 import OperatorHoverCard from "@/components/operator-hover-card";
+import AskStreetScoreCard from "@/components/ask-streetscore-card";
 import RepScoreExplanationDialog from "@/components/rep-score-explanation-dialog";
 import TopThree from "@/components/top-three-cards";
 import { Button } from "@/components/ui/button";
@@ -195,6 +196,8 @@ export default function StandingsTable() {
           </div>
         </div>
       </section>
+
+      <AskStreetScoreCard />
 
       <TopThree rows={topThreeRows} onSelect={handleCardClick} />
 

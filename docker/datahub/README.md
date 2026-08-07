@@ -39,6 +39,11 @@ DataHub's Postgres source supports discovery of:
 
 Run ingestion using the official DataHub CLI or ingestion container against `docker/datahub/postgres-ingestion.yml`.
 
+The ingestion recipe resolves its source and sink config from environment variables, including:
+
+- `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_DATABASE`, `POSTGRES_USERNAME`, `POSTGRES_PASSWORD`, `POSTGRES_SSLMODE`
+- `DATAHUB_ENV`, `DATAHUB_GMS_URL`, `DATAHUB_GMS_TOKEN`
+
 Recommended workflow:
 
 1. Regenerate the target-specific generic env file whenever `DATABASE_TARGET` changes:
