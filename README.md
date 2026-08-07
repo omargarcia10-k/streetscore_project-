@@ -4,6 +4,8 @@
 
 Instead of relying on review volume or paid visibility alone, StreetScore combines multiple reputation signals into a single score that users can compare across neighborhoods. The platform also provides an **Explain REP Score** workflow that turns the underlying score data and metadata context into a plain-language explanation of why a provider ranks where it does and what could improve the score.
 
+StreetScore also includes an **Ask StreetScore** workflow that connects natural-language questions to the StreetScore PostgreSQL database through the official **DataHub Analytics Agent**.
+
 ---
 
 ## Project Overview
@@ -27,11 +29,11 @@ The application allows users to:
 * Inspect REP Score factors
 * View ranking movement
 * Request a plain-language explanation of a REP Score
+* Ask natural-language questions about StreetScore data
 
 The explanation workflow is designed to connect the application's live scoring data with metadata about the underlying datasets.
 
-StreetScore also includes an **Ask StreetScore** workflow that integrates with the official **DataHub Analytics Agent**.
-It converts natural-language questions into SQL answers grounded in DataHub metadata and executed against the StreetScore PostgreSQL database.
+The **Ask StreetScore** workflow integrates with the official **DataHub Analytics Agent**. It allows a user to ask questions in natural language and receive answers grounded in DataHub metadata and executed against the StreetScore PostgreSQL database.
 
 ---
 
@@ -52,12 +54,14 @@ It does not currently focus on production data-code generation or production ML 
 * **TypeScript**
 * **PostgreSQL**
 * **DataHub**
+* **DataHub Analytics Agent**
 * **GraphQL**
 * **MCP metadata-provider path**
 * **Docker**
 * **DataHub CLI**
 * **Local deterministic explanation fallback**
 * Optional **OpenAI text provider**
+* Optional **Google Gemini provider through Analytics Agent**
 
 ---
 
@@ -69,109 +73,121 @@ It does not currently focus on production data-code generation or production ML 
                          │      Next.js UI       │
                          └──────────┬───────────┘
                                     │
-                                    ▼
-                         ┌──────────────────────┐
-                         │  Explain REP Score   │
-                         │      API Route       │
-                         └──────────┬───────────┘
-                                    │
-                                    ▼
-                         ┌──────────────────────┐
-                         │ REP Score Explanation│
-                         │       Service        │
-                         └──────────┬───────────┘
-                                    │
-                     ┌──────────────┴──────────────┐
-                     │                             │
-                     ▼                             ▼
-          ┌────────────────────┐        ┌────────────────────┐
-          │  Metadata Provider │        │   REP Score Data   │
-          └─────────┬──────────┘        │   PostgreSQL DB    │
-                    │                   └────────────────────┘
-          ┌─────────┼──────────┐
-          │         │          │
-          ▼         ▼          ▼
-        MCP     DataHub     Local Metadata
-       Server   GraphQL       Fallback
-          │         │
-          └────┬────┘
-               │
-               ▼
-       DataHub Metadata
-               │
-               ▼
-       Score + Metadata Context
-               │
-               ▼
-      Explanation Text Provider
-          │              │
-          ▼              ▼
-       OpenAI       Deterministic
-       optional        fallback
-          │              │
-          └──────┬───────┘
-                 ▼
-          Explanation JSON
-                 │
-                 ▼
-          StreetScore Dialog
+                    ┌───────────────┴────────────────┐
+                    │                                │
+                    ▼                                ▼
+          ┌────────────────────┐          ┌────────────────────┐
+          │ Explain REP Score  │          │  Ask StreetScore   │
+          │      API Route     │          │      API Route      │
+          └─────────┬──────────┘          └──────────┬─────────┘
+                    │                                │
+                    ▼                                ▼
+          ┌────────────────────┐          ┌────────────────────┐
+          │ REP Score          │          │ DataHub Analytics  │
+          │ Explanation Service│          │ Agent              │
+          └─────────┬──────────┘          └──────────┬─────────┘
+                    │                                │
+         ┌──────────┴──────────┐          ┌─────────┴──────────┐
+         │                     │          │                    │
+         ▼                     ▼          ▼                    ▼
+┌──────────────────┐  ┌──────────────────┐  ┌───────────────┐
+│ Metadata Provider│  │ REP Score Data   │  │    DataHub    │
+│                  │  │ PostgreSQL DB    │  │   Metadata    │
+└────────┬─────────┘  └──────────────────┘  └───────┬───────┘
+         │                                           │
+    ┌────┼─────────────┐                             │
+    │    │             │                             │
+    ▼    ▼             ▼                             │
+  MCP DataHub     Local Metadata                      │
+  GraphQL         Fallback                            │
+    │    │             │                             │
+    └────┴──────┬──────┘                             │
+                │                                    │
+                ▼                                    │
+        Score + Metadata Context                     │
+                │                                    │
+                ▼                                    │
+       Explanation Text Provider                     │
+         │                  │                        │
+         ▼                  ▼                        │
+      OpenAI          Deterministic                  │
+      optional           fallback                    │
+         │                  │                        │
+         └──────────┬───────┘                        │
+                    ▼                                │
+             Explanation JSON                        │
+                    │                                │
+                    ▼                                │
+             StreetScore UI                          │
+                                                     │
+                                                     ▼
+                                            PostgreSQL Engine
+                                                     │
+                                                     ▼
+                                             SQL + Answer
+                                                     │
+                                                     ▼
+                                             StreetScore UI
 ```
 
-        ## Analytics Agent Architecture
+---
 
-        ```text
-                  STREETScore
+## Analytics Agent Architecture
+
+```text
+              StreetScore
                   │
                   ▼
-                  ┌──────────────────┐
-                  │  Ask StreetScore │
-                  └────────┬─────────┘
-                 │
-                 ▼
-                  ┌──────────────────┐
-                  │ Analytics Agent  │
-                  └───────┬───┬──────┘
-                │   │
-             ┌────────────┘   └─────────────┐
-             ▼                              ▼
-              ┌─────────────────┐           ┌─────────────────┐
-              │     DataHub     │           │   PostgreSQL    │
-              │ Metadata/context│           │ Actual REP data │
-              └────────┬────────┘           └────────┬────────┘
-             │                             │
-             └──────────────┬──────────────┘
-                  ▼
-                Generated answer
-                  │
-                  ▼
-                StreetScore UI
-        ```
+          ┌──────────────────┐
+          │  Ask StreetScore │
+          └────────┬─────────┘
+                   │
+                   ▼
+          ┌──────────────────┐
+          │ Analytics Agent  │
+          │  localhost:8100  │
+          └───────┬─────┬────┘
+                  │     │
+          ┌───────┘     └─────────────┐
+          ▼                           ▼
+┌────────────────────┐      ┌────────────────────┐
+│      DataHub       │      │    PostgreSQL      │
+│ Metadata / Context │      │ Actual REP Data    │
+└─────────┬──────────┘      └─────────┬──────────┘
+          │                           │
+          └─────────────┬─────────────┘
+                        ▼
+                Generated SQL Answer
+                        │
+                        ▼
+                  StreetScore UI
+```
 
-        ### Component Roles
+### Component Roles
 
-        #### PostgreSQL
+#### PostgreSQL
 
-        Stores StreetScore source-of-truth business, scoring, and standings data.
+Stores StreetScore source-of-truth business, scoring, standings, and historical data.
 
-        #### DataHub
+#### DataHub
 
-        Stores metadata and documentation context (datasets, schema, lineage, semantic descriptions).
+Stores metadata and documentation context about the data, including datasets, schemas, columns, and lineage where supported.
 
-        #### Analytics Agent
+#### Analytics Agent
 
-        Official open-source DataHub Analytics Agent service that:
+The official open-source DataHub Analytics Agent service:
 
-        - receives the natural-language question,
-        - uses DataHub context tools to choose relevant data assets,
-        - generates SQL,
-        - executes SQL on the configured engine,
-        - returns answer text and query results.
+* receives the natural-language question,
+* uses DataHub context tools to identify relevant data assets,
+* generates SQL,
+* executes SQL on the configured PostgreSQL engine,
+* returns answer text and query results.
 
-        #### StreetScore
+#### StreetScore
 
-        Provides the UI and server-side API bridge. Secrets remain server-side.
+Provides the UI and server-side API bridge between the application and Analytics Agent.
 
-        ---
+Secrets remain server-side.
 
 ---
 
@@ -180,6 +196,8 @@ It does not currently focus on production data-code generation or production ML 
 StreetScore uses the open-source **DataHub** platform to ingest and expose metadata about the PostgreSQL datasets used by the application.
 
 DataHub is not included merely as a separate dashboard. The Explain workflow has a metadata-provider abstraction that can retrieve dataset and column context and use that context when constructing score explanations.
+
+The Ask StreetScore workflow also uses DataHub context through the official Analytics Agent.
 
 ## Metadata Ingested
 
@@ -281,6 +299,11 @@ The explanation workflow is located in:
 src/app/api/rep-score/explain/route.ts
 src/server/rep-score-explanation.ts
 src/server/rep-score-ai-explanation.ts
+```
+
+The Analytics Agent workflow is located in:
+
+```text
 src/app/api/analytics/route.ts
 src/lib/analytics-agent/client.ts
 src/components/ask-streetscore-card.tsx
@@ -288,108 +311,171 @@ src/components/ask-streetscore-card.tsx
 
 ---
 
-# Analytics Agent Setup (Official)
+# Analytics Agent Integration
 
-StreetScore does not reimplement Analytics Agent logic. It calls the official service API.
+StreetScore integrates with the official **DataHub Analytics Agent** rather than reimplementing its natural-language-to-SQL functionality.
 
-## 1. Start PostgreSQL
+The Analytics Agent runs locally as a separate service and is accessed by StreetScore through a server-side API connection.
 
-Ensure the StreetScore database is running and contains StreetScore tables/views.
-
-## 2. Start DataHub
-
-Use your existing local or remote DataHub instance.
-
-This repository does not include a DataHub compose stack file. Keep using your current DataHub startup method.
-
-## 3. Run DataHub ingestion for StreetScore metadata
-
-Generate target-specific ingestion env values:
-
-```bash
-npm run datahub:prepare-env
-```
-
-Then run ingestion (example with DataHub CLI):
-
-```bash
-set -a
-source docker/datahub/.env
-source docker/datahub/.generated-ingestion.env
-set +a
-datahub ingest -c docker/datahub/postgres-ingestion.yml
-```
-
-The ingestion recipe now reads host/database/user/password from env variables and writes to the configured DataHub GMS endpoint.
-
-## 4. Start official DataHub Analytics Agent
-
-Follow official docs for quickstart/manual setup.
-
-Recommended local quickstart:
-
-```bash
-pip install datahub-analytics-agent
-analytics-agent quickstart
-```
-
-By default, the service runs at `http://localhost:8100`.
-
-Configure the agent to use:
-
-- your existing DataHub connection,
-- a SQL engine for the StreetScore PostgreSQL database.
-
-## 5. Start StreetScore
-
-```bash
-npm run dev
-```
-
-Open:
+By default:
 
 ```text
-http://localhost:3000/dashboard/standings
+StreetScore
+    ↓
+http://localhost:8100
+    ↓
+DataHub Analytics Agent
+    ↓
+DataHub metadata
+    ↓
+PostgreSQL engine
+    ↓
+SQL result
+    ↓
+StreetScore
 ```
 
-Use **Ask StreetScore** for natural-language analytics.
+The local Analytics Agent service can be verified with:
+
+```bash
+analytics-agent status
+```
+
+A running service should report:
+
+```text
+✓ Running → http://localhost:8100
+```
 
 ---
 
-# Environment Variables
+## Analytics Agent Setup
 
-## StreetScore app
+The Analytics Agent is intentionally kept separate from the main Next.js application.
 
-```env
-DATABASE_URL=
-USE_DATABASE=local
-DATAHUB_GRAPHQL_URL=http://localhost:8080/api/graphql
-DATAHUB_TOKEN=
-DATAHUB_ENV=DEV
+This allows the project to use the official DataHub Analytics Agent service while keeping the StreetScore application responsible for the user interface and API bridge.
+
+### Create the Analytics Agent environment
+
+Create a dedicated Python virtual environment:
+
+```bash
+python3 -m venv .analytics-agent-venv
 ```
 
-## StreetScore -> Analytics Agent bridge
+Activate it:
+
+```bash
+source .analytics-agent-venv/bin/activate
+```
+
+Install the Analytics Agent:
+
+```bash
+pip install datahub-analytics-agent
+```
+
+Verify the command:
+
+```bash
+analytics-agent --help
+```
+
+---
+
+## Configure Analytics Agent
+
+The Analytics Agent configuration is stored locally under:
+
+```text
+~/.datahub/analytics-agent/
+```
+
+The service uses configuration for:
+
+* DataHub GMS
+* DataHub authentication
+* PostgreSQL
+* LLM provider
+* LLM model
+* API credentials
+
+The local service runs at:
+
+```text
+http://localhost:8100
+```
+
+StreetScore connects to it using:
 
 ```env
 ANALYTICS_AGENT_URL=http://localhost:8100
-ANALYTICS_AGENT_ENGINE=
-ANALYTICS_DEBUG=false
 ```
 
-## Analytics Agent service (configured in that service)
+---
 
-Examples from official docs:
+# Analytics Agent Environment Variables
+
+The Analytics Agent can use a local `.env` file.
+
+Example:
 
 ```env
-DATAHUB_GMS_URL=
+DATAHUB_GMS_URL=http://localhost:8080
 DATAHUB_GMS_TOKEN=
-LLM_PROVIDER=
-LLM_MODEL=
+
+LLM_PROVIDER=google
+GOOGLE_API_KEY=
 ```
 
-For the SQL engine, configure a PostgreSQL-compatible connection in Analytics Agent settings or config.
+The API key should never be committed to GitHub.
 
-No StreetScore secrets are sent to the browser. Credentials and tokens remain server-side.
+The Analytics Agent configuration supports different providers depending on the installed version and provider configuration.
+
+For example:
+
+```text
+openai
+google
+anthropic
+openai-compatible
+```
+
+The exact available models depend on the provider and current API availability.
+
+---
+
+# Google Gemini
+
+StreetScore can use Google Gemini through the Analytics Agent.
+
+Example:
+
+```env
+LLM_PROVIDER=google
+GOOGLE_API_KEY=YOUR_GEMINI_API_KEY
+```
+
+The model should be configured to a model currently supported by the Google Gemini API and the installed Analytics Agent version.
+
+For example:
+
+```env
+LLM_MODEL=gemini-2.0-flash
+```
+
+Model availability can change over time.
+
+If Google returns a quota or rate-limit error, the Analytics Agent itself may still be working correctly. The error is coming from the selected LLM provider.
+
+A typical quota error looks like:
+
+```text
+429 Too Many Requests
+RESOURCE_EXHAUSTED
+```
+
+This is different from a DataHub connection failure.
 
 ---
 
@@ -397,14 +483,289 @@ No StreetScore secrets are sent to the browser. Credentials and tokens remain se
 
 StreetScore does not require OpenAI specifically.
 
-The official Analytics Agent supports multiple providers (including OpenAI-compatible endpoints). You can avoid paid OpenAI by using:
+The official Analytics Agent supports multiple providers depending on the installed version and configuration.
 
-- Anthropic,
-- Google,
-- Bedrock,
-- OpenAI-compatible local/proxy endpoints (for example, local developer gateways).
+Possible providers include:
 
-If the selected provider is unavailable, StreetScore returns a friendly API error from `/api/analytics` and keeps the rest of the app working.
+* Google Gemini
+* OpenAI
+* Anthropic
+* AWS Bedrock
+* OpenAI-compatible endpoints
+
+For local development, a provider can be selected through:
+
+```env
+LLM_PROVIDER=
+```
+
+An API key may be required by the selected provider.
+
+The LLM is used by Analytics Agent to interpret natural-language questions and generate SQL/answers.
+
+It is separate from the StreetScore deterministic REP Score explanation fallback.
+
+---
+
+# Analytics Agent PostgreSQL Engine
+
+The Analytics Agent needs access to the StreetScore PostgreSQL database.
+
+The configured engine points to:
+
+```text
+host: localhost
+port: 5432
+database: chama_standings_test
+```
+
+Example configuration:
+
+```yaml
+engines:
+  - type: postgresql
+    name: streetscore_postgres
+    label: "StreetScore PostgreSQL"
+    connection:
+      dialect: postgresql+psycopg2
+      host: localhost
+      port: 5432
+      user: user
+      password: ""
+      database: chama_standings_test
+```
+
+The database connection must be valid before asking Analytics Agent questions.
+
+Verify PostgreSQL independently:
+
+```bash
+psql -U user \
+-h localhost \
+-p 5432 \
+-d chama_standings_test \
+-c "SELECT current_database(), current_user;"
+```
+
+---
+
+# Verify Analytics Agent
+
+Activate the environment:
+
+```bash
+source .analytics-agent-venv/bin/activate
+```
+
+Check the service:
+
+```bash
+analytics-agent status
+```
+
+Check the configured provider:
+
+```bash
+python -c "from analytics_agent.config import Settings; s=Settings(); print('Provider:', s.llm_provider); print('Key configured:', bool(s.get_api_key())); print('Model:', s.get_llm_model())"
+```
+
+A successful configuration should show something similar to:
+
+```text
+Provider: google
+Key configured: True
+Model: gemini-2.0-flash
+```
+
+Then check the service logs:
+
+```bash
+analytics-agent logs
+```
+
+Successful logs should show DataHub tools being loaded:
+
+```text
+Loaded 22 DataHub tools
+NativeDataHub 'default': 22/22 tools active
+```
+
+This verifies that Analytics Agent is connected to DataHub and has access to its context tools.
+
+---
+
+# Start Analytics Agent
+
+Activate the virtual environment:
+
+```bash
+source .analytics-agent-venv/bin/activate
+```
+
+Start the service:
+
+```bash
+analytics-agent start
+```
+
+Verify:
+
+```bash
+analytics-agent status
+```
+
+Expected:
+
+```text
+✓ Running
+→ http://localhost:8100
+```
+
+Stop it with:
+
+```bash
+analytics-agent stop
+```
+
+View logs with:
+
+```bash
+analytics-agent logs
+```
+
+---
+
+# Ask StreetScore
+
+Once Analytics Agent is running, StreetScore can send natural-language questions to:
+
+```text
+http://localhost:8100
+```
+
+The application-side configuration is:
+
+```env
+ANALYTICS_AGENT_URL=http://localhost:8100
+```
+
+The user can then ask questions such as:
+
+```text
+Which provider has the highest REP Score?
+```
+
+```text
+Which neighborhood has the most highly ranked providers?
+```
+
+```text
+Which providers improved their rank?
+```
+
+```text
+What factors contribute to the REP Score?
+```
+
+The Analytics Agent uses DataHub metadata to understand the available data and then uses the configured PostgreSQL engine to execute the generated SQL.
+
+---
+
+# Important: DataHub vs Analytics Agent vs LLM
+
+These services have separate responsibilities.
+
+### PostgreSQL
+
+Contains the actual StreetScore data.
+
+```text
+providers
+scores
+standings
+history
+neighborhoods
+```
+
+### DataHub
+
+Contains metadata about that data.
+
+```text
+datasets
+schemas
+columns
+descriptions
+lineage
+```
+
+### Analytics Agent
+
+Uses DataHub context and the SQL engine to answer natural-language questions.
+
+```text
+Question
+   ↓
+DataHub context
+   ↓
+SQL generation
+   ↓
+PostgreSQL
+   ↓
+Answer
+```
+
+### Gemini / OpenAI / Other LLM
+
+Provides the language-model reasoning used by Analytics Agent.
+
+The LLM does not replace PostgreSQL or DataHub.
+
+---
+
+# StreetScore -> Analytics Agent Bridge
+
+StreetScore communicates with Analytics Agent through:
+
+```text
+src/app/api/analytics/route.ts
+src/lib/analytics-agent/client.ts
+src/components/ask-streetscore-card.tsx
+```
+
+The browser communicates with StreetScore.
+
+StreetScore communicates with Analytics Agent server-side.
+
+This keeps Analytics Agent configuration and credentials away from the browser.
+
+```text
+Browser
+   ↓
+StreetScore /api/analytics
+   ↓
+Analytics Agent
+   ↓
+DataHub + PostgreSQL
+```
+
+---
+
+# Graceful Failure
+
+StreetScore is designed so that an external AI provider failure does not break the rest of the application.
+
+For example, if Gemini returns:
+
+```text
+429 Too Many Requests
+```
+
+the Analytics Agent may be temporarily unable to answer a question.
+
+The core StreetScore application can continue operating.
+
+Likewise, if the DataHub metadata provider is temporarily unavailable, the REP Score explanation workflow can use its configured local metadata fallback.
 
 ---
 
@@ -478,6 +839,57 @@ The application should not be considered dependent on an OpenAI API key for loca
 
 ---
 
+# Environment Variables
+
+## StreetScore app
+
+```env
+DATABASE_URL=
+USE_DATABASE=local
+
+DATAHUB_GRAPHQL_URL=http://localhost:8080/api/graphql
+DATAHUB_TOKEN=
+DATAHUB_ENV=DEV
+```
+
+## StreetScore -> Analytics Agent bridge
+
+```env
+ANALYTICS_AGENT_URL=http://localhost:8100
+ANALYTICS_AGENT_ENGINE=
+ANALYTICS_DEBUG=false
+```
+
+## Analytics Agent service
+
+```env
+DATAHUB_GMS_URL=
+DATAHUB_GMS_TOKEN=
+
+LLM_PROVIDER=
+LLM_MODEL=
+```
+
+For Google Gemini:
+
+```env
+LLM_PROVIDER=google
+GOOGLE_API_KEY=
+```
+
+For OpenAI:
+
+```env
+LLM_PROVIDER=openai
+OPENAI_API_KEY=
+```
+
+For the SQL engine, configure a PostgreSQL-compatible connection in Analytics Agent settings or config.
+
+No StreetScore secrets are sent to the browser. Credentials and tokens remain server-side.
+
+---
+
 # Project Structure
 
 Important files include:
@@ -486,6 +898,9 @@ Important files include:
 src/
 ├── app/
 │   └── api/
+│       ├── analytics/
+│       │   └── route.ts
+│       │
 │       └── rep-score/
 │           └── explain/
 │               └── route.ts
@@ -494,7 +909,13 @@ src/
 │   ├── rep-score-explanation.ts
 │   └── rep-score-ai-explanation.ts
 │
+├── components/
+│   └── ask-streetscore-card.tsx
+│
 └── lib/
+    ├── analytics-agent/
+    │   └── client.ts
+    │
     └── metadata/
         ├── configured-metadata-provider.ts
         ├── datahub-metadata-provider.ts
@@ -511,6 +932,12 @@ examples/
 └── rep-score-explain-response.summary.json
 ```
 
+The Analytics Agent virtual environment is intentionally local and should not be committed:
+
+```text
+.analytics-agent-venv/
+```
+
 ---
 
 # Local Development Setup
@@ -523,11 +950,15 @@ You will need:
 * npm
 * PostgreSQL
 * Docker Desktop
-* Python with the DataHub CLI installed
+* Python
+* DataHub CLI
+* DataHub Analytics Agent
 
 OpenAI is **optional**.
 
-You do not need an OpenAI API key to run the local explanation fallback.
+Google Gemini or another supported Analytics Agent provider can be used instead.
+
+You do not need an OpenAI API key to run the local deterministic explanation fallback.
 
 ---
 
@@ -536,7 +967,7 @@ You do not need an OpenAI API key to run the local explanation fallback.
 Clone the repository and enter the project directory:
 
 ```bash
-git clone <https://github.com/omargarcia10-k/streetscore_project-.git>
+git clone https://github.com/omargarcia10-k/streetscore_project-.git
 cd streetscore_project-
 ```
 
@@ -592,12 +1023,6 @@ StreetScore's local database is:
 chama_standings_test
 ```
 
-The local development setup uses the PostgreSQL role:
-
-```text
-chris
-```
-
 Check existing PostgreSQL roles:
 
 ```bash
@@ -645,7 +1070,7 @@ cp .env.example .env
 For local PostgreSQL:
 
 ```env
-DATABASE_URL=postgresql://chris@localhost:5432/chama_standings_test
+DATABASE_URL=postgresql://user@localhost:5432/chama_standings_test
 USE_DATABASE=local
 ```
 
@@ -884,15 +1309,170 @@ Do not copy a UI-only DataHub URL into the application without verifying that th
 
 ---
 
-# 14. Run the MCP Verification Harness
+# 14. Install and Configure Analytics Agent
+
+Create a Python environment:
+
+```bash
+python3 -m venv .analytics-agent-venv
+```
+
+Activate it:
+
+```bash
+source .analytics-agent-venv/bin/activate
+```
+
+Install Analytics Agent:
+
+```bash
+pip install datahub-analytics-agent
+```
+
+Verify:
+
+```bash
+analytics-agent --help
+```
+
+Configure the Analytics Agent under:
+
+```text
+~/.datahub/analytics-agent/
+```
+
+The Analytics Agent needs access to:
+
+```text
+DataHub GMS
+StreetScore PostgreSQL
+An LLM provider
+```
+
+Example:
+
+```env
+DATAHUB_GMS_URL=http://localhost:8080
+DATAHUB_GMS_TOKEN=
+
+LLM_PROVIDER=google
+GOOGLE_API_KEY=
+```
+
+If using Google Gemini, enter your own valid API key.
+
+Do not commit this file or the API key.
+
+---
+
+# 15. Start Analytics Agent
+
+Activate the environment:
+
+```bash
+source .analytics-agent-venv/bin/activate
+```
+
+Start:
+
+```bash
+analytics-agent start
+```
+
+Verify:
+
+```bash
+analytics-agent status
+```
+
+Expected:
+
+```text
+✓ Running
+→ http://localhost:8100
+```
+
+Check logs:
+
+```bash
+analytics-agent logs
+```
+
+The logs should show DataHub tools being loaded.
+
+For example:
+
+```text
+Loaded 22 DataHub tools
+NativeDataHub 'default': 22/22 tools active
+```
+
+Stop the service when finished:
+
+```bash
+analytics-agent stop
+```
+
+---
+
+# 16. Verify Analytics Agent Configuration
+
+Run:
+
+```bash
+python -c "from analytics_agent.config import Settings; s=Settings(); print('Provider:', s.llm_provider); print('Key configured:', bool(s.get_api_key())); print('Model:', s.get_llm_model())"
+```
+
+Example successful output:
+
+```text
+Provider: google
+Key configured: True
+Model: gemini-2.0-flash
+```
+
+If the output says:
+
+```text
+Provider: openai
+Key configured: False
+```
+
+then the Analytics Agent is still configured for OpenAI and does not have an OpenAI key.
+
+If the output says:
+
+```text
+Provider: google
+Key configured: False
+```
+
+then the Google API key is missing or is not being loaded by the Analytics Agent.
+
+---
+
+# 17. Configure StreetScore -> Analytics Agent
+
+In the StreetScore `.env` file:
+
+```env
+ANALYTICS_AGENT_URL=http://localhost:8100
+ANALYTICS_DEBUG=false
+```
+
+The application connects to the Analytics Agent server-side.
+
+The browser never receives the Analytics Agent API credentials.
+
+---
+
+# 18. Run the MCP Verification Harness
 
 Verify the MCP metadata-provider path:
 
 ```bash
 npm run verify:datahub-mcp
 ```
-
-This starts the repository's local stdio MCP verification server and verifies the MCP metadata-provider client path.
 
 To run the Explain workflow through the MCP provider:
 
@@ -911,7 +1491,7 @@ npm run dev
 
 ---
 
-# 15. Start StreetScore
+# 19. Start StreetScore
 
 Run:
 
@@ -927,7 +1507,7 @@ http://localhost:3000/dashboard/standings
 
 ---
 
-# 16. Test the REP Score Explain Flow
+# 20. Test the REP Score Explain Flow
 
 From the standings page:
 
@@ -938,6 +1518,70 @@ From the standings page:
 5. Confirm that the explanation displays.
 6. Verify that the metadata-provider path is functioning.
 7. Verify fallback behavior if DataHub or an optional text provider is unavailable.
+
+---
+
+# 21. Test Ask StreetScore
+
+Make sure all three systems are running:
+
+```text
+PostgreSQL
+DataHub
+Analytics Agent
+```
+
+Then start StreetScore:
+
+```bash
+npm run dev
+```
+
+Open:
+
+```text
+http://localhost:3000/dashboard/standings
+```
+
+Use the **Ask StreetScore** interface.
+
+Try questions such as:
+
+```text
+Which provider has the highest REP Score?
+```
+
+```text
+Which neighborhood has the most providers?
+```
+
+```text
+Which providers improved their ranking?
+```
+
+```text
+What factors contribute to the REP Score?
+```
+
+The expected flow is:
+
+```text
+Question
+   ↓
+StreetScore /api/analytics
+   ↓
+Analytics Agent :8100
+   ↓
+DataHub metadata
+   ↓
+PostgreSQL engine
+   ↓
+Generated SQL
+   ↓
+Answer
+   ↓
+StreetScore UI
+```
 
 ---
 
@@ -958,6 +1602,14 @@ DATAHUB_TOKEN=
 DATAHUB_ENV=DEV
 ```
 
+## Analytics Agent
+
+```env
+ANALYTICS_AGENT_URL=http://localhost:8100
+ANALYTICS_AGENT_ENGINE=
+ANALYTICS_DEBUG=false
+```
+
 ## MCP Metadata Provider
 
 ```env
@@ -974,6 +1626,14 @@ DATAHUB_MCP_DATASET_TOOL=
 OPENAI_API_KEY=
 OPENAI_MODEL=
 OPENAI_BASE_URL=
+```
+
+## Optional Google Gemini Provider
+
+```env
+LLM_PROVIDER=google
+GOOGLE_API_KEY=
+LLM_MODEL=
 ```
 
 An OpenAI API key is not required for the local deterministic explanation fallback.
@@ -1007,6 +1667,18 @@ DataHub ingestion:
 
 ```bash
 datahub ingest -c docker/datahub/postgres-ingestion.yml
+```
+
+Analytics Agent verification:
+
+```bash
+analytics-agent status
+```
+
+Analytics Agent logs:
+
+```bash
+analytics-agent logs
 ```
 
 GraphQL verification:
@@ -1115,6 +1787,181 @@ If ingestion reports failures, resolve those before testing the application meta
 
 ---
 
+## Analytics Agent: `command not found`
+
+Activate the virtual environment:
+
+```bash
+source .analytics-agent-venv/bin/activate
+```
+
+Then verify:
+
+```bash
+which analytics-agent
+```
+
+If it is still unavailable, install the package inside the active environment:
+
+```bash
+pip install datahub-analytics-agent
+```
+
+Then:
+
+```bash
+analytics-agent --help
+```
+
+---
+
+## Analytics Agent is not running
+
+Check:
+
+```bash
+analytics-agent status
+```
+
+Start:
+
+```bash
+analytics-agent start
+```
+
+Check logs:
+
+```bash
+analytics-agent logs
+```
+
+---
+
+## Analytics Agent reports `No answer was returned`
+
+Check the Analytics Agent logs:
+
+```bash
+analytics-agent logs
+```
+
+Then verify:
+
+```bash
+python -c "from analytics_agent.config import Settings; s=Settings(); print('Provider:', s.llm_provider); print('Key configured:', bool(s.get_api_key())); print('Model:', s.get_llm_model())"
+```
+
+The most common causes are:
+
+* invalid LLM API key
+* incorrect model name
+* provider quota/rate limit
+* Analytics Agent unable to reach DataHub
+* Analytics Agent unable to connect to PostgreSQL
+
+---
+
+## Gemini: `API key not valid`
+
+Verify that the environment contains a real key rather than a placeholder:
+
+```env
+GOOGLE_API_KEY=YOUR_REAL_KEY
+```
+
+Do not use:
+
+```env
+GOOGLE_API_KEY=YOUR_GEMINI_API_KEY
+```
+
+Verify that Analytics Agent sees the key:
+
+```bash
+python -c "from analytics_agent.config import Settings; s=Settings(); print('Provider:', s.llm_provider); print('Key configured:', bool(s.get_api_key()))"
+```
+
+Do not print the actual API key to the terminal or commit it to GitHub.
+
+---
+
+## Gemini: `404 model not found`
+
+If you receive:
+
+```text
+models/gemini-1.5-flash is not found
+```
+
+the selected model is not available for the API version/provider configuration currently being used.
+
+Configure Analytics Agent to use a model supported by the current Gemini API and installed Analytics Agent version.
+
+---
+
+## Gemini: `429 Too Many Requests`
+
+A `429` response means the Gemini API has rejected the request because the current project/model quota or rate limit has been exceeded.
+
+This is not necessarily a DataHub or Analytics Agent connection problem.
+
+The application can continue to function while the LLM provider is unavailable.
+
+If minimizing API usage, avoid repeatedly testing the same prompt and use short questions during development.
+
+---
+
+## Analytics Agent shows the wrong provider
+
+Run:
+
+```bash
+python -c "from analytics_agent.config import Settings; s=Settings(); print('Provider:', s.llm_provider)"
+```
+
+If you intend to use Google:
+
+```env
+LLM_PROVIDER=google
+```
+
+Restart the service:
+
+```bash
+analytics-agent stop
+analytics-agent start
+```
+
+Then verify again.
+
+---
+
+## Analytics Agent cannot reach DataHub
+
+Verify DataHub:
+
+```bash
+curl http://localhost:8080
+```
+
+Then verify Analytics Agent logs:
+
+```bash
+analytics-agent logs
+```
+
+Look for:
+
+```text
+Loaded DataHub tools
+NativeDataHub
+tools active
+```
+
+If DataHub tools load successfully, Analytics Agent is communicating with DataHub.
+
+---
+
 ## Explain works but DataHub is unavailable
 
 StreetScore supports graceful metadata fallback.
@@ -1194,10 +2041,12 @@ Never commit:
 
 * `.env`
 * `.env.local`
+* `.analytics-agent-venv/`
 * database passwords
 * API keys
 * DataHub authentication tokens
 * private credentials
+* generated local Analytics Agent databases
 
 Use placeholders in:
 
@@ -1206,6 +2055,14 @@ Use placeholders in:
 ```
 
 If credentials are accidentally exposed, rotate them before publishing the repository.
+
+The Analytics Agent environment should remain local:
+
+```text
+~/.datahub/analytics-agent/
+```
+
+Do not copy API keys or DataHub tokens into the repository.
 
 ---
 
@@ -1247,7 +2104,7 @@ createdb -U user chama_standings_test
 ### 4. Configure `.env`
 
 ```env
-DATABASE_URL=postgresql://chris@localhost:5432/chama_standings_test
+DATABASE_URL=postgresql://user@localhost:5432/chama_standings_test
 USE_DATABASE=local
 ```
 
@@ -1279,21 +2136,67 @@ curl -X POST http://localhost:8080/api/graphql \
 -d '{"query":"{ search(input:{type:DATASET, query:\"standings_entries\"}) { searchResults { entity { urn } } } }"}'
 ```
 
-### 9. Start StreetScore
+### 9. Optional: Start Analytics Agent
+
+If testing **Ask StreetScore**, create and activate the Analytics Agent environment:
+
+```bash
+python3 -m venv .analytics-agent-venv
+source .analytics-agent-venv/bin/activate
+pip install datahub-analytics-agent
+```
+
+Configure the Analytics Agent with:
+
+```env
+DATAHUB_GMS_URL=http://localhost:8080
+DATAHUB_GMS_TOKEN=
+
+LLM_PROVIDER=google
+GOOGLE_API_KEY=
+```
+
+Start:
+
+```bash
+analytics-agent start
+```
+
+Verify:
+
+```bash
+analytics-agent status
+```
+
+The Analytics Agent runs at:
+
+```text
+http://localhost:8100
+```
+
+### 10. Start StreetScore
 
 ```bash
 npm run dev
 ```
 
-### 10. Open
+### 11. Open
 
 ```text
 http://localhost:3000/dashboard/standings
 ```
 
-### 11. Test
+### 12. Test
 
-Use the **Explain REP Score** workflow.
+Use either:
+
+**Explain REP Score**
+
+or:
+
+**Ask StreetScore**
+
+For Ask StreetScore, the Analytics Agent must be running and configured with a supported LLM provider.
 
 ---
 
@@ -1312,7 +2215,15 @@ StreetScore provides:
 * An MCP metadata-provider path
 * A local metadata fallback
 * A deterministic explanation fallback without paid AI access
+* Official DataHub Analytics Agent integration
+* Natural-language-to-SQL analytics through Analytics Agent
+* DataHub metadata context for analytics questions
+* PostgreSQL execution through Analytics Agent
+* Server-side Analytics Agent integration
+* Support for configurable LLM providers
 * Local reproducible development setup
 * Apache License 2.0
 
-The application is designed so that DataHub metadata can contribute context to the REP Score explanation workflow while fallback providers maintain functionality when external services are unavailable.
+The application is designed so that DataHub metadata can contribute context to the REP Score explanation workflow and the Ask StreetScore analytics workflow while fallback providers maintain functionality when external services are unavailable.
+
+The core application does not require paid OpenAI access to run the deterministic REP Score explanation workflow.
